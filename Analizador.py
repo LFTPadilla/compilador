@@ -1,0 +1,33 @@
+
+class AnalizadorLexico():
+    codigo = ""
+    tokens = []
+    caracterActual = ''
+    finCodigo = "¿"
+    posicionActual = 0
+    filaActual = 0
+    colActual = 0
+
+    def __init__(self,codigo):
+        self.codigo = codigo
+
+
+
+    def analizar(self):
+        while(self.caracterActual != self.finCodigo):
+            print(self.caracterActual)
+            self.obtenerSiguienteCaracter()
+    
+    def obtenerSiguienteCaracter(self):
+        self.posicionActual+=1
+        if(self.posicionActual < len(self.codigo) ):
+            if(self.caracterActual == "\n"):
+                self.filaActual+=1
+                self.colActual = 0
+            else:
+                self.colActual+=1
+            self.caracterActual = self.codigo[self.posicionActual]
+        else:
+            self.caracterActual = self.finCodigo
+
+
