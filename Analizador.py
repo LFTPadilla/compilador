@@ -15,9 +15,32 @@ class AnalizadorLexico():
 
     def analizar(self):
         while(self.caracterActual != self.finCodigo):
-            print(self.caracterActual)
-            self.obtenerSiguienteCaracter()
+            
+            if(self.caracterActual==" "):
+                self.obtenerSiguienteCaracter()
+                continue    
+            
+            if(self.caracterActual=="\n" or self.caracterActual=="\t"):
+                self.obtenerSiguienteCaracter()
+                continue
+
+            if(self.esReal()):
+                continue
+
+            if(self.esEntero()):
+               continue
+            
+            if(self.esReal()):
+                continue
+            
+
+            
+    def esEntero(self):
+        return False
     
+    def esReal(self):
+        return True
+
     def obtenerSiguienteCaracter(self):
         self.posicionActual+=1
         if(self.posicionActual < len(self.codigo) ):
@@ -30,4 +53,5 @@ class AnalizadorLexico():
         else:
             self.caracterActual = self.finCodigo
 
+    
 
