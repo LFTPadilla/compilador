@@ -23,6 +23,8 @@ class AnalizadorLexico():
             if(self.caracterActual=="\n" or self.caracterActual=="\t"):
                 self.obtenerSiguienteCaracter()
                 continue
+            
+            self.obtenerSiguienteCaracter()
 
             if(self.esReal()):
                 continue
@@ -51,7 +53,9 @@ class AnalizadorLexico():
         return True
 
     def obtenerSiguienteCaracter(self):
+        print(self.codigo[self.posicionActual])
         self.posicionActual+=1
+        
         if(self.posicionActual < len(self.codigo) ):
             if(self.caracterActual == "\n"):
                 self.filaActual+=1
