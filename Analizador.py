@@ -33,12 +33,12 @@ class AnalizadorLexico():
             if(self.esReal()):
                 continue
 
-            if(self.esIncrementoDecremento()):
+            if(self.esIncrementoDecremento(6)):
                 continue
 
     
 
-    def esIncrementoDecremento(self,x):
+    def esIncrementoDecremento(self, y):
         return False
     
     def esIncremento(self):
