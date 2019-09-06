@@ -39,7 +39,7 @@ class AnalizadorLexico():
     
 
     def esIncrementoDecremento(self):
-        return True
+        return False
     
     def esIncremento(self)
         return True
