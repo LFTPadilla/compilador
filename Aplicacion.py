@@ -1,10 +1,10 @@
-
-import Analizador
+# -.- encoding:UTF8 -*-
+from AnalizadorLexico import Analizador
 
 codigo = "identificador == 123 444.43"
 
-AnalisisLexico = Analizador.AnalizadorLexico(codigo)
+analisisLexico = Analizador(codigo)
 
 
-AnalisisLexico.analizar()
+analisisLexico.analizar()
 

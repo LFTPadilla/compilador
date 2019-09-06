@@ -1,8 +1,9 @@
 
-class AnalizadorLexico():
+class Analizador:
+    private__ = ""
     codigo = ""
     tokens = []
-    caracterActual = ''
+    caracterActual = ""
     finCodigo = "¿"
     posicionActual = 0
     filaActual = 0
