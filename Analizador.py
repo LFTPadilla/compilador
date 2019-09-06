@@ -32,6 +32,14 @@ class AnalizadorLexico():
             
             if(self.esReal()):
                 continue
+
+            if(self.esIncrementoDecremento()):
+                continue
+
+    
+
+    def esIncrementoDecremento(self):
+        return False
             
 
             
