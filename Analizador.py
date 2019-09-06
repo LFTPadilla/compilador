@@ -43,8 +43,8 @@ class AnalizadorLexico():
     
     def esIncremento(self):
         return True
-            
-    def esEntero(self):
+
+    def esEntero(self,x):
         return False
     
     def esReal(self):
