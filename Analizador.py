@@ -32,11 +32,11 @@ class AnalizadorLexico():
             if(self.esEntero()):
                continue
             
-            if(self.esReal()):
-                continue
-
             if(self.esIncrementoDecremento(6)):
                 continue
+            
+             
+            self.obtenerSiguienteCaracter()
 
     
 
