@@ -41,10 +41,10 @@ class AnalizadorLexico():
     def esIncrementoDecremento(self, y):
         return False
     
-    def esIncremento(self,x):
+    def esIncremento(self):
         return True
 
-    def esEntero(self,x):
+    def esEntero(self):
         return False
     
     def esReal(self):
