@@ -15,7 +15,7 @@ class AnalizadorLexico():
 
     def analizar(self):
         while(self.caracterActual != self.finCodigo):
-            
+        
             if(self.caracterActual==" "):
                 self.obtenerSiguienteCaracter()
                 continue    
