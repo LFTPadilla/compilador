@@ -1,5 +1,5 @@
 from enum import Enum
-class Categorias(Enum):
+class Categoria(Enum):
     Identificador = 1
     NumeroReal = 2
     NumeroNatural = 3
@@ -18,3 +18,4 @@ class Categorias(Enum):
     ComentarioBloque = 16
     CadenaCaracteres = 17
     Caracter = 18
+    Desconocido = 19

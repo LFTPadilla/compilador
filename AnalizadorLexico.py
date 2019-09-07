@@ -1,4 +1,7 @@
 
+from Token import Token
+from Categoria import Categoria
+
 class Analizador:
     private__ = ""
     codigo = ""
@@ -15,46 +18,45 @@ class Analizador:
 
 
     def analizar(self):
-        while(self.caracterActual != self.finCodigo):
+        while(self.caracterActual != self.finCodigo):   
+            
+            if(self.caracterActual=="\n" or self.caracterActual=="\t" or self.caracterActual == " "):
+                self.obtenerSiguienteCaracter()
+                continue
+            
+            if (self.esNatural()) :
+                continue           
+            
+            self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
+            self.obtenerSiguienteCaracter()
+
+    def esNatural(self):
+              
+        if(self.caracterActual.isdigit()):  
+            lexema = ""          
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            
+            lexema += self.caracterActual 
+            
+            self.obtenerSiguienteCaracter()
+            while(self.caracterActual.isdigit()):
+                lexema += self.caracterActual
+                self.obtenerSiguienteCaracter()
+            
+            if(self.caracterActual == '.'):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token(lexema, Categoria.NumeroNatural,self.filaActual,self.colActual)) 
+                return True                                 
+        else:
+            return False        
         
-            if(self.caracterActual==" "):
-                self.obtenerSiguienteCaracter()
-                continue    
-            
-            if(self.caracterActual=="\n" or self.caracterActual=="\t"):
-                self.obtenerSiguienteCaracter()
-                continue
-            
-            self.obtenerSiguienteCaracter()
-
-            if(self.esReal()):
-                continue
-
-            if(self.esEntero()):
-               continue
-            
-            if(self.esIncrementoDecremento(6)):
-                continue
-            
-             
-            self.obtenerSiguienteCaracter()
-
-    
-
-    def esIncrementoDecremento(self, y):
-        return False
-    
-    def esIncremento(self):
-        return True
-
-    def esEntero(self):
-        return False
-    
-    def esReal(self):
-        return True
 
     def obtenerSiguienteCaracter(self):
-        print(self.codigo[self.posicionActual])
+        
         self.posicionActual+=1
         
         if(self.posicionActual < len(self.codigo) ):
@@ -67,5 +69,10 @@ class Analizador:
         else:
             self.caracterActual = self.finCodigo
 
+    def hacerBT(self, posInicial, filaInicial, columnaInicial):
+        self.posicionActual = posInicial
+        self.filaActual = filaInicial
+        self.colActual = columnaInicial
+        self.caracterActual = self.codigo[self.posicionActual]
     
 
