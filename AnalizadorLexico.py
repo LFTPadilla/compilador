@@ -14,6 +14,7 @@ class Analizador:
 
     def __init__(self,codigo):
         self.codigo = codigo
+        self.caracterActual = self.codigo[self.posicionActual]
 
 
 
@@ -23,12 +24,72 @@ class Analizador:
             if(self.caracterActual=="\n" or self.caracterActual=="\t" or self.caracterActual == " "):
                 self.obtenerSiguienteCaracter()
                 continue
-            
+
             if (self.esNatural()) :
-                continue           
+                continue
             
+            if (self.esOperadorLogico()):
+                continue
+        
             self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
             self.obtenerSiguienteCaracter()
+
+    def esOperadorLogico(self):
+        print(self.caracterActual,"Entroooo")
+        if(self.caracterActual == "&"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual== "&"):
+                self.tokens.append(Token("&&", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+
+        if(self.caracterActual == "|"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual== "|"):
+                self.tokens.append(Token("||", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        
+        if(self.caracterActual == "!"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual== "="):
+                self.tokens.append(Token("!=", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        
+        if(self.caracterActual == "="):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            print(self.caracterActual,"eeee")
+            if(self.caracterActual== "="):
+                self.tokens.append(Token("==", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False    
+
+
 
     def esNatural(self):
               
