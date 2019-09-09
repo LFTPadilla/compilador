@@ -83,6 +83,7 @@ class Analizador:
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
+        
             if(self.caracterActual== "="):
                 self.tokens.append(Token("==", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
                 self.obtenerSiguienteCaracter()
