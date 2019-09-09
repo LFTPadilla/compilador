@@ -28,6 +28,9 @@ class Analizador:
             if (self.esNatural()) :
                 continue
             
+            if (self.esReal()):
+                continue
+            
             if (self.esOperadorLogico()):
                 continue
         
@@ -35,7 +38,7 @@ class Analizador:
             self.obtenerSiguienteCaracter()
 
     def esOperadorLogico(self):
-        print(self.caracterActual,"Entroooo")
+        
         if(self.caracterActual == "&"):
             filaInicial = self.filaActual
             columnaInicial = self.colActual
@@ -80,7 +83,6 @@ class Analizador:
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
-            print(self.caracterActual,"eeee")
             if(self.caracterActual== "="):
                 self.tokens.append(Token("==", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
                 self.obtenerSiguienteCaracter()
@@ -92,7 +94,7 @@ class Analizador:
 
 
     def esNatural(self):
-              
+       
         if(self.caracterActual.isdigit()):  
             lexema = ""          
             filaInicial = self.filaActual
@@ -110,11 +112,57 @@ class Analizador:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
             else:
-                self.tokens.append(Token(lexema, Categoria.NumeroNatural,self.filaActual,self.colActual)) 
+                self.tokens.append(Token(lexema, Categoria.NumeroNatural, filaInicial, columnaInicial)) 
                 return True                                 
         else:
             return False        
         
+    def esReal (self):
+                
+        if (self.caracterActual.isdigit() or self.caracterActual == '.') :
+            
+            lexema = ""
+            lexema += self.caracterActual
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posicionInicial = self.posicionActual
+            
+            if(self.caracterActual.isdigit()):
+                
+                self.obtenerSiguienteCaracter()
+                
+                while (self.caracterActual.isdigit()): 
+                    lexema += self.caracterActual
+                    self.obtenerSiguienteCaracter()
+                
+                if(not self.caracterActual == '.'):
+                    self.hacerBT(posicionInicial, filaInicial, columnaInicial)
+                    return False  
+               
+            else:
+                
+                self.obtenerSiguienteCaracter()
+                
+                if(not self.caracterActual.isdigit):
+                    self.hacerBT(posicionInicial, filaInicial, columnaInicial)     
+                    return False
+                   
+            
+            lexema += self.caracterActual # Concatenamos un punto o un digito 
+            self.obtenerSiguienteCaracter()
+            
+            while(self.caracterActual.isdigit()):
+                lexema += self.caracterActual
+                self.obtenerSiguienteCaracter()
+                print (self.caracterActual) 
+            
+            
+            self.tokens.append(Token(lexema, Categoria.NumeroReal, filaInicial, columnaInicial))
+            return True
+                   
+        else:
+            return False
+            
 
     def obtenerSiguienteCaracter(self):
         
