@@ -30,7 +30,10 @@ class Analizador:
 
             if (self.esOperadorAritmetico()) :
                 continue
-
+            
+            if(self.esOperadorRelacional()):
+                continue
+                
             if (self.esNatural()) :
                 continue
             
@@ -82,9 +85,8 @@ class Analizador:
             return True
         else:
             return False
-        
     
-    def esIncrementoDecremento:
+    def esIncrementoDecremento(self):
         if(self.caracterActual == "+"):
             filaInicial = self.filaActual
             columnaInicial = self.colActual
@@ -95,7 +97,7 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
                 return True
             else:
-                 self.hacerBT(posInicial, filaInicial, columnaInicial)
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
                 
         if(self.caracterActual == "-"):
@@ -108,7 +110,7 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
                 return True
             else:
-                 self.hacerBT(posInicial, filaInicial, columnaInicial)
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
 
     def esOperadorAritmetico(self):
@@ -179,10 +181,12 @@ class Analizador:
 
     def esOperadorAsignacion(self):
         if(self.caracterActual == "+"):
+            
             filaInicial = self.filaActual
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
+            
             if(self.caracterActual == "="):
                 self.tokens.append(Token("+=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
                 self.obtenerSiguienteCaracter()
@@ -248,8 +252,8 @@ class Analizador:
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
-            if(self.caracterActual == "="):
-                self.tokens.append(Token("==", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+            if(not self.caracterActual == "="):
+                self.tokens.append(Token("=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
                 self.obtenerSiguienteCaracter()
                 return True
             else:
@@ -310,6 +314,32 @@ class Analizador:
             else:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False    
+
+    def esOperadorRelacional(self):
+        
+        if(self.caracterActual == '<' or self.caracterActual == '>' or self.caracterActual == '='): #Rechazo inicial
+            lexema = ""
+            posicionInicial = self.posicionActual
+            filaInicia = self.filaActual
+            columnaInicial = self.colActual
+            
+            lexema+=self.caracterActual
+            self.obtenerSiguienteCaracter()
+            
+            if(not self.caracterActual == '=') :            # Si el siguiente caracter no es = (ej. >pip <lucas =ret)
+                if(self.codigo[posicionInicial] == '='):    #si el caracter anterior era un =
+                    self.hacerBT(posicionInicial,filaInicia,columnaInicial) # hacer Bt, porque no seria un operador relacional sino de asignacion
+                    return False
+                else:
+                    self.tokens.append(Token(lexema,Categoria.OperadorRelacional, self.filaActual, self.colActual))   
+                    return True                             
+            else:                                           #Si el segundo ch es = 
+                lexema += self.caracterActual               #se captura ese = en el lexema
+                self.obtenerSiguienteCaracter()             #se obt el sigte ch para continuar con el analisis
+                self.tokens.append(Token(lexema, Categoria.OperadorRelacional, self.filaActual, self.colActual)) 
+                return True           
+        else:
+            return False     
 
     def esNatural(self):
        
