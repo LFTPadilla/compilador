@@ -17,6 +17,6 @@ class Token:
         return "(Lexema: %s, %s,Fila: %s,Columna: %s)" % (self.lexema, self.categoria,self.fila,self.columna)
 
     def __str__(self):
-        return "%s,%s,%s,%s,"% (self.lexema, self.categoria,self.fila,self.columna)
+        return "[ %s, %s, %s, %s]"% (self.lexema, self.categoria,self.fila,self.columna)
     
         

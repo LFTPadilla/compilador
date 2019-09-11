@@ -25,7 +25,7 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
                 continue
 
-            if (self.esOperadorAsignacion()) :
+            if (self.esNatural()) :
                 continue
 
             if (self.esOperadorAritmetico()) :
@@ -45,9 +45,76 @@ class Analizador:
 
             if(self.esComentarioBloque()):
                 continue
-        
+
+            if(self.esIncrementoDecremento()):
+                continue
+
+            if(self.esSeparador()):
+                continue
+
+            if(self.esFinSentencia()):
+                continue
+
+            if(self.esComentarioLinea()):
+                continue
+
+            if (self.esOperadorAsignacion()) :
+                continue
+
+            if (self.esOperadorAritmetico()) :
+                continue
+
             self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
             self.obtenerSiguienteCaracter()
+
+    def esFinSentencia(self):
+        if(self.caracterActual == ";"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "\n"):
+                self.tokens.append(Token(";", Categoria.FinSentencia,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+
+    def esComentarioLinea(self):
+        if(self.caracterActual == "/"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "/"):
+                self.obtenerSiguienteCaracter()
+                palabra = "//"
+                flag = True
+                while(flag):
+                    if(self.caracterActual == "\n"):
+                        self.tokens.append(Token(palabra,Categoria.ComentarioLinea,self.filaActual,self.colActual))
+                        self.obtenerSiguienteCaracter()
+                        flag = False
+                        return True
+                    else:
+                        palabra += self.caracterActual
+                        self.obtenerSiguienteCaracter()
+                self.tokens.append(Token("Error",Categoria.ErrorLexico,self.filaActual,self.colActual))
+                return False
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        else: 
+            return False
+
+    def esSeparador(self):
+        if(self.caracterActual == ","):
+            self.tokens.append(Token(",",Categoria.Separador,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
+            return True
+        else:
+            return False
 
     def esComentarioBloque(self):
         if(self.caracterActual == "/"):

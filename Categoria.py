@@ -19,3 +19,4 @@ class Categoria(Enum):
     CadenaCaracteres = 17
     Caracter = 18
     Desconocido = 19
+    ErrorLexico = 20
