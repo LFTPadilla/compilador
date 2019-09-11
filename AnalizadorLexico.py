@@ -25,6 +25,12 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
                 continue
 
+            if (self.esOperadorAsignacion()) :
+                continue
+
+            if (self.esOperadorAritmetico()) :
+                continue
+
             if (self.esNatural()) :
                 continue
             
@@ -33,9 +39,222 @@ class Analizador:
             
             if (self.esOperadorLogico()):
                 continue
+
+            if(self.esComentarioBloque()):
+                continue
         
             self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
             self.obtenerSiguienteCaracter()
+
+    def esComentarioBloque(self):
+        if(self.caracterActual == "/"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "*"):
+                self.obtenerSiguienteCaracter()
+                lexema = "/*"+self.caracterActual
+                bucle = True
+                while(bucle):
+                    if(self.caracterActual=="*"):
+                        self.obtenerSiguienteCaracter()
+                        if(self.caracterActual=="/"):
+                            lexema += "*/"
+                            bucle=False
+                        else:
+                            lexema += self.caracterActual
+                    else:
+                        lexema += self.caracterActual
+                        self.obtenerSiguienteCaracter()
+                    
+                self.tokens.append(Token(lexema, Categoria.ComentarioBloque,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+
+    def esPuntosDosPuntos(self):
+        if(self.caracterActual == ":" or self.caracterActual == "."):
+            self.tokens.append(Token(self.caracterActual,Categoria.PuntoDosPuntos,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
+            return True
+        else:
+            return False
+        
+    
+    def esIncrementoDecremento:
+        if(self.caracterActual == "+"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "+"):
+                self.tokens.append(Token("++", Categoria.OperadorIncrementoDecremento,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                 self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+                
+        if(self.caracterActual == "-"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "-"):
+                self.tokens.append(Token("--", Categoria.OperadorIncrementoDecremento,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                 self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+
+    def esOperadorAritmetico(self):
+        if(self.caracterActual == "+"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "+" or self.caracterActual == "="):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token("+", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+        
+        if(self.caracterActual == "-"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "-" or self.caracterActual == "="):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token("-", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+
+        if(self.caracterActual == "*"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "*" or self.caracterActual == "=" or self.caracterActual == "/"):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token("*", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+        
+        if(self.caracterActual == "/"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "/" or self.caracterActual == "=" or self.caracterActual == "*"):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token("/", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+        
+        if(self.caracterActual == "%"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+            else:
+                self.tokens.append(Token("%", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+
+    def esOperadorAsignacion(self):
+        if(self.caracterActual == "+"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("+=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        
+        if(self.caracterActual == "-"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("-=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+
+        if(self.caracterActual == "*"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("*=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False        
+
+        if(self.caracterActual == "/"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("/=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        
+        if(self.caracterActual == "%"):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("%=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        
+        if(self.caracterActual == "="):
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            if(self.caracterActual == "="):
+                self.tokens.append(Token("==", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
+                self.obtenerSiguienteCaracter()
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
 
     def esOperadorLogico(self):
         
@@ -83,6 +302,7 @@ class Analizador:
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
+        
             if(self.caracterActual== "="):
                 self.tokens.append(Token("==", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
                 self.obtenerSiguienteCaracter()
@@ -90,8 +310,6 @@ class Analizador:
             else:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False    
-
-
 
     def esNatural(self):
        
