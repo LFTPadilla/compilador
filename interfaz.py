@@ -15,11 +15,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def AnalisisLexico(self):
         codigo = self.txtCodigo.toPlainText()
-        print(codigo)
+        #print(codigo)
         analisisLexico = Analizador(codigo)
-
-
         analisisLexico.analizar()
+        tokens = analisisLexico.tokens
+        for i in tokens:
+            self.listViewTokens.addItem(str(i));
+
 
         
 
