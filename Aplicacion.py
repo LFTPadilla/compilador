@@ -1,7 +1,7 @@
 # -.- encoding:UTF8 -*-
 from AnalizadorLexico import Analizador
 
-codigo = "== 123 !=444.43"
+codigo = "== 123 !=444.4398"
 print("1")
 analisisLexico = Analizador(codigo)
 print("2")
