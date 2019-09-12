@@ -1,6 +1,7 @@
 
 from Token import Token
 from Categoria import Categoria
+import time
 
 class Analizador:
     private__ = ""
@@ -33,7 +34,10 @@ class Analizador:
             
             if(self.esOperadorRelacional()):
                 continue
-                
+            
+            if(self.esCadenaCaracteres()):
+                continue
+    
             if (self.esNatural()) :
                 continue
             
@@ -49,6 +53,9 @@ class Analizador:
             if(self.esIncrementoDecremento()):
                 continue
 
+            if(self.esCaracter()):
+                continue
+
             if(self.esSeparador()):
                 continue
 
@@ -62,6 +69,9 @@ class Analizador:
                 continue
 
             if (self.esOperadorAritmetico()) :
+                continue
+
+            if(self.esIdentificador()):
                 continue
 
             self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
@@ -115,6 +125,58 @@ class Analizador:
             return True
         else:
             return False
+
+    def esIdentificador(self):
+        if(self.caracterActual=="_" or (ord(self.caracterActual)>64 and ord(self.caracterActual)<123)):
+            lexema = ""
+            while(self.caracterActual!=" "):
+                lexema += self.caracterActual
+                self.obtenerSiguienteCaracter()
+            self.obtenerSiguienteCaracter()
+            self.tokens.append(Token(lexema,Categoria.Identificador,self.filaActual,self.colActual))
+            return True
+        else:
+            return False
+
+
+
+    def esCadenaCaracteres(self):
+        if(self.caracterActual=='"'):
+            texto = ""
+            
+            self.obtenerSiguienteCaracter()
+            while(self.caracterActual!="\""):
+                #print(self.caracterActual,self.caracterActual!="\"")
+                texto+=self.caracterActual
+                self.obtenerSiguienteCaracter()                
+
+            self.obtenerSiguienteCaracter()
+            self.tokens.append(Token('"'+texto+'"',Categoria.CadenaCaracteres,self.filaActual,self.colActual))
+            return True
+        else:
+            return False
+
+    def esCaracter(self):
+        
+        if(self.caracterActual=="'"):
+            
+            filaInicial = self.filaActual
+            columnaInicial = self.colActual
+            posInicial = self.posicionActual
+            self.obtenerSiguienteCaracter()
+            letra = self.caracterActual
+            self.obtenerSiguienteCaracter()
+            
+            if(self.caracterActual=="'"):
+                self.obtenerSiguienteCaracter()
+                self.tokens.append(Token("'"+letra+"'",Categoria.Caracter,self.filaActual,self.colActual))
+                return True
+            else:
+                self.hacerBT(posInicial, filaInicial, columnaInicial)
+                return False
+        else:
+            return False
+
 
     def esComentarioBloque(self):
         if(self.caracterActual == "/"):
@@ -469,7 +531,7 @@ class Analizador:
             while(self.caracterActual.isdigit()):
                 lexema += self.caracterActual
                 self.obtenerSiguienteCaracter()
-                print (self.caracterActual) 
+                
             
             
             self.tokens.append(Token(lexema, Categoria.NumeroReal, filaInicial, columnaInicial))

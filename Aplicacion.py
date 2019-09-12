@@ -1,7 +1,7 @@
 # -.- encoding:UTF8 -*-
 from AnalizadorLexico import Analizador
 
-codigo = "546 <= < > >= == = /*** jh/gyg8*7tu 423***42 12 smdn*asdf **/"
+codigo = "hola asd _asdf /*asdfsdFAS asdfsDF*/"
 
 analisisLexico = Analizador(codigo)
 print("2")
