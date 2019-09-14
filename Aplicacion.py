@@ -1,7 +1,7 @@
 # -.- encoding:UTF8 -*-
 from AnalizadorLexico import Analizador
 
-codigo = "hola asd _asdf /*asdfsdFAS asdfsDF*/"
+codigo = "hola as)(d _asd)f /*asdfsdFAS asdfsDF*/"
 
 analisisLexico = Analizador(codigo)
 print("2")

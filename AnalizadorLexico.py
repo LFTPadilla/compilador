@@ -25,6 +25,15 @@ class Analizador:
             if(self.caracterActual=="\n" or self.caracterActual=="\t" or self.caracterActual == " "):
                 self.obtenerSiguienteCaracter()
                 continue
+            
+            if(self.esParentesis()):
+                continue
+            
+            if(self.esLlaves()):
+                continue
+            
+            if(self.esCorchetes()):
+                continue
 
             if (self.esNatural()) :
                 continue
@@ -73,6 +82,8 @@ class Analizador:
 
             if(self.esIdentificador()):
                 continue
+            
+           
 
             self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
             self.obtenerSiguienteCaracter()
@@ -118,6 +129,45 @@ class Analizador:
         else: 
             return False
 
+    def esParentesis(self):
+        
+        lexema = ""
+        
+        if self.caracterActual == '(' or self.caracterActual == ')':
+            lexema = self.caracterActual
+            self.obtenerSiguienteCaracter()
+            self.tokens.append(Token(lexema,Categoria.Parentesis,self.filaActual,self.colActual))
+            return True
+        else:
+            return False
+        
+        
+    def esLlaves(self):
+        
+        lexema = ""
+        
+        if self.caracterActual == '{' or self.caracterActual == '}':
+            lexema = self.caracterActual
+            self.obtenerSiguienteCaracter()
+            self.tokens.append(Token(lexema,Categoria.Llaves,self.filaActual,self.colActual))
+            return True
+        else:
+            return False        
+
+ 
+    def esCorchetes(self):
+        
+        lexema = ""
+        
+        if self.caracterActual == '[' or self.caracterActual == ']':
+            lexema = self.caracterActual
+            self.obtenerSiguienteCaracter()
+            self.tokens.append(Token(lexema,Categoria.Corchetes,self.filaActual,self.colActual))
+            return True
+        else:
+            return False           
+            
+
     def esSeparador(self):
         if(self.caracterActual == ","):
             self.tokens.append(Token(",",Categoria.Separador,self.filaActual,self.colActual))
@@ -137,8 +187,6 @@ class Analizador:
             return True
         else:
             return False
-
-
 
     def esCadenaCaracteres(self):
         if(self.caracterActual=='"'):
@@ -176,7 +224,6 @@ class Analizador:
                 return False
         else:
             return False
-
 
     def esComentarioBloque(self):
         if(self.caracterActual == "/"):
