@@ -193,13 +193,22 @@ class Analizador:
             texto = ""
             
             self.obtenerSiguienteCaracter()
+            
             while(self.caracterActual!="\""):
                 #print(self.caracterActual,self.caracterActual!="\"")
                 texto+=self.caracterActual
-                self.obtenerSiguienteCaracter()                
+                self.obtenerSiguienteCaracter()
+                #time.sleep(0.5)
+                #print(self.caracterActual,self.posicionActual,len(self.codigo))
+                if(self.posicionActual==len(self.codigo)-1):
+                    self.tokens.append(Token('"'+texto+'"',Categoria.ErrorLexico,self.filaActual,self.colActual))
+                    self.obtenerSiguienteCaracter()
+                    err = True
+                    break
 
-            self.obtenerSiguienteCaracter()
-            self.tokens.append(Token('"'+texto+'"',Categoria.CadenaCaracteres,self.filaActual,self.colActual))
+            if(not(err)):
+                self.obtenerSiguienteCaracter()
+                self.tokens.append(Token('"'+texto+'"',Categoria.CadenaCaracteres,self.filaActual,self.colActual))
             return True
         else:
             return False
@@ -244,11 +253,17 @@ class Analizador:
                         else:
                             lexema += self.caracterActual
                     else:
-                        lexema += self.caracterActual
-                        self.obtenerSiguienteCaracter()
-                    
-                self.tokens.append(Token(lexema, Categoria.ComentarioBloque,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
+                        if(self.posicionActual==len(self.codigo)-1):
+                            self.tokens.append(Token('"'+lexema+'"',Categoria.ErrorLexico,self.filaActual,self.colActual))
+                            self.obtenerSiguienteCaracter()
+                            err = True
+                            break
+                        else:
+                            lexema += self.caracterActual
+                            self.obtenerSiguienteCaracter()
+                if(not(err)):
+                    self.tokens.append(Token(lexema, Categoria.ComentarioBloque,self.filaActual,self.colActual)) 
+                    self.obtenerSiguienteCaracter()
                 return True
             else:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
