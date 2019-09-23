@@ -13,11 +13,11 @@ class Analizador:
     filaActual = 0
     colActual = 0
 
+
     def __init__(self,codigo):
         self.codigo = codigo
         self.caracterActual = self.codigo[self.posicionActual]
-
-
+        self.palabrasReservadas = ["abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while"]
 
     def analizar(self):
         while(self.caracterActual != self.finCodigo):   
@@ -177,13 +177,16 @@ class Analizador:
             return False
 
     def esIdentificador(self):
-        if(self.caracterActual=="_" or (ord(self.caracterActual)>64 and ord(self.caracterActual)<123)):
+        if(self.caracterActual=="_" or (ord(self.caracterActual)>64 and ord(self.caracterActual)<91) or (ord(self.caracterActual)>96 and ord(self.caracterActual)<123)):
             lexema = ""
             while(self.caracterActual!=" "):
                 lexema += self.caracterActual
                 self.obtenerSiguienteCaracter()
             self.obtenerSiguienteCaracter()
-            self.tokens.append(Token(lexema,Categoria.Identificador,self.filaActual,self.colActual))
+            if lexema in self.palabrasReservadas:
+                self.tokens.append(Token(lexema,Categoria.PalabraReservada,self.filaActual,self.colActual))
+            else:
+                self.tokens.append(Token(lexema,Categoria.Identificador,self.filaActual,self.colActual))
             return True
         else:
             return False

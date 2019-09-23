@@ -20,3 +20,4 @@ class Categoria(Enum):
     Caracter = 18
     Desconocido = 19
     ErrorLexico = 20
+    PalabraReservada =21
