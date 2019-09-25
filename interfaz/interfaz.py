@@ -1,8 +1,9 @@
 import sys
 from PyQt5 import uic, QtWidgets
-from AnalizadorLexico import Analizador
+sys.path.append(".") 
+from logica.lexico.AnalizadorLexico import Analizador
 
-qtCreatorFile = "interfazQT.ui" # Nombre del archivo aquí.
+qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 

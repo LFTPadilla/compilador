@@ -1,6 +1,6 @@
 
-from Token import Token
-from Categoria import Categoria
+from logica.lexico.Token import Token
+from logica.lexico.Categoria import Categoria
 import time
 
 class Analizador:

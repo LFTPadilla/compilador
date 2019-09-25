@@ -1,5 +1,5 @@
 # -.- encoding:UTF8 -*-
-from AnalizadorLexico import Analizador
+from logica.lexico.AnalizadorLexico import Analizador
 
 codigo = "hola for as)(d _asd)f \"asdfsdFAS asdfsD"
 
