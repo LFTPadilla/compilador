@@ -14,6 +14,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalizar.clicked.connect(self.AnalisisLexico)
 
     def AnalisisLexico(self):
+        self.listViewTokens.clear()
         codigo = self.txtCodigo.toPlainText()
         #print(codigo)
         analisisLexico = Analizador(codigo)

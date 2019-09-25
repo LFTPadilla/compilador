@@ -53,6 +53,9 @@ class Analizador:
             if (self.esReal()):
                 continue
             
+            if (self.esPuntosDosPuntos()):
+                continue
+            
             if (self.esOperadorLogico()):
                 continue
 
@@ -112,17 +115,12 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
                 palabra = "//"
                 flag = True
-                while(flag):
-                    if(self.caracterActual == "\n"):
-                        self.tokens.append(Token(palabra,Categoria.ComentarioLinea,self.filaActual,self.colActual))
-                        self.obtenerSiguienteCaracter()
-                        flag = False
-                        return True
-                    else:
-                        palabra += self.caracterActual
-                        self.obtenerSiguienteCaracter()
-                self.tokens.append(Token("Error",Categoria.ErrorLexico,self.filaActual,self.colActual))
-                return False
+                while(self.caracterActual != "\n" and self.caracterActual != self.finCodigo):
+                    palabra += self.caracterActual
+                    self.obtenerSiguienteCaracter()
+                    
+                self.tokens.append(Token(palabra,Categoria.ComentarioLinea,self.filaActual,self.colActual))
+                return True
             else:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
@@ -178,11 +176,16 @@ class Analizador:
 
     def esIdentificador(self):
         if(self.caracterActual=="_" or (ord(self.caracterActual)>64 and ord(self.caracterActual)<91) or (ord(self.caracterActual)>96 and ord(self.caracterActual)<123)):
+            
             lexema = ""
-            while(self.caracterActual!=" "):
+            
+            lexema += self.caracterActual
+            self.obtenerSiguienteCaracter()
+            
+            while(self.caracterActual.isdigit() or self.caracterActual=="_" or  (ord(self.caracterActual)>64 and ord(self.caracterActual)<91) or (ord(self.caracterActual)>96 and ord(self.caracterActual)<123)):
                 lexema += self.caracterActual
                 self.obtenerSiguienteCaracter()
-            self.obtenerSiguienteCaracter()
+            
             if lexema in self.palabrasReservadas:
                 self.tokens.append(Token(lexema,Categoria.PalabraReservada,self.filaActual,self.colActual))
             else:
@@ -197,19 +200,16 @@ class Analizador:
             
             self.obtenerSiguienteCaracter()
             
-            while(self.caracterActual!="\""):
+            while(self.caracterActual!="\"" and self.caracterActual!=self.finCodigo):
                 #print(self.caracterActual,self.caracterActual!="\"")
                 texto+=self.caracterActual
                 self.obtenerSiguienteCaracter()
                 #time.sleep(0.5)
                 #print(self.caracterActual,self.posicionActual,len(self.codigo))
-                if(self.posicionActual==len(self.codigo)-1):
-                    self.tokens.append(Token('"'+texto+'"',Categoria.ErrorLexico,self.filaActual,self.colActual))
-                    self.obtenerSiguienteCaracter()
-                    err = True
-                    break
 
-            if(not(err)):
+            if(self.caracterActual==self.finCodigo):
+                self.tokens.append(Token(texto, Categoria.ErrorLexico, self.filaActual, self.colActual ))
+            else:
                 self.obtenerSiguienteCaracter()
                 self.tokens.append(Token('"'+texto+'"',Categoria.CadenaCaracteres,self.filaActual,self.colActual))
             return True
@@ -238,6 +238,7 @@ class Analizador:
             return False
 
     def esComentarioBloque(self):
+        err = False
         if(self.caracterActual == "/"):
             filaInicial = self.filaActual
             columnaInicial = self.colActual
@@ -536,7 +537,6 @@ class Analizador:
             return False     
 
     def esNatural(self):
-       
         if(self.caracterActual.isdigit()):  
             lexema = ""          
             filaInicial = self.filaActual
@@ -585,7 +585,7 @@ class Analizador:
                 
                 self.obtenerSiguienteCaracter()
                 
-                if(not self.caracterActual.isdigit):
+                if(not self.caracterActual.isdigit()):
                     self.hacerBT(posicionInicial, filaInicial, columnaInicial)     
                     return False
                    
