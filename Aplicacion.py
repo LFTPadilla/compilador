@@ -1,11 +1,19 @@
 # -.- encoding:UTF8 -*-
 from logica.lexico.AnalizadorLexico import Analizador
+from logica.sintactico.AnalizadorSintactico import ASintactico
 
-codigo = "hola for as)(d _asd)f \"asdfsdFAS asdfsD"
+codigo = "  \" Hola \h jejje \"  "
 
 analisisLexico = Analizador(codigo)
-print("2")
 analisisLexico.analizar()
-print("3")
+
+#aSintactico = ASintactico(analisisLexico.getListaTokens)
+
 print (analisisLexico.tokens)
+
+#print(aSintactico.esUnidadDeCompilacion())
+
+#print(aSintactico.getListaErrores())
+
+
 

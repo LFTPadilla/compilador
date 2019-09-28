@@ -22,7 +22,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         analisisLexico.analizar()
         tokens = analisisLexico.tokens
         for i in tokens:
-            self.listViewTokens.addItem(str(i));
+            self.listViewTokens.addItem(str(i))
 
 
         

@@ -1,4 +1,10 @@
 
+from logica.lexico.Token import Token
+from logica.lexico.Categoria import Categoria
+import ErrorSintactico,Parametro
+from Funcion import Fun
+from UnidadCompilacion import UnidadDeCompilacion
+
 
 class ASintactico: 
     listaTokens = []
@@ -15,10 +21,13 @@ class ASintactico:
     """
     def esUnidadDeCompilacion(self):
         listaFunciones = self.esListaFunciones()
-        return UnidadDeCompilacion(listaFunciones)
+        if(len(listaFunciones)!=0):
+            return UnidadDeCompilacion(listaFunciones)
+        
+        return None
     
-    def obtenerSiguienteToken():
-        self.posActual++
+    def obtenerSiguienteToken(self):
+        self.posActual+=1
         if(self.posActual<len(self.listaTokens)):
             self.tokenActual = self.listaTokens[self.posActual]
     
@@ -26,38 +35,91 @@ class ASintactico:
         <ListaFunciones> ::= <Funtion>[<ListaFunciones>]
     """
     def esListaFunciones(self):
-        Funtion f = self.esFuncion()
-        return 
+
+        lista = []
+        f = self.esFuncion()
+        while(f!=None):
+            lista.append(f)
+            f = self.esFuncion()
+        return lista
+
 
 
     """
         <Funtion> ::= fun identificador "("[<ListaParametros>]")" [":"<TipoRetorno>]<BloqueSentencias>
     """
-    def Funtion esFuncion(self):
-        if(self.tokenActual.getCategoria == Categoria.PALABRA_RESERVADA && self.tokenActual.getLexema() == "fun"):
-            if(self.getCategoria() == Categoria.IDENTIFICADOR):
-                Token nombre = self.tokenActual
+    def esFuncion(self):#Devuelve una Function
+        if(self.tokenActual.getCategoria == Categoria.PalabraReservada and self.tokenActual.getLexema() == "fun"):
+            if(self.tokenActual.getCategoria() == Categoria.Identificador):
+                nombre = self.tokenActual
                 self.obtenerSiguienteToken();
                 
-                if self.tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO:
+                if self.tokenActual.getCategoria() == Categoria.ParentesisIzquierdo:
                     self.obtenerSiguienteToken();
-                    parametros = esListaParametros()
+                    parametros = self.esListaParametros()
                     
-                    if self.tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO:
-                        self.obtenerSiguienteToken();
+                    if self.tokenActual.getCategoria() == Categoria.ParentesisDerecho:
+                        self.obtenerSiguienteToken()
 
-                        if(self.tokenActual() ==Categoria.DOS_PUNTOS):
-                            pass
+                        if(self.tokenActual() ==Categoria.DosPuntos):
+                            self.obtenerSiguienteToken()
 
-                        BloqueSentencia bloque = esBloqueSentencias()
+                            retornoToken = self.esTipoRetorno()
 
-                        if(bloque!=null):
-                            return Funcion(nombre, parametros, TipoRetorno, bloque)
+                            self.obtenerSiguienteToken()
+
+                            if(retornoToken==None):
+                                self.reportarError("Falta especificar el tipo de retorno")
+
+                        bloque = self.esBloqueSentencias()#BloqueSentencia 
+
+                        if(bloque != None ):
+                            return Fun(nombre,parametros,retornoToken,bloque)
+                        else:
+                            self.reportarError("falta Bloque sentencias")
+                    else:
+                        self.reportarError("Falta parentesis Derecho")
+                else:
+                    self.reportarError("Falta parentesis Izquierdo")
             else:
-                self.reportarError("Falta nombre de funcion");
+                self.reportarError("Falta nombre de funcion")
         pass
 
+    
+
+    """
+    <TipoRetorno> ::= int | decimal | void | String | boolean | char
+    """
+    def esTipoRetorno(self):
+        
+        if(self.tokenActual.getLexema() == "int" or self.tokenActual.getLexema() == "decimal" or self.tokenActual.getLexema() == "void" or self.tokenActual.getLexema() == "String" or self.tokenActual.getLexema() == "boolean" or self.tokenActual.getLexema() == "char"):
+            return self.tokenActual
+        return None
+    
+    
+    def esListaParametros(self):
+        return True
 
     def reportarError(self,msj):
-        err = ErrorSintactico(msj)
+        err = error_sintactico(msj)
         self.listaErrores.append(err)
+
+    def esBloqueSentencias(self):
+        if(self.tokenActual.getCategoria() == Categoria.LlaveIzquierda):
+            self.obtenerSiguienteToken()
+            sentencias = self.esListaSentencias()
+            if(self.tokenActual.getCategoria() == Categoria.LlaveDerecha):
+                self.obtenerSiguienteToken()
+                return sentencias
+
+        return None
+
+
+    def esListaSentencias(self):
+        return True
+
+
+    def getListaErrores(self):
+        return self.listaErrores
+
+    
