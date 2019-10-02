@@ -4,7 +4,7 @@ from logica.lexico.Categoria import Categoria
 import ErrorSintactico,Parametro
 from Funcion import Fun
 from UnidadCompilacion import UnidadDeCompilacion
-
+from ErrorSintactico import error_sintactico
 
 class ASintactico: 
     listaTokens = []
@@ -49,13 +49,14 @@ class ASintactico:
         <Funtion> ::= fun identificador "("[<ListaParametros>]")" [":"<TipoRetorno>]<BloqueSentencias>
     """
     def esFuncion(self):#Devuelve una Function
-        if(self.tokenActual.getCategoria == Categoria.PalabraReservada and self.tokenActual.getLexema() == "fun"):
+        if(self.tokenActual.getCategoria == Categoria.PalabraReservada and self.tokenActual.getLexema() == "funcion"):
+            self.obtenerSiguienteToken()
             if(self.tokenActual.getCategoria() == Categoria.Identificador):
                 nombre = self.tokenActual
-                self.obtenerSiguienteToken();
-                
+                self.obtenerSiguienteToken()
+                                
                 if self.tokenActual.getCategoria() == Categoria.ParentesisIzquierdo:
-                    self.obtenerSiguienteToken();
+                    self.obtenerSiguienteToken()
                     parametros = self.esListaParametros()
                     
                     if self.tokenActual.getCategoria() == Categoria.ParentesisDerecho:
@@ -69,20 +70,20 @@ class ASintactico:
                             self.obtenerSiguienteToken()
 
                             if(retornoToken==None):
-                                self.reportarError("Falta especificar el tipo de retorno")
+                                self.reportarError("Falta especificar el tipo de retorno",self.tokenActual.fila, self.tokenActual.columna)
 
                         bloque = self.esBloqueSentencias()#BloqueSentencia 
 
                         if(bloque != None ):
                             return Fun(nombre,parametros,retornoToken,bloque)
                         else:
-                            self.reportarError("falta Bloque sentencias")
+                            self.reportarError("falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
                     else:
-                        self.reportarError("Falta parentesis Derecho")
+                        self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
                 else:
-                    self.reportarError("Falta parentesis Izquierdo")
+                    self.reportarError("Falta parentesis Izquierdo", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                self.reportarError("Falta nombre de funcion")
+                self.reportarError("Falta nombre de funcion", self.tokenActual.fila, self.tokenActual.columna)
         pass
 
     
@@ -100,8 +101,8 @@ class ASintactico:
     def esListaParametros(self):
         return True
 
-    def reportarError(self,msj):
-        err = error_sintactico(msj)
+    def reportarError(self,msj,f,c):
+        err = error_sintactico(msj,f,c)
         self.listaErrores.append(err)
 
     def esBloqueSentencias(self):
