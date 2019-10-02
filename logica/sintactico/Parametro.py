@@ -1,4 +1,4 @@
-class Parameto:
+class Parametro:
     def __init__(self,tipo_dato,nombre):
         self.tipo_dato = tipo_dato
         self.nombre = nombre
