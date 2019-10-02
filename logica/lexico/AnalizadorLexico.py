@@ -19,6 +19,9 @@ class Analizador:
         self.caracterActual = self.codigo[self.posicionActual]
         self.palabrasReservadas = ["abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while"]
 
+    def getListaTokens(self):
+        return self.tokens
+
     def analizar(self):
         while(self.caracterActual != self.finCodigo):   
             
@@ -114,7 +117,7 @@ class Analizador:
             if(self.caracterActual == "/"):
                 self.obtenerSiguienteCaracter()
                 palabra = "//"
-                flag = True
+                
                 while(self.caracterActual != "\n" and self.caracterActual != self.finCodigo):
                     palabra += self.caracterActual
                     self.obtenerSiguienteCaracter()
@@ -131,36 +134,40 @@ class Analizador:
         
         lexema = ""
         
-        if self.caracterActual == '(' or self.caracterActual == ')':
-            lexema = self.caracterActual
+        if self.caracterActual == '(':
+            self.tokens.append(Token(self.caracterActual,Categoria.ParentesisIzquierdo,self.filaActual,self.colActual))
             self.obtenerSiguienteCaracter()
-            self.tokens.append(Token(lexema,Categoria.Parentesis,self.filaActual,self.colActual))
+            return True
+        elif self.caracterActual == ')':
+            self.tokens.append(Token(self.caracterActual,Categoria.ParentesisIzquierdo,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
             return True
         else:
             return False
         
         
     def esLlaves(self):
-        
-        lexema = ""
-        
-        if self.caracterActual == '{' or self.caracterActual == '}':
-            lexema = self.caracterActual
+           
+        if self.caracterActual == '{' :
+            self.tokens.append(Token(self.caracterActual,Categoria.LlaveIzquierda,self.filaActual,self.colActual))
             self.obtenerSiguienteCaracter()
-            self.tokens.append(Token(lexema,Categoria.Llaves,self.filaActual,self.colActual))
+            return True
+        elif  self.caracterActual == '}':
+            self.tokens.append(Token(self.caracterActual,Categoria.LlaveDerecha,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
             return True
         else:
             return False        
 
  
     def esCorchetes(self):
-        
-        lexema = ""
-        
-        if self.caracterActual == '[' or self.caracterActual == ']':
-            lexema = self.caracterActual
+        if self.caracterActual == '[' :            
+            self.tokens.append(Token(self.caracterActual,Categoria.CorcheteIzquierdo,self.filaActual,self.colActual))
             self.obtenerSiguienteCaracter()
-            self.tokens.append(Token(lexema,Categoria.Corchetes,self.filaActual,self.colActual))
+            return True
+        elif self.caracterActual == ']':
+            self.tokens.append(Token(self.caracterActual,Categoria.CorcheteDerecho,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
             return True
         else:
             return False           
@@ -199,14 +206,18 @@ class Analizador:
             texto = ""
             
             self.obtenerSiguienteCaracter()
-            
+
             while(self.caracterActual!="\"" and self.caracterActual!=self.finCodigo):
                 #print(self.caracterActual,self.caracterActual!="\"")
+                aux = self.caracterActual
                 texto+=self.caracterActual
                 self.obtenerSiguienteCaracter()
-                #time.sleep(0.5)
-                #print(self.caracterActual,self.posicionActual,len(self.codigo))
-
+                if(aux=="\\"):
+                    if(self.caracterActual=="n" or self.caracterActual=="t" or self.caracterActual=="\""):
+                        texto+=self.caracterActual
+                    else:
+                        self.tokens.append(Token("\\"+self.caracterActual, Categoria.ErrorLexico, self.filaActual, self.colActual ))
+                
             if(self.caracterActual==self.finCodigo):
                 self.tokens.append(Token(texto, Categoria.ErrorLexico, self.filaActual, self.colActual ))
             else:
@@ -274,8 +285,12 @@ class Analizador:
                 return False
 
     def esPuntosDosPuntos(self):
-        if(self.caracterActual == ":" or self.caracterActual == "."):
-            self.tokens.append(Token(self.caracterActual,Categoria.PuntoDosPuntos,self.filaActual,self.colActual))
+        if(self.caracterActual == ":"):
+            self.tokens.append(Token(self.caracterActual,Categoria.DosPuntos,self.filaActual,self.colActual))
+            self.obtenerSiguienteCaracter()
+            return True
+        elif self.caracterActual == ".":
+            self.tokens.append(Token(self.caracterActual,Categoria.Punto,self.filaActual,self.colActual))
             self.obtenerSiguienteCaracter()
             return True
         else:

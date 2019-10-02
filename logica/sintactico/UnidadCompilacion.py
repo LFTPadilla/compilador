@@ -2,5 +2,5 @@
 
 class UnidadDeCompilacion:
 
-    def __init__(self):
-        pass
+    def __init__(self, listaFunciones):
+        self.listaFunciones = listaFunciones

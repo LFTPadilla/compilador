@@ -8,12 +8,12 @@ class Categoria(Enum):
     OperadorIncrementoDecremento = 6
     OperadorRelacional = 7
     OperadorLogico = 8
-    Llaves = 9
-    Parentesis = 10
-    Corchetes = 11
+    LlaveIzquierda = 9
+    ParentesisDerecho = 10
+    CorcheteIzquierdo = 11
     FinSentencia = 12
     Separador = 13
-    PuntoDosPuntos = 14
+    Punto = 14
     ComentarioLinea = 15
     ComentarioBloque = 16
     CadenaCaracteres = 17
@@ -21,3 +21,7 @@ class Categoria(Enum):
     Desconocido = 19
     ErrorLexico = 20
     PalabraReservada =21
+    ParentesisIzquierdo = 22
+    DosPuntos = 23
+    LlaveDerecha = 24
+    CorcheteDerecho = 25
