@@ -5,6 +5,7 @@ import ErrorSintactico,Parametro
 from Funcion import Fun
 from UnidadCompilacion import UnidadDeCompilacion
 from ErrorSintactico import error_sintactico
+from Parametro import Parametro
 
 class ASintactico: 
     listaTokens = []
@@ -37,8 +38,7 @@ class ASintactico:
     """
         <ListaFunciones> ::= <Funcion>[<ListaFunciones>]
     """
-    def esListaFunciones(self):
-
+    def esListaFunciones(self):           
         lista = []
         f = self.esFuncion()
         while(f!=None):
@@ -106,14 +106,53 @@ class ASintactico:
     """
     def esTipoRetorno(self):
         
-        if(self.tokenActual.getLexema() == "int" or self.tokenActual.getLexema() == "double" or self.tokenActual.getLexema() == "void" or self.tokenActual.getLexema() == "String" or self.tokenActual.getLexema() == "boolean" or self.tokenActual.getLexema() == "char"):
+        if(self.tokenActual.getLexema() == "int" or self.tokenActual.lexema() == "decimal" or self.tokenActual.lexema() == "void" or self.tokenActual.lexema() == "String" or self.tokenActual.lexema() == "boolean" or self.tokenActual.lexema() == "char"):
             return self.tokenActual
         return None
     
+    
     """
-        <ListaParametros> ::= <Parametro>[","<ListaParametros>]
+    <TipoDato> ::= int | String | double | boolean | char
+    """
+    def esTipoDato(self):
+        
+        if(self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char"):
+           return self.tokenActual
+        return False        
+    
+    """
+    <ListaParametros> ::= <Parametro> [","<listaParametros>]
     """
     def esListaParametros(self):
+        #Falta 
+        
+        return True
+    
+    """
+    <Parametro> ::= <TipoDato> identificador
+    """   
+    def esParametro(self):
+        
+        tipo_dato = self.esTipoDato()
+        
+        if ( not tipo_dato == False ):                                      #si el token actual es un tipo de dato
+            self.obtenerSiguienteToken()
+            
+            if ( self.tokenActual.Categoria == Categoria.Identificador ):   #
+                
+                nombre = self.tokenActual
+                return Parametro(tipo_dato,nombre)
+            else:
+                self.reportarError("No hay identificador definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
+            
+        else:
+            self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
+                    
+                
+            
+            
+            
+        
 
         lista = []
         f = self.esParametro()
