@@ -6,7 +6,7 @@ class IfElse:
         self.bloque_sentencia_else = bloque_sentencia_else
         
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.expLogica, self.bloque_sentencia_if,self.bloque_sentencia_else)
+        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.expLogica, self.bloque_sentencia_if,self.bloque_sentencia_else,self.bloque_sentencia_else)
 
     def __str__(self):
         return "Funcion [ %s, %s, %s]"% (self.expLogica, self.bloque_sentencia_if,self.bloque_sentencia_else)
