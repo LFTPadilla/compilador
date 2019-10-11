@@ -1,4 +1,4 @@
-class While:
+class While(Sentencia):
 
     def __init__(self, expresionLogica, bloque_sentencias):
         self.expresionLogica = expresionLogica

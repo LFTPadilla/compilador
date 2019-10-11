@@ -6,6 +6,9 @@ from Funcion import Fun
 from UnidadCompilacion import UnidadDeCompilacion
 from ErrorSintactico import error_sintactico
 from Parametro import Parametro
+from Funcion import Fun
+
+
 
 class ASintactico: 
     listaTokens = []
@@ -47,67 +50,75 @@ class ASintactico:
         return lista
 
     """
-        <Funcion> ::= fun identificador "("[<ListaParametros>]")" [":"<TipoRetorno>]<BloqueSentencias>
-
-        CAMBIAAAR OJO 
-
-        <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" <bloqueSentencia>
+       <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" "{" <bloqueSentencias> "}"
 
     """
     def esFuncion(self):#Devuelve una Function
-        if(self.tokenActual.getCategoria == Categoria.PalabraReservada and self.tokenActual.getLexema() == "funcion"):
+        if self.esVisibilidad()!=None :
+            visibilidad = self.tokenActual            
             self.obtenerSiguienteToken()
-            if(self.tokenActual.getCategoria() == Categoria.Identificador):
-                nombre = self.tokenActual
+        else:
+            visibilidad = None    
+            
+        if self.esTipoRetorno()!=None :
+            tipoRetorno = self.tokenActual
+            self.obtenerSiguienteToken()
+                            
+            if self.tokenActual.getCategoria == Categoria.Identificador:
+                identificador = self.tokenActual
                 self.obtenerSiguienteToken()
-                                
+                
                 if self.tokenActual.getCategoria() == Categoria.ParentesisIzquierdo:
                     self.obtenerSiguienteToken()
-                    parametros = self.esListaParametros()
                     
-                    if self.tokenActual.getCategoria() == Categoria.ParentesisDerecho:
-                        self.obtenerSiguienteToken()
+                    parametros = self.esListaParametros()
 
-                        if(self.tokenActual() ==Categoria.DosPuntos):
-                            self.obtenerSiguienteToken()
+                    if(self.tokenActual().getCategoria == Categoria.ParentesisDerecho):
+                        self.obtenerSiguienteToken
 
-                            retornoToken = self.esTipoRetorno()
+                        if self.tokenActual.getCategoria == Categoria.LlaveIzquierda:
+                            self.obtenerSiguienteToken
+                            
+                            bloque = self.esBloqueSentencias()#BloqueSentencia 
 
-                            self.obtenerSiguienteToken()
-
-                            if(retornoToken==None):
-                                self.reportarError("Falta especificar el tipo de retorno",self.tokenActual.fila, self.tokenActual.columna)
-
-                        bloque = self.esBloqueSentencias()#BloqueSentencia 
-
-                        if(bloque != None ):
-                            return Fun(nombre,parametros,retornoToken,bloque)
+                            if(bloque != None ): #return cuenta como sentencia y minimo debe tenerlo 
+                                self.obtenerSiguienteToken
+                                
+                                if self.tokenActual.getCategoria == Categoria.LlaveDerecha:
+                                    return Fun(visibilidad,retorno,identificador,parametros,bloque)
+                                else:
+                                    self.reportarError("Falta la llave de cierre", self.tokenActual.fila)
+                                
+                            else:
+                                self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
                         else:
-                            self.reportarError("falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
+                            self.reportarError("Falta llave de apertura", self.tokenActual.fila, self.tokenActual.columna)
                     else:
                         self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
                 else:
-                    self.reportarError("Falta parentesis Izquierdo", self.tokenActual.fila, self.tokenActual.columna)
+                    self.reportarError("Falta parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                self.reportarError("Falta nombre de funcion", self.tokenActual.fila, self.tokenActual.columna)
-        pass
+                    self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
+        else:
+            self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
+    
 
     """
     <Visibilidad> ::= public | private | protected | default
     """
     def esVisibilidad(self):
-        
-        if(self.tokenActual.getLexema() == "public" or self.tokenActual.getLexema() == "private" or self.tokenActual.getLexema() == "protected" or self.tokenActual.getLexema() == "default"):
-            return self.tokenActual
+        if(self.tokenActual.getCategoria == Categoria.PalabraReservada):        
+            if(self.tokenActual.getLexema() == "public" or self.tokenActual.getLexema() == "private" or self.tokenActual.getLexema() == "protected" or self.tokenActual.getLexema() == "default"):
+                return self.tokenActual
         return None
 
     """
     <TipoRetorno> ::= int | double | void | String | boolean | char
     """
     def esTipoRetorno(self):
-        
-        if(self.tokenActual.getLexema() == "int" or self.tokenActual.lexema() == "decimal" or self.tokenActual.lexema() == "void" or self.tokenActual.lexema() == "String" or self.tokenActual.lexema() == "boolean" or self.tokenActual.lexema() == "char"):
-            return self.tokenActual
+        if(self.tokenActual.getCategoria == Categoria.PalabraReservada):
+            if(self.tokenActual.getLexema() == "int" or self.tokenActual.lexema() == "decimal" or self.tokenActual.lexema() == "void" or self.tokenActual.lexema() == "String" or self.tokenActual.lexema() == "boolean" or self.tokenActual.lexema() == "char"):
+                return self.tokenActual
         return None
     
     
@@ -124,9 +135,14 @@ class ASintactico:
     <ListaParametros> ::= <Parametro> [","<listaParametros>]
     """
     def esListaParametros(self):
-        #Falta 
+        lista = []
+        f = self.esParametro()
+        while(f!=None):
+            lista.append(f)
+            if(","): #falta la coma
+                f = self.esParametro()
+        return lista
         
-        return True
     
     """
     <Parametro> ::= <TipoDato> identificador
@@ -147,27 +163,10 @@ class ASintactico:
             
         else:
             self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
-                    
-                
-            
-            
-            
+        
         
 
-        lista = []
-        f = self.esParametro()
-        while(f!=None):
-            lista.append(f)
-            if(",") falta la coma
-            f = self.esParametro()
-        return lista
-
-    """
-    <Parametro> ::= <TipoRetorno> identificador
-    """
-    def esParametro(self):
-        
-        return None
+   
 
     """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"

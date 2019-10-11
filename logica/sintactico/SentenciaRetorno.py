@@ -7,4 +7,4 @@ class Retorno(Sentencia):
         return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.expresion)
 
     def __str__(self):
-        return "Funcion [ %s]"% (self.expresion)
+        return "Funcion [ %s]"% (self.expresion
