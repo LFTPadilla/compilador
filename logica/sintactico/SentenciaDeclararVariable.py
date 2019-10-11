@@ -1,4 +1,4 @@
-class DeclaracionVariable:
+class DeclaracionVariable(Sentencia):
 
     def __init__(self,retorno, nombre, expresion):
         self.retorno = retorno

@@ -1,4 +1,4 @@
-class Leer:
+class Leer(Sentencia):
 
     def __init__(self, expresion):
         self.expresion = expresion

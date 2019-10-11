@@ -1,4 +1,4 @@
-class Retorno:
+class Retorno(Sentencia):
 
     def __init__(self, expresion):
         self.expresion = expresion

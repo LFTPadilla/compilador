@@ -1,4 +1,4 @@
-class Asignacion:
+class Asignacion(Sentencia):
 
     def __init__(self, identificador, operadorAsignacion, expresion):
         self.identificador = identificador

@@ -6,7 +6,7 @@ class Arreglo:
         self.listaExpresiones = listaExpresiones
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.tipoRetorno, self.identificador, self.listaExpresiones)
+        return "(Arreglo: %s, %s,Fila: %s,Columna: %s)" % (self.tipoRetorno, self.identificador, self.listaExpresiones)
 
     def __str__(self):
-        return "Funcion [ %s, %s, %s]"% (self.tipoRetorno, self.identificador, self.listaExpresiones)
+        return "Arreglo [ %s, %s, %s]"% (self.tipoRetorno, self.identificador, self.listaExpresiones)

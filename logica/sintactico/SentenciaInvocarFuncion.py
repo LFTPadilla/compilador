@@ -1,4 +1,4 @@
-class InvocarFuncion:
+class InvocarFuncion(Sentencia):
 
     def __init__(self, nombre, listaArgumentos):
         self.nombre = nombre

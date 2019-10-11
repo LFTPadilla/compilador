@@ -1,4 +1,4 @@
-class IfElse:
+class IfElse(Sentencia):
 
     def __init__(self,expLogica,bloque_sentencia_if, bloque_sentencia_else):
         self.expLogica = expLogica

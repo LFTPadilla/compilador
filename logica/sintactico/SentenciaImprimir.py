@@ -1,4 +1,4 @@
-class Imprimir:
+class Imprimir(Sentencia):
 
     def __init__(self, expresion):
         self.expresion = expresion
