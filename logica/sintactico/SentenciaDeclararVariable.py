@@ -1,13 +1,14 @@
-class DeclaracionVariable(Sentencia):
+from Sentencia import Sent
 
-    def __init__(self,retorno, nombre, expresion):
-        self.retorno = retorno
-        self.nombre = nombre
+class DeclaracionVariable(Sent):
+
+    def __init__(self,tipoRetorno, identificador, expresion):
+        self.tipoRetorno = tipoRetorno
+        self.identificador = identificador
         self.expresion = expresion
-        self.bloque = bloque
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.retorno, self.nombre,self.expresion)
+        return "(Sentencia Declaracion Variable: tipoRetorno: %s, identificador: %s, expresion: %s)" % (self.tipoRetorno, self.identificador, self.expresion)
 
     def __str__(self):
-        return "Funcion [ %s, %s, %s]"% (self.retorno, self.nombre,self.expresion)
+        return "Sentencia Declaracion Variable [%s, %s, %s]"% (self.tipoRetorno, self.identificador, self.expresion)

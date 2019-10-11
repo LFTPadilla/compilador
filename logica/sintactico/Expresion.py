@@ -1,5 +1,5 @@
-
 class Exp:
     
     
-    def __init
+    def __init_(self):
+        pass

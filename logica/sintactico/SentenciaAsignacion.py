@@ -1,4 +1,6 @@
-class Asignacion(Sentencia):
+from Sentencia import Sent
+
+class Asignacion(Sent):
 
     def __init__(self, identificador, operadorAsignacion, expresion):
         self.identificador = identificador
@@ -6,7 +8,7 @@ class Asignacion(Sentencia):
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.identificador, self.operadorAsignacion, self.expresion)
+        return "(Sentencia Asignacion: identificador: %s,operadorAsignacion: %s, expresion: %s)" % (self.identificador, self.operadorAsignacion, self.expresion)
 
     def __str__(self):
-        return "Funcion [ %s, %s, %s]"% (self.identificador, self.operadorAsignacion, self.expresion)
+        return "Sentencia Asignacion [%s, %s, %s]"% (self.identificador, self.operadorAsignacion, self.expresion)

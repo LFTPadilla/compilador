@@ -1,8 +1,9 @@
-class ExpresionAritmetica:
+from Expresion import Exp
+
+class Aritmetica(Exp):
     
 
-    def __init__(self,ea,eAux):
-        self.ExpresionAritmetica 
-        self.ExpresionAuxiliar 
-        self.valorNumerico 
+    def __init__(self,expAritmetica,expAuxiliar):
+        self.expresionAritmetica = expAritmetica
+        self.expresionAuxiliar = expAuxiliar
         

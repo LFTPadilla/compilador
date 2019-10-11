@@ -1,10 +1,12 @@
-class Retorno(Sentencia):
+from Sentencia import Sent
+
+class Retorno(Sent):
 
     def __init__(self, expresion):
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.expresion)
+        return "(Sentencia Retorno: expresion: %s)" % (self.expresion)
 
     def __str__(self):
-        return "Funcion [ %s]"% (self.expresion
+        return "Sentencia Retorno [%s]"% (self.expresion)

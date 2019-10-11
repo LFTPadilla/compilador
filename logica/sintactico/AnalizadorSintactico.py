@@ -1,4 +1,4 @@
-
+π
 from logica.lexico.Token import Token
 from logica.lexico.Categoria import Categoria
 import ErrorSintactico,Parametro
