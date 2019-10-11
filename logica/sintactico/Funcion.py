@@ -1,13 +1,14 @@
 class Fun:
 
-    def __init__(self,nombre,parametros, retorno, bloque):
-        self.nombre = nombre
+    def __init__(self, visibilidad, identificador, parametros, retorno, bloque):
+        self.visibilidad = visibilidad
+        self.identificador = identificador
         self.parametros = parametros
         self.retorno = retorno
         self.bloque = bloque
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.nombre, self.parametros,self.retorno,self.bloque)
+        return "(Funcion: visibilidad: %s, identificador: %s, parametros: %s, retorno: %s, bloqueSentencias: %s)" % (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)
 
     def __str__(self):
-        return "Funcion [ %s, %s, %s, %s]"% (self.nombre, self.parametros,self.retorno,self.bloque)
+        return "Funcion [%s, %s, %s, %s, %s]"% (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)

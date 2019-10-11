@@ -1,4 +1,4 @@
-class Arreglo:
+class Array:
 
     def __init__(self, tipoRetorno, identificador, listaExpresiones):
         self.tipoRetorno = tipoRetorno
@@ -6,7 +6,7 @@ class Arreglo:
         self.listaExpresiones = listaExpresiones
 
     def __repr__(self):
-        return "(Arreglo: %s, %s,Fila: %s,Columna: %s)" % (self.tipoRetorno, self.identificador, self.listaExpresiones)
+        return "(Arreglo: tipoRetorno: %s, identificador: %s, listaExpresiones: %s)" % (self.tipoRetorno, self.identificador, self.listaExpresiones)
 
     def __str__(self):
         return "Arreglo [ %s, %s, %s]"% (self.tipoRetorno, self.identificador, self.listaExpresiones)

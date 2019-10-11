@@ -1,10 +1,12 @@
-class Leer(Sentencia):
+from Sentencia import Sent
+
+class Leer(Sent):
 
     def __init__(self, expresion):
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.expresion)
+        return "(Sentencia Leer: expresion: %s)" % (self.expresion)
 
     def __str__(self):
-        return "Funcion [ %s]"% (self.expresion)
+        return "Sentencia Leer [%s]"% (self.expresion)

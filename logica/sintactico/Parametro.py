@@ -1,10 +1,10 @@
 class Parametro:
-    def __init__(self,tipo_dato,nombre):
-        self.tipo_dato = tipo_dato
-        self.nombre = nombre
+    def __init__(self,tipoRetorno, identificador):
+        self.tipoRetorno = tipoRetorno
+        self.identificador = identificador
 
     def __repr__(self):
-        return "(Funcion: %s, %s,Fila: %s,Columna: %s)" % (self.tipo_dato, self.nombre)
+        return "(Parametro: tipoRetorno: %s, identificador: %s)" % (self.tipoRetorno, self.identificador)
 
     def __str__(self):
-        return "Funcion [ %s, %s]"% (self.tipo_dato, self.nombre)
+        return "Parametro [%s, %s]" % (self.tipoRetorno, self.identificador)
