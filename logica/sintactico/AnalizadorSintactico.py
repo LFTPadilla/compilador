@@ -1,13 +1,13 @@
-π
+
 from logica.lexico.Token import Token
 from logica.lexico.Categoria import Categoria
 import ErrorSintactico,Parametro
-from Funcion import Fun
 from UnidadCompilacion import UnidadDeCompilacion
 from ErrorSintactico import error_sintactico
 from Parametro import Parametro
-from Funcion import Fun
-
+from Funcion import Funcion
+from ExpresionAritmetica import ExpresionAritmetica
+from ExpresionAuxiliar import ExpresionAuxiliar
 
 
 class ASintactico: 
@@ -53,46 +53,45 @@ class ASintactico:
        <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" "{" <bloqueSentencias> "}"
 
     """
-    def esFuncion(self):#Devuelve una Function
+    def esFuncion(self):
+        #El token de visibilidad es opcional, por eso esta en un if que de no cumplirse, no pasa nada
         if self.esVisibilidad()!=None :
             visibilidad = self.tokenActual            
             self.obtenerSiguienteToken()
         else:
             visibilidad = None    
-            
+        
+        #El tipo de retorno es obligatorio    
         if self.esTipoRetorno()!=None :
             tipoRetorno = self.tokenActual
             self.obtenerSiguienteToken()
-                            
+            
+            #El identificador es obligatorio             
             if self.tokenActual.getCategoria == Categoria.Identificador:
                 identificador = self.tokenActual
                 self.obtenerSiguienteToken()
                 
+                #El parentesis izquierdo es obligatorio pero no se guarda
                 if self.tokenActual.getCategoria() == Categoria.ParentesisIzquierdo:
                     self.obtenerSiguienteToken()
                     
+                    #La lista de parametros no es obligatoria, solo se guarda de haber algo
                     parametros = self.esListaParametros()
 
+                    #El parentesis derecho es obligario pero no se guarda
                     if(self.tokenActual().getCategoria == Categoria.ParentesisDerecho):
                         self.obtenerSiguienteToken
 
-                        if self.tokenActual.getCategoria == Categoria.LlaveIzquierda:
+                        #El bloque de sentencias se guarda 
+                        bloque = self.esBloqueSentencias()#BloqueSentencia 
+
+                        if(bloque != None ): #return cuenta como sentencia y minimo debe tenerlo 
                             self.obtenerSiguienteToken
                             
-                            bloque = self.esBloqueSentencias()#BloqueSentencia 
-
-                            if(bloque != None ): #return cuenta como sentencia y minimo debe tenerlo 
-                                self.obtenerSiguienteToken
-                                
-                                if self.tokenActual.getCategoria == Categoria.LlaveDerecha:
-                                    return Fun(visibilidad,retorno,identificador,parametros,bloque)
-                                else:
-                                    self.reportarError("Falta la llave de cierre", self.tokenActual.fila)
-                                
-                            else:
-                                self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
+                            return Funcion(visibilidad,tipoRetorno,identificador,parametros,bloque)
                         else:
-                            self.reportarError("Falta llave de apertura", self.tokenActual.fila, self.tokenActual.columna)
+                            self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
+                        
                     else:
                         self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
                 else:
@@ -198,48 +197,48 @@ class ASintactico:
                     <retorno> | <invocaFuncion> | <arreglo>
     """
     def esSentencia(self):
-        Sentencia s = None;
-        s = esDecision()
+        s = None
+        s = self.esDecision()
 
         if(s!=None):
             return s
 
-        s = esCiclo()
+        s = self.esCiclo()
         
         if(s!=None):
             return s
         
-        s = esImpresion()
+        s = self.esImpresion()
 
         if(s!=None):
             return s
 
-        s = esLeer()
+        s = self.esLeer()
         
         if(s!=None):
             return s
         
-        s = esAsignacionVariable()
+        s = self.esAsignacionVariable()
 
         if(s!=None):
             return s
 
-        s = esDeclaracionVariable()
+        s = self.esDeclaracionVariable()
 
         if(s!=None):
             return s
 
-        s = esRetorno()
+        s = self.esRetorno()
 
         if(s!=None):
             return s
 
-        s = esInvocarMetodo()
+        s = self.esInvocarMetodo()
 
         if(s!=None):
             return s
 
-        s = esArreglo()
+        s = self.esArreglo()
 
         if(s!=None):
             return s
@@ -250,90 +249,109 @@ class ASintactico:
     <Decision>::= <sentenciaif>[<sentenciaElse>]
     """
     def esDecision(self):
-        return None
+        return True
 
+
+    """
+    <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
+    """
     def esExpresionAuxiliar(self):
         if(self.tokenActual.getCategoria() == Categoria.OperadorAritmetico):
-            operador = self.tokenActual;
+            operador = self.tokenActual
             self.obtenerSiguienteToken()
-            ea = esExpresionAritmetica(); 
+            ea = self.esExpresionAritmetica()
             if(ea != None):
-                eAux = esExpresionAritmetica()
-                return ExpresionAritmetica()
+                eAux = self.esExpresionAritmetica()
+                return ExpresionAuxiliar(operador,ea,eAux)            
+            return None
                 
 
-
+    """
+    <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <ValorNumerico>[<ExpresionAuxiliar>]
+    """
     def esExpresionAritmetica(self):
 
         if self.tokenActual.getCategoria() ==Categoria.ParentesisIzquierdo:
             self.obtenerSiguienteToken()
-            e = ExpresionArimetica()
-            if(e!=null):
+            e = self.esExpresionAritmetica()
+            if(e!=None):
                 if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                     self.obtenerSiguienteToken()
-                    ea = esExpresionAuxiliar();
-                    return ExpresionArimetica(e,ea)
+                    ea = self.esExpresionAuxiliar()
+                    return ExpresionAritmetica(e,ea)
         else:
-            valorNumerico = esValorNumerico();
-            if(valorNumerico == None):
-                ea = esExpresionAuxiliar()
+            vn = self.esValorNumerico()
+            if(vn == None):
+                ea = self.esExpresionAuxiliar()
                 return ExpresionAritmetica(vn, ea)
 
         return None
+
+
+    """
+    <ValorNumerico>::= numeroNatural | numeroReal    
+    """
+    def esValorNumerico(self):
+        
+        if(self.tokenActual.getCategoria == Categoria.NumeroNatural or self.tokenActual.getCategoria == Categoria.NumeroReal):
+            return self.tokenActual
+        return None
+
+
 
     """
     <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>
     """
     def esSentenciaIf(self):
-        return None
+        return True #se puso true, para que no arroje error su declaracionen el metodo esSentencia, es None
 
     """
     <SentenciaElse>::= else <BloqueSentencia>
     """
     def esSentenciaElse(self):
-        return None
+        return True #se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <DeclaracionVariable>::= 
     """
     def esDeclaracionVariable(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <AsignacionVariable>::= 
     """
     def esAsignacionVariable(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <Imprimir>::= imprimir "(" [<expresion>] ")" ";"
     """
     def esImprimir(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <Leer>::= leer "(" [<expresion>] ")" ";"
     """
     def esLeer(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia>
     """
     def esCiclo(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <Retorno>::= retorno identificador ";"
     """
     def esRetorno(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"
     """
     def esInvocarMetodo(self):
-        return None
+        return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
     <ListaArgumentos>::= <Argumento>["," <ListaArgumentos>]
@@ -344,16 +362,28 @@ class ASintactico:
         f = self.esArgumento()
         while(f!=None):
             lista.append(f)
-            if(",") falta la coma
-            f = self.esArgumento()
+            if(","): #falta la coma
+                f = self.esArgumento()
         return lista
 
 
     """
+    <Argumento>::= identificador | <expresion>
+    """
+    def esArgumento(self):
+        return True
+    
+    """
     <Arreglo>::= 
     """
     def esArreglo(self):
-        return None
+        return True 
+    
+    """
+    <Impresion>::= 
+    """
+    def esImpresion(self):
+        return True 
 
     def getListaErrores(self):
         return self.listaErrores

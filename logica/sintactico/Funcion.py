@@ -1,6 +1,6 @@
-class Fun:
+class Funcion:
 
-    def __init__(self, visibilidad, identificador, parametros, retorno, bloque):
+    def __init__(self, visibilidad, retorno, identificador, parametros, bloque):
         self.visibilidad = visibilidad
         self.identificador = identificador
         self.parametros = parametros
