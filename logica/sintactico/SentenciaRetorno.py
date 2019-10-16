@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class Retorno(Sent):
+class Retorno(Sentence):
 
     def __init__(self, expresion):
         self.expresion = expresion

@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class Asignacion(Sent):
+class Asignacion(Sentence):
 
     def __init__(self, identificador, operadorAsignacion, expresion):
         self.identificador = identificador
@@ -12,3 +12,5 @@ class Asignacion(Sent):
 
     def __str__(self):
         return "Sentencia Asignacion [%s, %s, %s]"% (self.identificador, self.operadorAsignacion, self.expresion)
+    
+    def getArbolVisual(self):

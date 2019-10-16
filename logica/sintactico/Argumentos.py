@@ -1,4 +1,4 @@
-class argument:
+class Argument:
 
     def __init__(self, identificador):
         self.identificador = identificador

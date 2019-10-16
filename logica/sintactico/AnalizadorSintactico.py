@@ -7,16 +7,24 @@ from ErrorSintactico import Error_sintactico
 from UnidadCompilacion import UnidadDeCompilacion
 
 from Funcion import Function
+
 from Parametro import Parameter
+from Argumento import Argument
+from Arreglo import Array
 
 from sentencia import Sentence
 from sentenciaAsignacion import Asignacion
 from sentenciaDeclararVariable import DeclaracionVariable
-from sentenciaifElse import IfElse
+from sentenciaIfElse import IfElse
+from sentenciaImprimir import Imprimir
+from sentenciaInvocarFuncion import invocaFuncion
+from sentenciaLeer import Leer
+from sentenciaRetorno import Retorno
+from sentenciaWhile import SentenceWhile
 
-
-from ExpresionAritmetica import ExpresionAritmetica
-from ExpresionAuxiliar import ExpresionAuxiliar
+from expresion import expression
+from ExpresionAritmetica import Aritmetica
+from ExpresionAuxiliar import Auxiliar
 
 
 class ASintactico: 
