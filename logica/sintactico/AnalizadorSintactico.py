@@ -22,8 +22,11 @@ from sentenciaLeer import Leer
 from sentenciaRetorno import Retorno
 from sentenciaWhile import SentenceWhile
 
-from expresion import expression
+from Expresion import expression
 from ExpresionAritmetica import Aritmetica
+from ExpresionCadena import Cadena
+from ExpresionLogica import Logica
+
 from ExpresionAuxiliar import Auxiliar
 
 
