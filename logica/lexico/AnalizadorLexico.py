@@ -2,7 +2,6 @@
 from logica.lexico.Token import Token
 from logica.lexico.Categoria import Categoria
 import time
-from PalabrasReservadas import palabrasReservadas 
 
 class Analizador:
     private__ = ""

@@ -33,9 +33,9 @@
    <widget class="QPlainTextEdit" name="txtCodigo">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>300</x>
       <y>30</y>
-      <width>641</width>
+      <width>371</width>
       <height>151</height>
      </rect>
     </property>
@@ -43,12 +43,27 @@
    <widget class="QListWidget" name="listViewTokens">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>300</x>
       <y>280</y>
-      <width>641</width>
+      <width>371</width>
       <height>192</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QTreeWidget" name="treeWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>181</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
