@@ -1,4 +1,4 @@
-class Parametro:
+class Parameter:
     def __init__(self,tipoRetorno, identificador):
         self.tipoRetorno = tipoRetorno
         self.identificador = identificador

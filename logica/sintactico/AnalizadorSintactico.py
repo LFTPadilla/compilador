@@ -1,11 +1,20 @@
 
 from logica.lexico.Token import Token
-from logica.lexico.Categoria import Categoria
-import ErrorSintactico,Parametro
+from logica.lexico.Categoria import getCategoria
+
+from ErrorSintactico import Error_sintactico
+
 from UnidadCompilacion import UnidadDeCompilacion
-from ErrorSintactico import error_sintactico
-from Parametro import Parametro
-from Funcion import Funcion
+
+from Funcion import Function
+from Parametro import Parameter
+
+from sentencia import Sentence
+from sentenciaAsignacion import Asignacion
+from sentenciaDeclararVariable import DeclaracionVariable
+from sentenciaifElse import IfElse
+
+
 from ExpresionAritmetica import ExpresionAritmetica
 from ExpresionAuxiliar import ExpresionAuxiliar
 
