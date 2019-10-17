@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class While:
+class SentenceWhile(Sentence):
 
     def __init__(self, expresionLogica, bloque_sentencias):
         self.expresionLogica = expresionLogica
@@ -11,3 +11,6 @@ class While:
 
     def __str__(self):
         return "Sentencia While [%s, %s]"% (self.expresionLogica, self.bloque_sentencias)
+    
+    def getArbolVisual(self):
+        

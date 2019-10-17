@@ -1,13 +1,33 @@
 
 from logica.lexico.Token import Token
-from logica.lexico.Categoria import Categoria
-import ErrorSintactico,Parametro
+from logica.lexico.Categoria import getCategoria
+
+from ErrorSintactico import Error_sintactico
+
 from UnidadCompilacion import UnidadDeCompilacion
-from ErrorSintactico import error_sintactico
-from Parametro import Parametro
-from Funcion import Funcion
-from ExpresionAritmetica import ExpresionAritmetica
-from ExpresionAuxiliar import ExpresionAuxiliar
+
+from Funcion import Function
+
+from Parametro import Parameter
+from Argumento import Argument
+from Arreglo import Array
+
+from sentencia import Sentence
+from sentenciaAsignacion import Asignacion
+from sentenciaDeclararVariable import DeclaracionVariable
+from sentenciaIfElse import IfElse
+from sentenciaImprimir import Imprimir
+from sentenciaInvocarFuncion import invocaFuncion
+from sentenciaLeer import Leer
+from sentenciaRetorno import Retorno
+from sentenciaWhile import SentenceWhile
+
+from Expresion import expression
+from ExpresionAritmetica import Aritmetica
+from ExpresionCadena import Cadena
+from ExpresionLogica import Logica
+
+from ExpresionAuxiliar import Auxiliar
 
 
 class ASintactico: 
@@ -278,12 +298,12 @@ class ASintactico:
                 if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                     self.obtenerSiguienteToken()
                     ea = self.esExpresionAuxiliar()
-                    return ExpresionAritmetica(e,ea)
+                    return ExpresionAritmetica(e,ea, None)
         else:
             vn = self.esValorNumerico()
             if(vn == None):
                 ea = self.esExpresionAuxiliar()
-                return ExpresionAritmetica(vn, ea)
+                return ExpresionAritmetica(None, ea , vn)
 
         return None
 
@@ -297,7 +317,13 @@ class ASintactico:
             return self.tokenActual
         return None
 
-
+    """
+    <ExpresionCadena>::= cadena "+" <Expresion> 
+    
+    """
+    def esExpresionCadena():
+        
+    
 
     """
     <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>

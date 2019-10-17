@@ -1,10 +1,13 @@
-from Expresion import Exp
+from Expresion import Expression
 
-class ExpresionAuxiliar(Exp):
+class Auxiliar(Expression):
     
     def __init__(self,operadorAritmetico,expresionAritmetica,expresionAuxiliar):
         
         self.operadorAritmetico = operadorAritmetico
         self.expresionAritmetica = expresionAritmetica
         self.expresionAuxiliar = expresionAuxiliar
+    
+    def getArbolVisual(self):
+        pass
         

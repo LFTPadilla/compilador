@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class Imprimir(Sent):
+class Imprimir(Sentence):
 
     def __init__(self, expresion):
         self.expresion = expresion
@@ -19,3 +19,5 @@ class Imprimir(Sent):
 
     def __str__(self):
         return "Sentencia Imprimir [%s]"% (self.identificador)
+
+    def getArbolVisual(self):

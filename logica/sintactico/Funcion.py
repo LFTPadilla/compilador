@@ -1,4 +1,4 @@
-class Funcion:
+class Function:
 
     def __init__(self, visibilidad, retorno, identificador, parametros, bloque):
         self.visibilidad = visibilidad

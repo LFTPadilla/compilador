@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class Leer(Sent):
+class Leer(Sentence):
 
     def __init__(self, expresion):
         self.expresion = expresion
@@ -10,3 +10,6 @@ class Leer(Sent):
 
     def __str__(self):
         return "Sentencia Leer [%s]"% (self.expresion)
+    
+    def getArbolVisual(self):
+        

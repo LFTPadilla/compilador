@@ -1,6 +1,6 @@
-from Sentencia import Sent
+from Sentencia import Sentence
 
-class InvocarFuncion(Sent):
+class InvocarFuncion(Sentence):
 
     def __init__(self, identificador, listaArgumentos):
         self.identificador = identificador
@@ -11,3 +11,6 @@ class InvocarFuncion(Sent):
 
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
+    
+    def getArbolVisual(self):
+        
