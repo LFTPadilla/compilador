@@ -298,13 +298,8 @@ class ASintactico:
             if(e!=None):
                 if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                     self.obtenerSiguienteToken()
-<<<<<<< Updated upstream
                     ea = self.esExpresionAuxiliar()
                     return ExpresionAritmetica(e,ea, None)
-=======
-                    ea = self.esExpresionAuxiliarAritmetica()
-                    return ExpresionAritmetica(e,ea)
->>>>>>> Stashed changes
         else:
             vn = self.esValorNumerico()
             if(vn == None):

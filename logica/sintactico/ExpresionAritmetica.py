@@ -8,9 +8,4 @@ class Aritmetica(Expression):
         self.valorNumerico = valorNumerico
 
     def getArbolVisual(self):
-<<<<<<< Updated upstream
         pass
-=======
-        pass
-        
->>>>>>> Stashed changes
