@@ -2,10 +2,10 @@ from Expresion import Expression
 
 class Relacional(Expression):
 
-    def __init__(self, expRelacional, expAuxiliarRelacional, valorNumerico):
+    def __init__(self, expRelacional, expAuxiliarRelacional, termino):
         self.expresionRelacional = expRelacional
         self.expresionAuxiliarRelacional = expAuxiliarRelacional
-        self.valorNumerico = valorNumerico
+        self.termino = termino
 
     def getArbolVisual(self):
         pass
