@@ -31,6 +31,9 @@ from ExpresionRelacional import Relacional
 from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
 from ExpresionAuxiliarRelacional import AuxiliarRelacional
 
+from Mapa import map
+from componenteMapa import componenteMap
+
 
 class ASintactico: 
     listaTokens = []
@@ -138,7 +141,7 @@ class ASintactico:
     """
     def esTipoRetorno(self):
         if(self.tokenActual.getCategoria == Categoria.PalabraReservada):
-            if(self.tokenActual.getLexema() == "int" or self.tokenActual.lexema() == "decimal" or self.tokenActual.lexema() == "void" or self.tokenActual.lexema() == "String" or self.tokenActual.lexema() == "boolean" or self.tokenActual.lexema() == "char"):
+            if(self.tokenActual.lexema == "int" or self.tokenActual.lexema == "decimal" or self.tokenActual.lexema == "void" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char"):
                 return self.tokenActual
         return None
     
@@ -164,7 +167,6 @@ class ASintactico:
                 f = self.esParametro()
         return lista
         
-    
     """
     <Parametro> ::= <TipoDato> identificador
     """   
@@ -184,8 +186,7 @@ class ASintactico:
             
         else:
             self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
-        
-
+      
     """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
     """
@@ -203,7 +204,7 @@ class ASintactico:
         return None
 
     """
-        <ListaSentencias> ::= <sentencia>[<listaSentencias>]
+        <ListaSentencias> ::= <sentencia> [<listaSentencias>]
     """
     def esListaSentencias(self):
         
@@ -267,11 +268,7 @@ class ASintactico:
 
         return s
 
-    """
-    <Decision>::= <sentenciaif>[<sentenciaElse>]
-    """
-    def esDecision(self):
-        return True
+    
 
 
 
@@ -305,7 +302,7 @@ class ASintactico:
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
     def esExpresionAuxiliarAritmetica(self):
-        if(self.tokenActual.getCategoria() == Categoria.OperadorAritmetico):
+        if(self.tokenActual.categoria() == Categoria.OperadorAritmetico):
             operador = self.tokenActual
             self.obtenerSiguienteToken()
             ea = self.esExpresionAritmetica()
@@ -388,9 +385,12 @@ class ASintactico:
     
     """
     def esExpresionCadena():
-        
-        
     
+    """
+    <Decision>::= <sentenciaif>[<sentenciaElse>]
+    """
+    def esDecision(self):
+        return True
 
     """
     <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>
@@ -405,13 +405,13 @@ class ASintactico:
         return True #se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
-    <DeclaracionVariable>::= 
+    <DeclaracionVariable>::= <tipoRetorno> identificador [ "=" <Expresion> ] ";"
     """
     def esDeclaracionVariable(self):
         return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
-    <AsignacionVariable>::= 
+    <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";"
     """
     def esAsignacionVariable(self):
         return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
@@ -447,7 +447,7 @@ class ASintactico:
         return True#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
-    <ListaArgumentos>::= <Argumento>["," <ListaArgumentos>]
+    <ListaArgumentos>::= <Argumento> ["," <ListaArgumentos>]
     """
     def esListaArgumentos(self):
 
@@ -459,7 +459,6 @@ class ASintactico:
                 f = self.esArgumento()
         return lista
 
-
     """
     <Argumento>::= identificador | <expresion>
     """
@@ -467,18 +466,98 @@ class ASintactico:
         return True
     
     """
-    <Arreglo>::= 
+    <Arreglo>::= array identificador = "[" <listaExpresiones> "]"
     """
     def esArreglo(self):
         return True 
     
     """
-    <Impresion>::= 
+    <listaExpresiones>::= <Expresion> ["," <listaExpresiones> ]
     """
-    def esImpresion(self):
+    def esListaExpresiones(self):
         return True 
+
+    """
+    <Mapa>::= map identificador "=" <listaComponentesMap>
+    """
+    def esMapa(self):
+        
+        if self.tokenActual.lexema == "map":
+            self.obtenerSiguienteToken()
+
+            if self.tokenActual.categoria() == Categoria.Identificador:
+                identificador = self.tokenActual
+
+                
+
+        return True
+
+    """
+    <listaComponentesMap>::= <componenteMap> [<listaComponentesMap>]
+    """
+    def esListaComponentesMapa(self):
+
+        listaComponentes = []
+        f = self.esComponenteMapa()
+
+        while f! = None:
+            listaComponentes.append(f)
+            f = self.esComponenteMapa()
+
+        return listaComponentes
+
+    """
+    <componenteMap>::= "[" <termino> "," <termino> "]" ";" 
+    """
+    def esComponenteMapa(self):
+        # corchete izquierdo es obligatorio (no se guarda)
+        if self.tokenActual.categoria() == Categoria.CorcheteisIzquierdo:
+            self.obtenerSiguienteToken()
+            
+            terminoLlave = self.esTermino()
+
+            # termino llave es obligatorio 
+            if terminoLlave != None:
+                self.obtenerSiguienteToken()
+
+                # separador es obligatorio (no se guarda)
+                if self.tokenActual.categoria == Categoria.Separador:
+                    self.obtenerSiguienteToken()
+
+                    terminoClave = self.esTermino()
+
+                    # termino clave es obligatorio
+                    if terminoClave != None):
+                        self.obtenerSiguienteToken()
+
+                        # corchete derecho es obligatorio (no se guarda)
+                        if self.tokenActual.categoria() == Categoria.CorcheteisDerecho:
+                            self.obtenerSiguienteToken()
+
+                            # fin de sentencia es obligatoria (no se guarda)
+                            if self.tokenActual.categoria == Categoria.FinSentencia:
+                            
+                                return map (terminoLlave, terminoClave)
+                            
+                            else:
+                                self.reportarError("Falta fin sentencia", self.tokenActual.fila, self.tokenActual.columna)
+                        
+                        else:
+                            self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)
+
+                    else:
+                        self.reportarError("Falta termino clave", self.tokenActual.fila, self.tokenActual.columna)
+            
+                else:
+                    self.reportarError("Falta separador", self.tokenActual.fila, self.tokenActual.columna)
+            else:
+                self.reportarError("Falta termino llave", self.tokenActual.fila, self.tokenActual.columna)
+        else:
+            self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)
+        
+        return None
+
+
 
     def getListaErrores(self):
         return self.listaErrores
-
-    

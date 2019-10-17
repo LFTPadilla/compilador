@@ -1,0 +1,11 @@
+class componenteMap:
+
+    def __init__(self, llave, valor):
+        self.llave = llave
+        self.valor = valor
+
+    def __repr__(self):
+        return "(ComponenteMapa: Llave: %s, Valor: %s)" % (self.llave, self.valor)
+
+    def __str__(self):
+        return "ComponenteMapa [%s]" % (self.llave, self.valor)
