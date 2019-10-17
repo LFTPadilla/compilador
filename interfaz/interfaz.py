@@ -1,45 +1,70 @@
 import sys
-from PyQt5 import uic
-from PyQt5 import QtWidgets
-from PyQt5 import QtCore
-from PyQt5 import QtGui
-from PyQt5.Qt import Qt
+from PyQt5 import uic, QtWidgets, QtCore, QtGui
 sys.path.append(".") 
-from logica.lexico.AnalizadorLexico import Analizador
+from logica.lexico.AnalizadorLexico import ALexico
 
 qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-        self.btnAnalizar.clicked.connect(self.AnalisisLexico)
+        self.btnLimpiar.clicked.connect(self.limpiarVentanas)
+        self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
+        arbol = self.treeFunciones
+        arbol.clear()
+        
 
+
+
+    def construirArbol(self):
+        
         for i in range(3):
-            parent = QtWidgets.QTreeWidgetItem(self.treeWidget)
+            parent = QtWidgets.QTreeWidgetItem(self.treeFunciones)
+            
             parent.setText(0, "Parent {}".format(i))
             #parent.setFlags(parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
             for x in range(5):
                 child = QtWidgets.QTreeWidgetItem(parent)
+                child.setText(0, "Padre")
                 #child.setFlags(child.flags() | Qt.ItemIsUserCheckable)
-                child.setText(0, "Child {}".format(x))
+                hijo1 = QtWidgets.QTreeWidgetItem()
+                hijo1.setText(0, "Hijo 1")
+                
+                child.addChild( hijo1)
                 #child.setCheckState(0, Qt.Unchecked)
-        self.treeWidget.show()
+        self.treeFunciones.show()
 
+    
     def AnalisisLexico(self):
         self.listViewTokens.clear()
         codigo = self.txtCodigo.toPlainText()
         #print(codigo)
-        analisisLexico = Analizador(codigo)
+        analisisLexico = ALexico(codigo)
         analisisLexico.analizar()
         tokens = analisisLexico.tokens
         for i in tokens:
             self.listViewTokens.addItem(str(i))
 
+        if len(tokens) != 0:
+            self.btnAnalisisSintactico.setEnabled(True)
+        
+        #parent = QtWidgets.QTreeWidgetItem(self.treeFunciones)
+        #parent.setText("Unidad de compilación")
+        #IMPORTANTE!
+        #parent.addChild( analizarSintactico.uniCompilacion.arbol() )
+    
+    def limpiarVentanas(self):
+        self.txtCodigo.clear()
+        self.listViewTokens.clear()
+        self.treeFunciones.clear()
 
+
+            
         
 
 if __name__ == "__main__":

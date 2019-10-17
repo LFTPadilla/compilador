@@ -3,7 +3,7 @@ from logica.lexico.Token import Token
 from logica.lexico.Categoria import Categoria
 import time
 
-class Analizador:
+class ALexico:
     private__ = ""
     codigo = ""
     tokens = []
@@ -12,12 +12,14 @@ class Analizador:
     posicionActual = 0
     filaActual = 0
     colActual = 0
+    palabrasReservadas=[]
     
 
 
     def __init__(self,codigo):
         self.codigo = codigo
         self.caracterActual = self.codigo[self.posicionActual]
+        self.palabrasReservadas = ["abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while"]
         
 
     def getListaTokens(self):
@@ -195,7 +197,7 @@ class Analizador:
                 self.obtenerSiguienteCaracter()
             
             #Las palabras reservadas estan en un arreglo global
-            if lexema in palabrasReservadas:
+            if lexema in self.palabrasReservadas:
                 self.tokens.append(Token(lexema,Categoria.PalabraReservada,self.filaActual,self.colActual))
             else:
                 self.tokens.append(Token(lexema,Categoria.Identificador,self.filaActual,self.colActual))
