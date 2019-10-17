@@ -298,12 +298,12 @@ class ASintactico:
                 if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                     self.obtenerSiguienteToken()
                     ea = self.esExpresionAuxiliar()
-                    return ExpresionAritmetica(e,ea)
+                    return ExpresionAritmetica(e,ea, None)
         else:
             vn = self.esValorNumerico()
             if(vn == None):
                 ea = self.esExpresionAuxiliar()
-                return ExpresionAritmetica(vn, ea)
+                return ExpresionAritmetica(None, ea , vn)
 
         return None
 
@@ -317,7 +317,13 @@ class ASintactico:
             return self.tokenActual
         return None
 
-
+    """
+    <ExpresionCadena>::= cadena "+" <Expresion> 
+    
+    """
+    def esExpresionCadena():
+        
+    
 
     """
     <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>

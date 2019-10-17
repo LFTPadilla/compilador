@@ -8,4 +8,4 @@ class Aritmetica(Expression):
         self.valorNumerico = valorNumerico
 
     def getArbolVisual(self):
-        
+        pass

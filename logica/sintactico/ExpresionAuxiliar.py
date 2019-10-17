@@ -9,4 +9,5 @@ class Auxiliar(Expression):
         self.expresionAuxiliar = expresionAuxiliar
     
     def getArbolVisual(self):
+        pass
         

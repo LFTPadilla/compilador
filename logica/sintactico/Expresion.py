@@ -10,3 +10,4 @@ class Expression:
         
     @abc.abstractamethod
     def getArbolVisual(self):
+        pass
