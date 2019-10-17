@@ -2,8 +2,9 @@ from Expresion import Expression
 
 class Logica(Expression):
 
-    def __init__(self, cadenaCaracteres, expresion):
-        self.cadenaCaracteres = cadenaCaracteres
-        self.expresion = expresion
+    def __init__(self, operadorLogico, expresionRelacional):
+        self.operadorLogico = operadorLogico
+        self.expresionRelacional = expresionRelacional
 
     def getArbolVisual(self):
+        pass

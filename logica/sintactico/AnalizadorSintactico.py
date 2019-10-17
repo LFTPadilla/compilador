@@ -26,8 +26,9 @@ from Expresion import expression
 from ExpresionAritmetica import Aritmetica
 from ExpresionCadena import Cadena
 from ExpresionLogica import Logica
+from ExpresionRelacional import Relacional
 
-from ExpresionAuxiliar import Auxiliar
+from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
 
 
 class ASintactico: 
@@ -275,14 +276,14 @@ class ASintactico:
     """
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
-    def esExpresionAuxiliar(self):
+    def esExpresionAuxiliarAritmetica(self):
         if(self.tokenActual.getCategoria() == Categoria.OperadorAritmetico):
             operador = self.tokenActual
             self.obtenerSiguienteToken()
             ea = self.esExpresionAritmetica()
             if(ea != None):
                 eAux = self.esExpresionAritmetica()
-                return ExpresionAuxiliar(operador,ea,eAux)            
+                return ExpresionAuxiliarAritmetica(operador,ea,eAux)            
             return None
                 
 
@@ -297,8 +298,13 @@ class ASintactico:
             if(e!=None):
                 if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                     self.obtenerSiguienteToken()
+<<<<<<< Updated upstream
                     ea = self.esExpresionAuxiliar()
                     return ExpresionAritmetica(e,ea, None)
+=======
+                    ea = self.esExpresionAuxiliarAritmetica()
+                    return ExpresionAritmetica(e,ea)
+>>>>>>> Stashed changes
         else:
             vn = self.esValorNumerico()
             if(vn == None):
