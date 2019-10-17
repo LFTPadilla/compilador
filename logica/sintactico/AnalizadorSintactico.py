@@ -1,6 +1,6 @@
 
 from logica.lexico.Token import Token
-from logica.lexico.Categoria import getCategoria
+from logica.lexico.Categoria import Categoria
 
 from ErrorSintactico import Error_sintactico
 
@@ -23,12 +23,13 @@ from sentenciaRetorno import Retorno
 from sentenciaWhile import SentenceWhile
 
 from Expresion import expression
-from ExpresionAritmetica import Aritmetica
+from ExpresionAritmetica import Aritmetica 
 from ExpresionCadena import Cadena
 from ExpresionLogica import Logica
 from ExpresionRelacional import Relacional
 
 from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
+from ExpresionAuxiliarRelacional import AuxiliarRelacional
 
 
 class ASintactico: 
@@ -88,19 +89,19 @@ class ASintactico:
             self.obtenerSiguienteToken()
             
             #El identificador es obligatorio             
-            if self.tokenActual.getCategoria == Categoria.Identificador:
+            if self.tokenActual.categoria == Categoria.Identificador:
                 identificador = self.tokenActual
                 self.obtenerSiguienteToken()
                 
                 #El parentesis izquierdo es obligatorio pero no se guarda
-                if self.tokenActual.getCategoria() == Categoria.ParentesisIzquierdo:
+                if self.tokenActual.categoria() == Categoria.ParentesisIzquierdo:
                     self.obtenerSiguienteToken()
                     
                     #La lista de parametros no es obligatoria, solo se guarda de haber algo
                     parametros = self.esListaParametros()
 
                     #El parentesis derecho es obligario pero no se guarda
-                    if(self.tokenActual().getCategoria == Categoria.ParentesisDerecho):
+                    if(self.tokenActual().categoria == Categoria.ParentesisDerecho):
                         self.obtenerSiguienteToken
 
                         #El bloque de sentencias se guarda 
@@ -184,9 +185,6 @@ class ASintactico:
         else:
             self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
         
-        
-
-   
 
     """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
@@ -198,7 +196,10 @@ class ASintactico:
             if(self.tokenActual.getCategoria() == Categoria.LlaveDerecha):
                 self.obtenerSiguienteToken()
                 return sentencias
-
+            else:
+                self.reportarError("Falta la llave derecha en el bloque de sentencias")
+        else:
+            self.reportarError("Falta la llave izquierda en el bloque de sentencias")        
         return None
 
     """
@@ -273,6 +274,33 @@ class ASintactico:
         return True
 
 
+
+    """
+    <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
+    """
+    def esExpresionAritmetica(self):
+        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino()!=None : 
+            if self.tokenActual.getCategoria() ==Categoria.ParentesisIzquierdo:
+                self.obtenerSiguienteToken()
+                e = self.esExpresionAritmetica()
+                if(e!=None):
+                    if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
+                        self.obtenerSiguienteToken()
+                        ea = self.esExpresionAuxiliar()
+                        return ExpresionAritmetica(e,ea, None)
+                    else:
+                        self.reportarError("Falta el parentesis de cierre en la expresion aritmetica",self.tokenActual.fila,self.tokenActual.columna)
+                else:
+                    self.reportarError("No hay una expresion aritmetica valida", self.tokenActual.fila,self.tokenActual.columna)
+            else:
+                termino = self.esTermino()
+                if(vn != None):
+                    ea = self.esExpresionAuxiliar()
+                    return ExpresionAritmetica(None, ea , vn)
+
+        return None
+
+ 
     """
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
@@ -288,26 +316,63 @@ class ASintactico:
                 
 
     """
-    <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <ValorNumerico>[<ExpresionAuxiliar>]
+    <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
-    def esExpresionAritmetica(self):
-
-        if self.tokenActual.getCategoria() ==Categoria.ParentesisIzquierdo:
-            self.obtenerSiguienteToken()
-            e = self.esExpresionAritmetica()
-            if(e!=None):
-                if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
+    def esExpresionRelacional(self):   
+        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino != None : 
+            if self.tokenActual.getCategoria == Categoria.ParentesisIzquierdo :
+                self.obtenerSiguienteToken()
+                er = esExpresionRelacional()
+                if er != None :
                     self.obtenerSiguienteToken()
-                    ea = self.esExpresionAuxiliar()
-                    return ExpresionAritmetica(e,ea, None)
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho :
+                        self.obtenerSiguienteToken()
+                        ear = self.esExpresionAuxiliarRelacional()
+                        return ExpresionRelacional(er,ear,None)
+                    else:
+                        self.reportarError("Falta parentesis derecho en la expresion relacional",self.tokenActual.fila, self.tokenActual.columna)
+                else:
+                    self.reportarError("No hay una expresion relacional valida dentro de los parentesis",self.tokenActual.fila, self.tokenActual.columna)        
+            else:
+                termino = self.esTermino()
+                if termino != None: #si es un termino valido         
+                    self.obtenerSiguienteToken()
+                    ear = self.esExpresionAuxiliarRelacional()
+                    return Relacional(None, ear,termino)
+                #aca no se reporta el error de que "falta un termino valido" ya que si no hay parentesis izquierdo
+                #  y tampoco hay un termino, ni siquiera seria una expresion  
+        else: 
+            
+            return None                  
+    
+    """
+    <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional>[<ExpresionAuxiliarRelacional>]
+    """
+    def esExpresionAuxiliarRelacional(self):
+        
+        if self.tokenActual.categoria == Categoria.OperadorRelacional :
+            opRelacional = self.tokenActual
+            self.obtenerSiguienteToken()
+            er = esExpresionRelacional()
+            if er != None:
+                self.obtenerSiguienteToken()
+                ear = esExpresionAuxiliarRelacional()
+                return AuxiliarRelacional(opRelacional,er,ear)
+            else:
+                self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
         else:
-            vn = self.esValorNumerico()
-            if(vn == None):
-                ea = self.esExpresionAuxiliar()
-                return ExpresionAritmetica(None, ea , vn)
-
+            self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
+            
+    
+    
+    """
+    <Termino>::= <ValorNumerico> | identificador
+    """    
+    def esTermino(self):
+        
+        if(self.esValorNumerico() != None or self.tokenActual.categoria == Categoria.Identificador):
+            return self.tokenActual
         return None
-
 
     """
     <ValorNumerico>::= numeroNatural | numeroReal    
@@ -323,6 +388,7 @@ class ASintactico:
     
     """
     def esExpresionCadena():
+        
         
     
 
