@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class Leer(Sentence):
 
@@ -12,4 +12,4 @@ class Leer(Sentence):
         return "Sentencia Leer [%s]"% (self.expresion)
     
     def getArbolVisual(self):
-        
+        return None

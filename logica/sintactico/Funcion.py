@@ -5,8 +5,7 @@ class Function:
         self.identificador = identificador
         self.parametros = parametros
         self.retorno = retorno
-        self.bloque =""
-  
+        self.bloque = bloque
 
     def __repr__(self):
         return "(Funcion: visibilidad: %s, identificador: %s, parametros: %s, retorno: %s, bloqueSentencias: %s)" % (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)

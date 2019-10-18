@@ -2,50 +2,54 @@
 from logica.lexico.Token import Token
 from logica.lexico.Categoria import Categoria
 
-from ErrorSintactico import Error_sintactico
+from PyQt5 import QtWidgets
 
-from UnidadCompilacion import UnidadDeCompilacion
+from logica.sintactico.UnidadCompilacion import UnidadComp
 
-from Funcion import Function
+from logica.sintactico.Funcion import Function
+from logica.sintactico.Error import errorSintactico
 
-from Parametro import Parameter
-from Argumento import Argument
-from Arreglo import Array
+from logica.sintactico.Parametro import Parameter
+from logica.sintactico.Argumento import Argument
+from logica.sintactico.Arreglo import Array
 
-from sentencia import Sentence
-from sentenciaAsignacion import Asignacion
-from sentenciaDeclararVariable import DeclaracionVariable
-from sentenciaIfElse import IfElse
-from sentenciaImprimir import Imprimir
-from sentenciaInvocarFuncion import invocaFuncion
-from sentenciaLeer import Leer
-from sentenciaRetorno import Retorno
-from sentenciaWhile import SentenceWhile
+from logica.sintactico.Sentencia import Sentence
+from logica.sintactico.SentenciaAsignacion import Asignacion
+from logica.sintactico.SentenciaDeclararVariable import DeclaracionVariable
+from logica.sintactico.SentenciaIfElse import IfElse
+from logica.sintactico.SentenciaImprimir import Imprimir
+from logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
+from logica.sintactico.SentenciaLeer import Leer
+from logica.sintactico.SentenciaRetorno import Retorno
+from logica.sintactico.SentenciaWhile import SentenceWhile
 
-from Expresion import expression
-from ExpresionAritmetica import Aritmetica 
-from ExpresionCadena import Cadena
-from ExpresionLogica import Logica
-from ExpresionRelacional import Relacional
+from logica.sintactico.Expresion import Expression
+from logica.sintactico.ExpresionAritmetica import Aritmetica 
+from logica.sintactico.ExpresionCadena import Cadena
+from logica.sintactico.ExpresionLogica import Logica
+from logica.sintactico.ExpresionRelacional import Relacional
 
-from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
-from ExpresionAuxiliarRelacional import AuxiliarRelacional
+from logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
+from logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
 
-from Mapa import map
-from componenteMapa import componenteMap
+from logica.sintactico.Mapa import mapita
+from logica.sintactico.ComponenteMapa import componenteMap
 
 
 class ASintactico: 
+    arbol = None
     listaTokens = []
     posActual = 0
     listaErrores = []
+    contFunciones = 0
 
-    def __init__(self,listaTokens):
+    def __init__(self,listaTokens,arbol):
+        self.arbol = arbol
         self.listaTokens = listaTokens
         self.tokenActual = self.listaTokens[self.posActual]
 
     def reportarError(self,msj,f,c):
-        err = error_sintactico(msj,f,c)
+        err = errorSintactico(msj,f,c)
         self.listaErrores.append(err)
 
     def obtenerSiguienteToken(self):
@@ -59,7 +63,7 @@ class ASintactico:
     def esUnidadDeCompilacion(self):
         listaFunciones = self.esListaFunciones()
         if(len(listaFunciones)!=0):
-            return UnidadDeCompilacion(listaFunciones)
+            return UnidadComp(listaFunciones)
         
         return None
     
@@ -69,7 +73,7 @@ class ASintactico:
     def esListaFunciones(self):           
         lista = []
         f = self.esFuncion()
-        while(f!=None):
+        while f != None:
             lista.append(f)
             f = self.esFuncion()
         return lista
@@ -79,9 +83,11 @@ class ASintactico:
 
     """
     def esFuncion(self):
+
+        
         #El token de visibilidad es opcional, por eso esta en un if que de no cumplirse, no pasa nada
         if self.esVisibilidad()!=None :
-            visibilidad = self.tokenActual            
+            visibilidad = self.tokenActual    
             self.obtenerSiguienteToken()
         else:
             visibilidad = None    
@@ -113,19 +119,40 @@ class ASintactico:
                         if(bloque != None ): #return cuenta como sentencia y minimo debe tenerlo 
                             self.obtenerSiguienteToken
                             
-                            return Funcion(visibilidad,tipoRetorno,identificador,parametros,bloque)
+                            f = Function(visibilidad,tipoRetorno,identificador,parametros,bloque)
+                            arbolFuncion = QtWidgets.QTreeWidgetItem(self.arbol)
+                            titulo = "Funcion "+str(self.contFunciones)
+                            arbolFuncion.setText(titulo)
+                            visi = QtWidgets.QTreeWidgetItem(arbolFuncion)
+                            visi.setText(f.visibilidad.getLexema+" ")
+                            
+                            ident = QtWidgets.QTreeWidgetItem(arbolFuncion)
+                            ident.setText(f.identificador.getLexema)
+
+                            param = QtWidgets.QTreeWidgetItem(arbolFuncion)
+                            retor = QtWidgets.QTreeWidgetItem(arbolFuncion)
+                            bloq = QtWidgets.QTreeWidgetItem(arbolFuncion)
+
+
+                            return f
+
                         else:
+                            
                             self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
-                        
+                            return None
                     else:
                         self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
+                        return None
                 else:
                     self.reportarError("Falta parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
+                    return None
             else:
-                    self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
+                self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
+                return None
         else:
             self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
-    
+            return None
+        return None
 
     """
     <Visibilidad> ::= public | private | protected | default
@@ -180,13 +207,13 @@ class ASintactico:
             if ( self.tokenActual.Categoria == Categoria.Identificador ):   #
                 
                 nombre = self.tokenActual
-                return Parametro(tipo_dato,nombre)
+                return Parameter(tipo_dato,nombre)
             else:
                 self.reportarError("No hay identificador definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
             
         else:
             self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
-      
+    
     """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
     """
@@ -198,9 +225,9 @@ class ASintactico:
                 self.obtenerSiguienteToken()
                 return sentencias
             else:
-                self.reportarError("Falta la llave derecha en el bloque de sentencias")
+                self.reportarError("Falta la llave derecha en el bloque de sentencias", self.tokenActual.fila, self.tokenActual.columna)
         else:
-            self.reportarError("Falta la llave izquierda en el bloque de sentencias")        
+            self.reportarError("Falta la llave izquierda en el bloque de sentencias", self.tokenActual.fila, self.tokenActual.columna)        
         return None
 
     """
@@ -231,7 +258,7 @@ class ASintactico:
         if(s!=None):
             return s
         
-        s = self.esImpresion()
+        s = self.esImprimir()
 
         if(s!=None):
             return s
@@ -311,18 +338,17 @@ class ASintactico:
                 if(e!=None):
                     if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
-                        ea = self.esExpresionAuxiliar()
-                        return ExpresionAritmetica(e,ea, None)
+                        ea = self.esExpresionAuxiliarAritmetica()
+                        return Aritmetica(e,ea, None)
                     else:
                         self.reportarError("Falta el parentesis de cierre en la expresion aritmetica",self.tokenActual.fila,self.tokenActual.columna)
                 else:
                     self.reportarError("No hay una expresion aritmetica valida", self.tokenActual.fila,self.tokenActual.columna)
             else:
                 termino = self.esTermino()
-                if(vn != None):
-                    ea = self.esExpresionAuxiliar()
-                    return ExpresionAritmetica(None, ea , vn)
-
+                if(termino != None):
+                    ea = self.esExpresionAuxiliarAritmetica()
+                    return Aritmetica(None, ea , termino)
         return None
 
  
@@ -336,8 +362,7 @@ class ASintactico:
             ea = self.esExpresionAritmetica()
             if(ea != None):
                 eAux = self.esExpresionAritmetica()
-                return ExpresionAuxiliarAritmetica(operador,ea,eAux)            
-            return None
+                return AuxiliarAritmetica(operador,ea,eAux)                     
                 
 
     """
@@ -347,17 +372,19 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino != None : 
             if self.tokenActual.getCategoria == Categoria.ParentesisIzquierdo :
                 self.obtenerSiguienteToken()
-                er = esExpresionRelacional()
+                er = self.esExpresionRelacional()
                 if er != None :
                     self.obtenerSiguienteToken()
                     if self.tokenActual.categoria == Categoria.ParentesisDerecho :
                         self.obtenerSiguienteToken()
                         ear = self.esExpresionAuxiliarRelacional()
-                        return ExpresionRelacional(er,ear,None)
+                        return Relacional(er,ear,None)
                     else:
                         self.reportarError("Falta parentesis derecho en la expresion relacional",self.tokenActual.fila, self.tokenActual.columna)
+                        return None
                 else:
                     self.reportarError("No hay una expresion relacional valida dentro de los parentesis",self.tokenActual.fila, self.tokenActual.columna)        
+                    return None
             else:
                 termino = self.esTermino()
                 if termino != None: #si es un termino valido         
@@ -367,7 +394,6 @@ class ASintactico:
                 #aca no se reporta el error de que "falta un termino valido" ya que si no hay parentesis izquierdo
                 #  y tampoco hay un termino, ni siquiera seria una expresion  
         else: 
-            
             return None                  
     
     """
@@ -378,15 +404,17 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.OperadorRelacional :
             opRelacional = self.tokenActual
             self.obtenerSiguienteToken()
-            er = esExpresionRelacional()
+            er = self.esExpresionRelacional()
             if er != None:
                 self.obtenerSiguienteToken()
-                ear = esExpresionAuxiliarRelacional()
+                ear = self.esExpresionAuxiliarRelacional()
                 return AuxiliarRelacional(opRelacional,er,ear)
             else:
                 self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
+                return None
         else:
             self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
+            return None
             
     
     
@@ -437,6 +465,7 @@ class ASintactico:
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
     """
+
     def esDecision(self):
         return True
 
@@ -548,7 +577,7 @@ class ASintactico:
         listaComponentes = []
         f = self.esComponenteMapa()
 
-        while f! = None:
+        while f != None:
             listaComponentes.append(f)
             f = self.esComponenteMapa()
 
@@ -559,7 +588,7 @@ class ASintactico:
     """
     def esComponenteMapa(self):
         # corchete izquierdo es obligatorio (no se guarda)
-        if self.tokenActual.categoria() == Categoria.CorcheteisIzquierdo:
+        if self.tokenActual.categoria() == Categoria.CorcheteIzquierdo:
             self.obtenerSiguienteToken()
             
             terminoLlave = self.esTermino()
@@ -575,33 +604,36 @@ class ASintactico:
                     terminoClave = self.esTermino()
 
                     # termino clave es obligatorio
-                    if terminoClave != None):
+                    if terminoClave != None:
                         self.obtenerSiguienteToken()
 
                         # corchete derecho es obligatorio (no se guarda)
-                        if self.tokenActual.categoria() == Categoria.CorcheteisDerecho:
+                        if self.tokenActual.categoria() == Categoria.CorcheteDerecho:
                             self.obtenerSiguienteToken()
 
                             # fin de sentencia es obligatoria (no se guarda)
                             if self.tokenActual.categoria == Categoria.FinSentencia:
                             
-                                return map (terminoLlave, terminoClave)
+                                return componenteMap (terminoLlave, terminoClave)
                             
                             else:
                                 self.reportarError("Falta fin sentencia", self.tokenActual.fila, self.tokenActual.columna)
-                        
+                                return None
                         else:
                             self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)
-
+                            return None
                     else:
                         self.reportarError("Falta termino clave", self.tokenActual.fila, self.tokenActual.columna)
+                        return None
             
                 else:
                     self.reportarError("Falta separador", self.tokenActual.fila, self.tokenActual.columna)
+                    return None
             else:
                 self.reportarError("Falta termino llave", self.tokenActual.fila, self.tokenActual.columna)
+                return None
         else:
-            self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)
+            self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)   
         
         return None
 

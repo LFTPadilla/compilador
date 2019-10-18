@@ -1,13 +1,10 @@
 import abc
-from abc import ABCMeta
+from abc import ABC
 
-class Expression:
+class Expression(ABC):
     
-    __metaclass__ = ABCMeta
+    __metaclass__ = ABC
+
 
     def __init_(self):
-        pass
-        
-    @abc.abstractamethod
-    def getArbolVisual(self):
         pass

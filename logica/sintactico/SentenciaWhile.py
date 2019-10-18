@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class SentenceWhile(Sentence):
 
@@ -11,6 +11,3 @@ class SentenceWhile(Sentence):
 
     def __str__(self):
         return "Sentencia While [%s, %s]"% (self.expresionLogica, self.bloque_sentencias)
-    
-    def getArbolVisual(self):
-        

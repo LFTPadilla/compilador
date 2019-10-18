@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class InvocarFuncion(Sentence):
 
@@ -11,6 +11,3 @@ class InvocarFuncion(Sentence):
 
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
-    
-    def getArbolVisual(self):
-        

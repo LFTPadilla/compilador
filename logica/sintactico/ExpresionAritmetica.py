@@ -1,4 +1,4 @@
-from Expresion import Expression
+from logica.sintactico.Expresion import Expression
 
 class Aritmetica(Expression):
 
