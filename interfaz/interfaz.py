@@ -2,6 +2,7 @@ import sys
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
 sys.path.append(".") 
 from logica.lexico.AnalizadorLexico import ALexico
+from logica.sintactico.AnalizadorSintactico import ASintactico
 
 qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.
 
@@ -9,20 +10,30 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
+    arbol = None
+    tokens = []
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.btnLimpiar.clicked.connect(self.limpiarVentanas)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
-        arbol = self.treeFunciones
-        arbol.clear()
+        self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
+        self.arbol = self.treeFunciones
+        self.arbol.clear()
         
+
+
+    def AnalisisSintactico(self):
+        Asin = ASintactico(self.tokens,self.arbol)
+        Asin.esUnidadDeCompilacion()
+
 
 
 
     def construirArbol(self):
-        
+        #QtWidgets.QTreeWidgetItem(self.treeFunciones)  
         for i in range(3):
             parent = QtWidgets.QTreeWidgetItem(self.treeFunciones)
             
@@ -46,11 +57,11 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #print(codigo)
         analisisLexico = ALexico(codigo)
         analisisLexico.analizar()
-        tokens = analisisLexico.tokens
-        for i in tokens:
+        self.tokens = analisisLexico.tokens
+        for i in self.tokens:
             self.listViewTokens.addItem(str(i))
 
-        if len(tokens) != 0:
+        if len(self.tokens) != 0:
             self.btnAnalisisSintactico.setEnabled(True)
         
         #parent = QtWidgets.QTreeWidgetItem(self.treeFunciones)

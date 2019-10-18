@@ -1,13 +1,9 @@
 import abc
-from abc import ABCMeta
+from abc import ABC
 
-class Sentence(object):
+class Sentence(ABC):
 
-    __metaclass__ = ABCMeta
+    __metaclass__ = ABC
 
     def __init__(self):
         pass
-
-    @abc.abstractamethod
-    def getArbolVisual(self):
-        

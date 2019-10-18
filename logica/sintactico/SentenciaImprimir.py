@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class Imprimir(Sentence):
 
@@ -21,3 +21,4 @@ class Imprimir(Sentence):
         return "Sentencia Imprimir [%s]"% (self.identificador)
 
     def getArbolVisual(self):
+        return None

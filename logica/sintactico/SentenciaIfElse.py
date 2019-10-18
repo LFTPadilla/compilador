@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class IfElse(Sentence):
 
@@ -15,3 +15,4 @@ class IfElse(Sentence):
         return "Sentencia If Else [%s, %s, %s]"% (self.expresionLogica, self.bloque_sentencia_if, self.bloque_sentencia_else)
                 
     def getArbolVisual(self):
+        return None

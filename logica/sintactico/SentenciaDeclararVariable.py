@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class DeclaracionVariable(Sentence):
 
@@ -14,3 +14,4 @@ class DeclaracionVariable(Sentence):
         return "Sentencia Declaracion Variable [%s, %s, %s]"% (self.tipoRetorno, self.identificador, self.expresion)
     
     def getArbolVisual(self):
+        return None

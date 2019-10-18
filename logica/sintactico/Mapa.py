@@ -1,4 +1,4 @@
-class map:
+class mapita:
 
     def __init__(self, listaComponentes):
         self.listaComponentes = listaComponentes

@@ -1,4 +1,4 @@
-from Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class Asignacion(Sentence):
 
@@ -14,3 +14,4 @@ class Asignacion(Sentence):
         return "Sentencia Asignacion [%s, %s, %s]"% (self.identificador, self.operadorAsignacion, self.expresion)
     
     def getArbolVisual(self):
+        return None

@@ -8,4 +8,4 @@ class componenteMap:
         return "(ComponenteMapa: Llave: %s, Valor: %s)" % (self.llave, self.valor)
 
     def __str__(self):
-        return "ComponenteMapa [%s]" % (self.llave, self.valor)
+        return "ComponenteMapa [%s,%s]" % (self.llave, self.valor)
