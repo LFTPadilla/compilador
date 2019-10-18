@@ -269,6 +269,34 @@ class ASintactico:
         return s
 
     
+    """
+    <Expresion>::= <ExpresionAritmetica> | <ExpresionLogica> |<ExpresionRelacional> |<ExpresionCadena>
+    """
+    def esExpresion(self):
+        
+        e = None
+        
+        e = self.esExpresionAritmetica()
+        
+        if e != None:
+            return e
+        
+        e = self.esExpresionRelacional()
+        
+        if e != None:
+            return e
+        
+        e = self.esExpresionCadena()
+        
+        if e != None:
+            return e
+        
+        e = self.esExpresionLogica()
+        
+        if e != None:
+            return e
+             
+        
 
 
 
@@ -385,6 +413,26 @@ class ASintactico:
     
     """
     def esExpresionCadena():
+        
+        if self.tokenActual.categoria == Categoria.CadenaCaracteres :
+            cadena = self.tokenActual
+            self.obtenerSiguienteToken()
+            if self.tokenActual.lexema == "+":
+                
+                self.obtenerSiguienteToken()
+                e = self.esExpresion()
+                return Cadena(cadena,expression)
+            else:
+                self.reportarError("No hay '+' para concatenar")
+        else:
+            return None        
+                
+                
+    
+    """
+    <ExpresionLogica>::= "!" <ExpresionRelacional> | 
+    """
+            
     
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]

@@ -48,7 +48,8 @@ class ALexico:
                 continue
             
             if(self.esOperadorRelacional()):
-                continue
+               continue
+            
             
             if(self.esCadenaCaracteres()):
                 continue
@@ -474,6 +475,9 @@ class ALexico:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
 
+    """
+    Los operadores logicos &&, ||, !
+    """
     def esOperadorLogico(self):
         
         if(self.caracterActual == "&"):
@@ -506,43 +510,30 @@ class ALexico:
             filaInicial = self.filaActual
             columnaInicial = self.colActual
             posInicial = self.posicionActual
+            self.tokens.append(Token("!", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
             self.obtenerSiguienteCaracter()
-            if(self.caracterActual== "="):
-                self.tokens.append(Token("!=", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
-                return True
-            else:
-                self.hacerBT(posInicial, filaInicial, columnaInicial)
-                return False
+            return True
         
-        if(self.caracterActual == "="):
-            filaInicial = self.filaActual
-            columnaInicial = self.colActual
-            posInicial = self.posicionActual
-            self.obtenerSiguienteCaracter()
         
-            if(self.caracterActual== "="):
-                self.tokens.append(Token("==", Categoria.OperadorLogico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
-                return True
-            else:
-                self.hacerBT(posInicial, filaInicial, columnaInicial)
-                return False    
+        
 
+    """
+    Los operadores relacionales <,>,<=,>=,!=,== (de comparacion)
+    """
     def esOperadorRelacional(self):
         
-        if(self.caracterActual == '<' or self.caracterActual == '>' or self.caracterActual == '='): #Rechazo inicial
+        if(self.caracterActual == '<' or self.caracterActual == '>' or self.caracterActual == '=' or self.caracterActual == '!'): #Rechazo inicial
             lexema = ""
             posicionInicial = self.posicionActual
-            filaInicia = self.filaActual
+            filaInicial = self.filaActual
             columnaInicial = self.colActual
             
             lexema+=self.caracterActual
             self.obtenerSiguienteCaracter()
             
-            if(not self.caracterActual == '=') :            # Si el siguiente caracter no es = (ej. >pip <lucas =ret)
-                if(self.codigo[posicionInicial] == '='):    #si el caracter anterior era un =
-                    self.hacerBT(posicionInicial,filaInicia,columnaInicial) # hacer Bt, porque no seria un operador relacional sino de asignacion
+            if( self.caracterActual != '=') :            # Si el siguiente caracter no es = (ej. >pip <lucas =ret)
+                if(self.codigo[posicionInicial] == '=' or self.codigo[posicionInicial] == '!'):    #si el caracter anterior era un = o un !
+                    self.hacerBT(posicionInicial,filaInicial,columnaInicial) # hacer Bt.
                     return False
                 else:
                     self.tokens.append(Token(lexema,Categoria.OperadorRelacional, self.filaActual, self.colActual))   
