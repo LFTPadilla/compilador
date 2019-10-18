@@ -70,6 +70,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #parent.addChild( analizarSintactico.uniCompilacion.arbol() )
     
     def limpiarVentanas(self):
+        self.tokens.clear()
         self.txtCodigo.clear()
         self.listViewTokens.clear()
         self.treeFunciones.clear()
