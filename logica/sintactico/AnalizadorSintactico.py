@@ -293,6 +293,11 @@ class ASintactico:
         if(s!=None):
             return s
 
+        s = self.esMapa()
+
+        if(s!=None):
+            return s
+
         return s
 
     
@@ -440,7 +445,7 @@ class ASintactico:
     <ExpresionCadena>::= cadena "+" <Expresion> 
     
     """
-    def esExpresionCadena():
+    def esExpresionCadena(self):
         
         if self.tokenActual.categoria == Categoria.CadenaCaracteres :
             cadena = self.tokenActual
@@ -449,9 +454,9 @@ class ASintactico:
                 
                 self.obtenerSiguienteToken()
                 e = self.esExpresion()
-                return Cadena(cadena,expression)
+                return Cadena(cadena, e)
             else:
-                self.reportarError("No hay '+' para concatenar")
+                self.reportarError("No hay '+' para concatenar", self.tokenActual.f, self.tokenActual.c)
         else:
             return None        
                 
@@ -543,7 +548,7 @@ class ASintactico:
         return True
     
     """
-    <Arreglo>::= array identificador = "[" <listaExpresiones> "]"
+    <Arreglo>::= array identificador "=" "[" <listaExpresiones> "]"
     """
     def esArreglo(self):
         return True 
@@ -552,43 +557,127 @@ class ASintactico:
     <listaExpresiones>::= <Expresion> ["," <listaExpresiones> ]
     """
     def esListaExpresiones(self):
-        return True 
+
+        # Se inicializa la lista de expresiones
+        listaExpresiones = []
+
+        # obligatoriamente debe de existir un expresion
+        expresion = self.esExpresion()
+
+        # si expresion retorna diferente de NONE sigue realiza el ciclo
+        while expresion != None:
+
+            # se agrega expresion actual
+            listaExpresiones.append(expresion)
+
+            
+
+            # se busca una nueva expresion
+            expresion = self.esExpresion()
+
+        # se retorna la lista de expresions del mapa
+        return listaExpresiones
+
 
     """
     <Mapa>::= map identificador "=" <listaComponentesMap>
     """
     def esMapa(self):
         
+        # obligatoriamente debe de ir la palabra reservada "map"
         if self.tokenActual.lexema == "map":
             self.obtenerSiguienteToken()
 
+            # obligatoriamente debe de ir un identificador y se almacena
             if self.tokenActual.categoria() == Categoria.Identificador:
                 identificador = self.tokenActual
+                self.obtenerSiguienteToken()
 
+                #obligatoriamente debe de ir un "="
+                if self.tokenActual.lexema == "=":
+                    self.obtenerSiguienteToken()
+                    
+                    # se busca una lista de componentes del mapa
+                    listaComponentes = self.esListaComponentesMapa()
+
+                    # la lista no puede ser NONE
+                    if listaComponentes != None:
+
+                        # se retorna el mapa con la lista de componentes y el identiicador
+                        return mapita (identificador, listaComponentes)
+
+                    else:
+                        self.reportarError("NO existe lista de componentes del mapa",self.tokenActual.fila, self.tokenActual.columna)
+                else:
+                    self.reportarError("falta el \"=\" en el mapa", self.tokenActual.fila, self.tokenActual.columna)
+            else:        
+                self.reportarError("el mapa no tiene identificador",self.tokenActual.fila,self.tokenActual.columna)
+        else:            
+            self.reportarError("no empieza con la palabra reservada \"map\"", self.tokenActual.fila, self.tokenActual.columna)
                 
-
-        return True
+        return None
 
     """
-    <listaComponentesMap>::= <componenteMap> [<listaComponentesMap>]
+    <listaComponentesMap>::= "[" <componenteMap> [ "," <listaComponentesMap>] "]" ";"
     """
     def esListaComponentesMapa(self):
 
-        listaComponentes = []
-        f = self.esComponenteMapa()
+        if self.tokenActual.categoria == Categoria.CorcheteIzquierdo:
+            # Se inicializa la lista de componentes del mapa
+            listaComponentes = []
 
-        while f != None:
-            listaComponentes.append(f)
-            f = self.esComponenteMapa()
+            # obligatoriamente debe de existir un componente del mapa
+            componente = self.esComponenteMapa()
 
-        return listaComponentes
+            # si componente retorna diferente de NONE sigue realiza el ciclo
+            while componente != None:
+
+                # se agrega componente actual
+                listaComponentes.append(componente)
+
+                componente = None
+                
+                # se pregunta si sigue un separador para agregar un nuevo componente
+                if self.tokenActual.categoria == Categoria.Separador:
+                    self.obtenerSiguienteToken()
+
+                    # se busca un nuevo componente
+                    componente = self.esComponenteMapa()
+
+                    # el componente no puede se None
+                    if componente == None:
+                        self.reportarError("despues de la coma no se encontro componente valido en el mapa", self.tokenActual.f, self.tokenActual.c)
+
+            # se verifica que efectivamente en la lista de componetentes exista al menos un componente
+            if(len(listaComponentes) >= 1):
+                
+                # obligatoriamente debe de seguir un corchete Derecho
+                if self.tokenActual.categoria == Categoria.CorcheteDerecho:
+                    self.obtenerSiguienteToken()
+
+                    # obligatoriamente debe de seguir un fin de sentencia
+                    if self.tokenActual.categoria == Categoria.FinSentencia:
+                        self.obtenerSiguienteToken()
+
+                        # se retorna la lista de componentes del mapa
+                        return listaComponentes
+                    
+                    else:
+                        self.reportarError("Falta el final de sentencia \";\" de la sentencia map", self.tokenActual.f, self.tokenActual.c)
+                else:
+                    self.reportarError("Falta el corchete Derecho \"]\" en la sentencia map", self.tokenActual.f, self.tokenActual.c)
+            else:
+                self.reportarError("Falta almenos un componente el la lista de componentes del map", self.tokenActual.f, self.tokenActual.c)
+            
+            return None
+
 
     """
-    <componenteMap>::= "[" <termino> "," <termino> "]" ";" 
+    <componenteMap>::= "(" <termino> "," <termino> ")"
     """
     def esComponenteMapa(self):
         # corchete izquierdo es obligatorio (no se guarda)
-        if self.tokenActual.categoria() == Categoria.CorcheteIzquierdo:
+        if self.tokenActual.categoria() == Categoria.ParentesisIzquierdo:
             self.obtenerSiguienteToken()
             
             terminoLlave = self.esTermino()
@@ -608,17 +697,11 @@ class ASintactico:
                         self.obtenerSiguienteToken()
 
                         # corchete derecho es obligatorio (no se guarda)
-                        if self.tokenActual.categoria() == Categoria.CorcheteDerecho:
+                        if self.tokenActual.categoria() == Categoria.ParentesisDerecho:
                             self.obtenerSiguienteToken()
 
-                            # fin de sentencia es obligatoria (no se guarda)
-                            if self.tokenActual.categoria == Categoria.FinSentencia:
-                            
-                                return componenteMap (terminoLlave, terminoClave)
-                            
-                            else:
-                                self.reportarError("Falta fin sentencia", self.tokenActual.fila, self.tokenActual.columna)
-                                return None
+                            return componenteMap (terminoLlave, terminoClave)
+                                                        
                         else:
                             self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)
                             return None
@@ -636,8 +719,6 @@ class ASintactico:
             self.reportarError("Falta corchete derecho", self.tokenActual.fila, self.tokenActual.columna)   
         
         return None
-
-
 
     def getListaErrores(self):
         return self.listaErrores
