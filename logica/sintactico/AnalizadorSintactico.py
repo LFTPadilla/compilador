@@ -506,7 +506,6 @@ class ASintactico:
                     e = self.tokenActual
                     self.obtenerSiguienteToken()
                     eal = self.esExpresionAuxiliarLogica()
-        if self.tokenActual.categoria == Categoria.OperadorRelac
                     
                     return AuxiliarLogica(opBin, e, eal)
         else:
