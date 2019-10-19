@@ -564,16 +564,23 @@ class ASintactico:
         # obligatoriamente debe de existir un expresion
         expresion = self.esExpresion()
 
-        # si expresion retorna diferente de NONE sigue realiza el ciclo
-        while expresion != None:
+        while componente != None:
 
-            # se agrega expresion actual
-            listaExpresiones.append(expresion)
+                # se agrega componente actual
+                listaComponentes.append(componente)
 
-            
+                componente = None
+                
+                # se pregunta si sigue un separador para agregar un nuevo componente
+                if self.tokenActual.categoria == Categoria.Separador:
+                    self.obtenerSiguienteToken()
 
-            # se busca una nueva expresion
-            expresion = self.esExpresion()
+                    # se busca un nuevo componente
+                    componente = self.esComponenteMapa()
+
+                    # el componente no puede se None
+                    if componente == None:
+                        self.reportarError("despues de la coma no se encontro componente valido en el mapa", self.tokenActual.f, self.tokenActual.c)
 
         # se retorna la lista de expresions del mapa
         return listaExpresiones
@@ -670,7 +677,6 @@ class ASintactico:
                 self.reportarError("Falta almenos un componente el la lista de componentes del map", self.tokenActual.f, self.tokenActual.c)
             
             return None
-
 
     """
     <componenteMap>::= "(" <termino> "," <termino> ")"
