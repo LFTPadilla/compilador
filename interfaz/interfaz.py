@@ -10,7 +10,6 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
-    arbol = None
     tokens = []
 
     def __init__(self):
@@ -20,34 +19,14 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnLimpiar.clicked.connect(self.limpiarVentanas)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
-        self.arbol = self.treeFunciones
-        self.arbol.clear()
+        
+        
         
 
 
     def AnalisisSintactico(self):
-        Asin = ASintactico(self.tokens,self.arbol)
+        Asin = ASintactico(self.tokens,self.treeFunciones)
         Asin.esUnidadDeCompilacion()
-
-
-
-
-    def construirArbol(self):
-        #QtWidgets.QTreeWidgetItem(self.treeFunciones)  
-        for i in range(3):
-            parent = QtWidgets.QTreeWidgetItem(self.treeFunciones)
-            
-            parent.setText(0, "Parent {}".format(i))
-            #parent.setFlags(parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
-            for x in range(5):
-                child = QtWidgets.QTreeWidgetItem(parent)
-                child.setText(0, "Padre")
-                #child.setFlags(child.flags() | Qt.ItemIsUserCheckable)
-                hijo1 = QtWidgets.QTreeWidgetItem()
-                hijo1.setText(0, "Hijo 1")
-                
-                child.addChild( hijo1)
-                #child.setCheckState(0, Qt.Unchecked)
         self.treeFunciones.show()
 
     
