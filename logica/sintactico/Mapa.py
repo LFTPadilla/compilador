@@ -1,10 +1,11 @@
 class mapita:
 
-    def __init__(self, listaComponentes):
+    def __init__(self, identificador, listaComponentes):
+        self.identificador = identificador
         self.listaComponentes = listaComponentes
 
     def __repr__(self):
-        return "(Mapa: listaComponentes: %s)" % (self.listaComponentes)
+        return "(Mapa: identificador: %s listaComponentes: %s)" % (self.identificador, self.listaComponentes)
 
     def __str__(self):
-        return "Mapa [%s]" % (self.listaComponentes)
+        return "Mapa [%s, %s]" % (self.identificador, self.listaComponentes)
