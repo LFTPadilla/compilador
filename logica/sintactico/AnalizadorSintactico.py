@@ -31,9 +31,11 @@ from logica.sintactico.ExpresionRelacional import Relacional
 
 from logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
 from logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
+from logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
 
 from logica.sintactico.Mapa import mapita
 from logica.sintactico.ComponenteMapa import componenteMap
+
 
 
 class ASintactico: 
@@ -138,20 +140,15 @@ class ASintactico:
 
                         else:
                             
-                            self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)
-                            return None
+                            self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)   
                     else:
                         self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
-                        return None
                 else:
                     self.reportarError("Falta parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
-                    return None
             else:
                 self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
-                return None
         else:
             self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
-            return None
         return None
 
     """
@@ -318,7 +315,7 @@ class ASintactico:
         if e != None:
             return e
         
-        e = self.esExpresionLogica()
+        #e = self.esExpresionLogica()
         
         if e != None:
             return e
@@ -440,7 +437,7 @@ class ASintactico:
     <ExpresionCadena>::= cadena "+" <Expresion> 
     
     """
-    def esExpresionCadena():
+    def esExpresionCadena(self):
         
         if self.tokenActual.categoria == Categoria.CadenaCaracteres :
             cadena = self.tokenActual
@@ -449,17 +446,66 @@ class ASintactico:
                 
                 self.obtenerSiguienteToken()
                 e = self.esExpresion()
-                return Cadena(cadena,expression)
+                return Cadena(cadena,e)
             else:
-                self.reportarError("No hay '+' para concatenar")
+                self.reportarError("No hay '+' para concatenar", self.tokenActual.fila, self.tokenActual.columna)
         else:
             return None        
                 
                 
     
     """
-    <ExpresionLogica>::= "!" <ExpresionRelacional> | 
+    <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
     """
+    def esExpresionLogica(self):
+        
+        if self.tokenActual.lexema == '!' or self.esExpresionRelacional() :
+            
+            if self.tokenActual.lexema == '!' : 
+                self.obtenerSiguienteToken()
+                if self.esExpresionLogica():
+                    e = self.tokenActual
+                    self.obtenerSiguienteToken()
+                    eal = self.esExpresionAuxiliarLogica()
+                    
+                    return Logica("!", e, eal, None)
+                else:
+                    self.reportarError("Expresion logica no valida",self.tokenActual.fila, self.tokenActual.columna)
+            
+            elif self.esExpresionRelacional():
+                er = self.tokenActual
+                self.obtenerSiguienteToken()
+                eal = self.esExpresionAuxiliarLogica()
+                return Logica(None, None, eal, er)                    
+        else:
+            return None    
+        
+    
+    
+
+    """
+    <ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    """
+    def esExpresionAuxiliarLogica(self):
+        
+        if self.tokenActual.categoria == Categoria.OperadorLogico :
+            
+            self.obtenerSiguienteToken()
+            
+            if self.tokenActual.lexema == "&&" or self.tokenActual.lexema == "||" :
+                opBin = self.tokenActual
+                self.obtenerSiguienteToken()
+                
+                if self.esExpresionLogica():
+                    e = self.tokenActual
+                    self.obtenerSiguienteToken()
+                    eal = self.esExpresionAuxiliarLogica()
+                    
+                    return AuxiliarLogica(opBin, e, eal)
+        else:
+            return None    
+        
+    
             
     
     """
