@@ -155,17 +155,18 @@ class ASintactico:
     <Visibilidad> ::= public | private | protected | default
     """
     def esVisibilidad(self):
-        if(self.tokenActual.getCategoria == Categoria.PalabraReservada):        
+        if(self.tokenActual.categoria == Categoria.PalabraReservada):        
             if(self.tokenActual.getLexema() == "public" or self.tokenActual.getLexema() == "private" or self.tokenActual.getLexema() == "protected" or self.tokenActual.getLexema() == "default"):
                 return self.tokenActual
         return None
 
     """
-    <TipoRetorno> ::= int | double | void | String | boolean | char
+    <TipoRetorno> ::= int | String | double | boolean | char | void
     """
     def esTipoRetorno(self):
-        if(self.tokenActual.getCategoria == Categoria.PalabraReservada):
-            if(self.tokenActual.lexema == "int" or self.tokenActual.lexema == "decimal" or self.tokenActual.lexema == "void" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char"):
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+            if self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char" or self.tokenActual.lexema == "void":
+                self.obtenerSiguienteToken()
                 return self.tokenActual
         return None
     
@@ -174,9 +175,10 @@ class ASintactico:
     <TipoDato> ::= int | String | double | boolean | char
     """
     def esTipoDato(self):
-        
-        if(self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char"):
-           return self.tokenActual
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+            if self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char":
+                self.obtenerSiguienteToken()
+            return self.obtenerSiguienteToken()
         return False        
     
     """
@@ -215,10 +217,10 @@ class ASintactico:
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
     """
     def esBloqueSentencias(self):
-        if(self.tokenActual.getCategoria() == Categoria.LlaveIzquierda):
+        if(self.tokenActual.categoria() == Categoria.LlaveIzquierda):
             self.obtenerSiguienteToken()
             sentencias = self.esListaSentencias()
-            if(self.tokenActual.getCategoria() == Categoria.LlaveDerecha):
+            if(self.tokenActual.categoria() == Categoria.LlaveDerecha):
                 self.obtenerSiguienteToken()
                 return sentencias
             else:
@@ -334,11 +336,11 @@ class ASintactico:
     """
     def esExpresionAritmetica(self):
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino()!=None : 
-            if self.tokenActual.getCategoria() ==Categoria.ParentesisIzquierdo:
+            if self.tokenActual.categoria() ==Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
                 e = self.esExpresionAritmetica()
                 if(e!=None):
-                    if self.tokenActual.getCategoria == Categoria.ParentesisDerecho:
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
                         ea = self.esExpresionAuxiliarAritmetica()
                         return Aritmetica(e,ea, None)
@@ -372,7 +374,7 @@ class ASintactico:
     """
     def esExpresionRelacional(self):   
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino != None : 
-            if self.tokenActual.getCategoria == Categoria.ParentesisIzquierdo :
+            if self.tokenActual.categoria == Categoria.ParentesisIzquierdo :
                 self.obtenerSiguienteToken()
                 er = self.esExpresionRelacional()
                 if er != None :
@@ -434,7 +436,7 @@ class ASintactico:
     """
     def esValorNumerico(self):
         
-        if(self.tokenActual.getCategoria == Categoria.NumeroNatural or self.tokenActual.getCategoria == Categoria.NumeroReal):
+        if(self.tokenActual.categoria == Categoria.NumeroNatural or self.tokenActual.categoria == Categoria.NumeroReal):
             return self.tokenActual
         return None
 
@@ -591,13 +593,98 @@ class ASintactico:
     <Argumento>::= identificador | <expresion>
     """
     def esArgumento(self):
-        return True
+
+        # se verifica que sea un identificador
+        if self.tokenActual.categoria == Categoria.Identificador:
+            identificador = self.tokenActual
+            self.obtenerSiguienteToken()
+
+            # guarda el identificador como un argumento
+            return Argument(identificador, None)
+            
+        # si no es un identificador
+        else:
+
+            # busca que sea una expresion
+            expresion = self.esExpresion()
+            
+            # verifica que la expresion no sea nula
+            if expresion != None:
+                
+                # guarda la expresion como un argumento
+                return Argument(None, expresion)
+        return None
     
     """
-    <Arreglo>::= array identificador "=" "[" <listaExpresiones> "]"
+    <Arreglo>::= array <tipoDato> identificador "=" "[" <listaExpresiones> "]" ";"
     """
     def esArreglo(self):
-        return True 
+
+        # se debe de empezar con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            # la palabra reservarda es "array"
+            if self.tokenActual.lexema == 'array':
+                self.obtenerSiguienteToken()
+
+                # se busca el tipo de dato del arreglo
+                tipoDato = self.esTipoDato()
+
+                # se verifica que el tipo de dato no sea None
+                if tipoDato != None:
+
+                    # despues, obligatoriamente debe de ir un identificador
+                    if self.tokenActual.categoria == Categoria.Identificador:
+
+                        # se guarda el identificador
+                        identificador = self.tokenActual
+                        self.obtenerSiguienteToken()
+
+                        # se continua obligatoriamente con un "="
+                        if self.tokenActual.lexema == "=":
+                            self.obtenerSiguienteToken()
+
+                            # sigue un corchete Izquierdo
+                            if self.tokenActual.categoria == Categoria.CorcheteIzquierdo:
+                                self.obtenerSiguienteToken()
+
+                                # se busca la lista de expresiones
+                                listaExpresiones = self.esListaExpresiones()
+                                
+                                # se verifica que la lista no llegue None
+                                if listaExpresiones != None:
+
+                                    # obligatoriamente debe de seguir un corcheteDerecho
+                                    if self.tokenActual.categoria == Categoria.CorcheteDerecho:
+                                        self.obtenerSiguienteToken()
+
+                                        # por ultimo y no menos importante <3 se verifica que termine con un fin de sentencia
+                                        if self.tokenActual.categoria == Categoria.FinSentencia:
+                                            self.obtenerSiguienteToken()
+
+                                            # se guarda el arreglo
+                                            return Array (tipoDato, identificador, listaExpresiones)
+
+                                        else:
+                                            self.reportarError("la sentencia arreglo no finalizo con un \";\"", self.tokenActual.f, self.tokenActual.c)
+                                    else:
+                                        self.reportarError("falta corchete derecho \"]\"", self.tokenActual.f, self.tokenActual.c)
+                                else:
+                                    self.reportarError("la sentencia arreglo no finalizo con unno encontro una lista de expresiones valida", self.tokenActual.f, self.tokenActual.c)
+                            else:
+                                self.reportarError("falta corchete izquierdo \"[\"", self.tokenActual.f, self.tokenActual.c)
+                        else:
+                            self.reportarError("falta el operador de asignacion \"=\"", self.tokenActual.f, self.tokenActual.c)
+                    else:
+                        self.reportarError("no encuentra un identificador valido", self.tokenActual.f, self.tokenActual.c)
+                else:
+                    self.reportarError("tipo de dato invalido", self.tokenActual.f, self.tokenActual.c)
+            else:
+                self.reportarError("la palabra reservada no es \"array\"", self.tokenActual.f, self.tokenActual.c)
+        else:
+            self.reportarError("se debe de empezar con una palabra reservada", self.tokenActual.f, self.tokenActual.c)
+
+        return None 
     
     """
     <listaExpresiones>::= <Expresion> ["," <listaExpresiones> ]
@@ -607,25 +694,26 @@ class ASintactico:
         # Se inicializa la lista de expresiones
         listaExpresiones = []
 
-        # obligatoriamente debe de existir un expresion
+        # obligatoriamente debe de existir una expresion
         expresion = self.esExpresion()
 
-        while componente != None:
+        while expresion != None:
 
-                # se agrega componente actual
-                listaComponentes.append(componente)
+                # se agrega expresion actual
+                listaExpresiones.append(expresion)
 
-                componente = None
+                # despues de ser agregada a la lista se vuelve nula para hallar una nueva
+                expresion = None
                 
-                # se pregunta si sigue un separador para agregar un nuevo componente
+                # se pregunta si sigue un separador para agregar una nueva expresion
                 if self.tokenActual.categoria == Categoria.Separador:
                     self.obtenerSiguienteToken()
 
-                    # se busca un nuevo componente
-                    componente = self.esComponenteMapa()
+                    # se busca una nueva expresion
+                    expresion = self.esExpresion()
 
-                    # el componente no puede se None
-                    if componente == None:
+                    # la expresion no puede se None
+                    if expresion == None:
                         self.reportarError("despues de la coma no se encontro componente valido en el mapa", self.tokenActual.f, self.tokenActual.c)
 
         # se retorna la lista de expresions del mapa
@@ -636,38 +724,42 @@ class ASintactico:
     <Mapa>::= map identificador "=" <listaComponentesMap>
     """
     def esMapa(self):
-        
-        # obligatoriamente debe de ir la palabra reservada "map"
-        if self.tokenActual.lexema == "map":
-            self.obtenerSiguienteToken()
 
-            # obligatoriamente debe de ir un identificador y se almacena
-            if self.tokenActual.categoria() == Categoria.Identificador:
-                identificador = self.tokenActual
+        # obligatoriamente se empieza con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+        
+            # la palabra reservada debe de ser "map"
+            if self.tokenActual.lexema == "map":
                 self.obtenerSiguienteToken()
 
-                #obligatoriamente debe de ir un "="
-                if self.tokenActual.lexema == "=":
+                # obligatoriamente debe de ir un identificador y se almacena
+                if self.tokenActual.categoria() == Categoria.Identificador:
+                    identificador = self.tokenActual
                     self.obtenerSiguienteToken()
-                    
-                    # se busca una lista de componentes del mapa
-                    listaComponentes = self.esListaComponentesMapa()
 
-                    # la lista no puede ser NONE
-                    if listaComponentes != None:
+                    #obligatoriamente debe de ir un "="
+                    if self.tokenActual.lexema == "=":
+                        self.obtenerSiguienteToken()
+                        
+                        # se busca una lista de componentes del mapa
+                        listaComponentes = self.esListaComponentesMapa()
 
-                        # se retorna el mapa con la lista de componentes y el identiicador
-                        return mapita (identificador, listaComponentes)
+                        # la lista no puede ser NONE
+                        if listaComponentes != None:
 
+                            # se retorna el mapa con la lista de componentes y el identiicador
+                            return mapita (identificador, listaComponentes)
+
+                        else:
+                            self.reportarError("no existe lista de componentes del mapa",self.tokenActual.fila, self.tokenActual.columna)
                     else:
-                        self.reportarError("NO existe lista de componentes del mapa",self.tokenActual.fila, self.tokenActual.columna)
-                else:
-                    self.reportarError("falta el \"=\" en el mapa", self.tokenActual.fila, self.tokenActual.columna)
-            else:        
-                self.reportarError("el mapa no tiene identificador",self.tokenActual.fila,self.tokenActual.columna)
-        else:            
-            self.reportarError("no empieza con la palabra reservada \"map\"", self.tokenActual.fila, self.tokenActual.columna)
-                
+                        self.reportarError("falta el \"=\" en el mapa", self.tokenActual.fila, self.tokenActual.columna)
+                else:        
+                    self.reportarError("el mapa no tiene identificador",self.tokenActual.fila,self.tokenActual.columna)
+            else:            
+                self.reportarError("la palabra reservada no es la correcta para iniciar un mapa", self.tokenActual.fila, self.tokenActual.columna)
+        else:
+            self.reportarError("no es una palabra reservada", self.tokenActual.f, self.tokenActual.c)        
         return None
 
     """
@@ -688,6 +780,7 @@ class ASintactico:
                 # se agrega componente actual
                 listaComponentes.append(componente)
 
+                # despues de ser agregada a la lista se vuelve nula para hallar una nueva
                 componente = None
                 
                 # se pregunta si sigue un separador para agregar un nuevo componente

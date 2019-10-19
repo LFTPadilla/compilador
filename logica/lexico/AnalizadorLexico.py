@@ -19,7 +19,7 @@ class ALexico:
     def __init__(self,codigo):
         self.codigo = codigo
         self.caracterActual = self.codigo[self.posicionActual]
-        self.palabrasReservadas = ["abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map"]
+        self.palabrasReservadas = ["abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map", "array"]
         
 
     def getListaTokens(self):
@@ -135,8 +135,6 @@ class ALexico:
             return False
 
     def esParentesis(self):
-        
-        lexema = ""
         
         if self.caracterActual == '(':
             self.tokens.append(Token(self.caracterActual,Categoria.ParentesisIzquierdo,self.filaActual,self.colActual))
