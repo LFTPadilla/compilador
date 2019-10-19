@@ -105,14 +105,14 @@ class ASintactico:
                 self.obtenerSiguienteToken()
                 
                 #El parentesis izquierdo es obligatorio pero no se guarda
-                if self.tokenActual.categoria() == Categoria.ParentesisIzquierdo:
+                if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
                     self.obtenerSiguienteToken()
                     
                     #La lista de parametros no es obligatoria, solo se guarda de haber algo
                     parametros = self.esListaParametros()
 
                     #El parentesis derecho es obligario pero no se guarda
-                    if(self.tokenActual().categoria == Categoria.ParentesisDerecho):
+                    if(self.tokenActual.categoria == Categoria.ParentesisDerecho):
                         self.obtenerSiguienteToken
 
                         #El bloque de sentencias se guarda 
@@ -122,14 +122,16 @@ class ASintactico:
                             self.obtenerSiguienteToken
                             
                             f = Function(visibilidad,tipoRetorno,identificador,parametros,bloque)
+
                             arbolFuncion = QtWidgets.QTreeWidgetItem(self.arbol)
+
                             titulo = "Funcion "+str(self.contFunciones)
                             arbolFuncion.setText(titulo)
                             visi = QtWidgets.QTreeWidgetItem(arbolFuncion)
-                            visi.setText(f.visibilidad.getLexema+" ")
+                            visi.setText(f.visibilidad.lexema+" ")
                             
                             ident = QtWidgets.QTreeWidgetItem(arbolFuncion)
-                            ident.setText(f.identificador.getLexema)
+                            ident.setText(f.identificador.lexema)
 
                             param = QtWidgets.QTreeWidgetItem(arbolFuncion)
                             retor = QtWidgets.QTreeWidgetItem(arbolFuncion)
@@ -156,7 +158,7 @@ class ASintactico:
     """
     def esVisibilidad(self):
         if(self.tokenActual.categoria == Categoria.PalabraReservada):        
-            if(self.tokenActual.getLexema() == "public" or self.tokenActual.getLexema() == "private" or self.tokenActual.getLexema() == "protected" or self.tokenActual.getLexema() == "default"):
+            if(self.tokenActual.lexema == "public" or self.tokenActual.lexema == "private" or self.tokenActual.lexema == "protected" or self.tokenActual.lexema == "default"):
                 return self.tokenActual
         return None
 
@@ -203,7 +205,7 @@ class ASintactico:
         if ( not tipo_dato == False ):                                      #si el token actual es un tipo de dato
             self.obtenerSiguienteToken()
             
-            if ( self.tokenActual.Categoria == Categoria.Identificador ):   #
+            if ( self.tokenActual.categoria == Categoria.Identificador ):   #
                 
                 nombre = self.tokenActual
                 return Parameter(tipo_dato,nombre)
@@ -217,10 +219,10 @@ class ASintactico:
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
     """
     def esBloqueSentencias(self):
-        if(self.tokenActual.categoria() == Categoria.LlaveIzquierda):
+        if(self.tokenActual.categoria == Categoria.LlaveIzquierda):
             self.obtenerSiguienteToken()
             sentencias = self.esListaSentencias()
-            if(self.tokenActual.categoria() == Categoria.LlaveDerecha):
+            if(self.tokenActual.categoria == Categoria.LlaveDerecha):
                 self.obtenerSiguienteToken()
                 return sentencias
             else:
@@ -336,7 +338,7 @@ class ASintactico:
     """
     def esExpresionAritmetica(self):
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino()!=None : 
-            if self.tokenActual.categoria() ==Categoria.ParentesisIzquierdo:
+            if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
                 e = self.esExpresionAritmetica()
                 if(e!=None):
@@ -360,7 +362,7 @@ class ASintactico:
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
     def esExpresionAuxiliarAritmetica(self):
-        if(self.tokenActual.categoria() == Categoria.OperadorAritmetico):
+        if(self.tokenActual.categoria == Categoria.OperadorAritmetico):
             operador = self.tokenActual
             self.obtenerSiguienteToken()
             ea = self.esExpresionAritmetica()
