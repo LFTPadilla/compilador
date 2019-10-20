@@ -1,40 +1,40 @@
 
-from logica.lexico.Token import Token
-from logica.lexico.Categoria import Categoria
+from compilador.logica.lexico.Token import Token
+from compilador.logica.lexico.Categoria import Categoria
 
 from PyQt5 import QtWidgets
 
-from logica.sintactico.UnidadCompilacion import UnidadComp
+from UnidadCompilacion import UnidadComp
 
-from logica.sintactico.Funcion import Function
-from logica.sintactico.Error import errorSintactico
+from Funcion import Function
+from Error import errorSintactico
 
-from logica.sintactico.Parametro import Parameter
-from logica.sintactico.Argumento import Argument
-from logica.sintactico.Arreglo import Array
+from Parametro import Parameter
+from Argumento import Argument
+from Arreglo import Array
 
-from logica.sintactico.Sentencia import Sentence
-from logica.sintactico.SentenciaAsignacion import Asignacion
-from logica.sintactico.SentenciaDeclararVariable import DeclaracionVariable
-from logica.sintactico.SentenciaIfElse import IfElse
-from logica.sintactico.SentenciaImprimir import Imprimir
-from logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
-from logica.sintactico.SentenciaLeer import Leer
-from logica.sintactico.SentenciaRetorno import Retorno
-from logica.sintactico.SentenciaWhile import SentenceWhile
+from Sentencia import Sentence
+from SentenciaAsignacion import Asignacion
+from SentenciaDeclararVariable import DeclaracionVariable
+from SentenciaIfElse import IfElse
+from SentenciaImprimir import Imprimir
+from SentenciaInvocarFuncion import InvocarFuncion
+from SentenciaLeer import Leer
+from SentenciaRetorno import Retorno
+from SentenciaWhile import SentenceWhile
 
-from logica.sintactico.Expresion import Expression
-from logica.sintactico.ExpresionAritmetica import Aritmetica 
-from logica.sintactico.ExpresionCadena import Cadena
-from logica.sintactico.ExpresionLogica import Logica
-from logica.sintactico.ExpresionRelacional import Relacional
+from Expresion import Expression
+from ExpresionAritmetica import Aritmetica 
+from ExpresionCadena import Cadena
+from ExpresionLogica import Logica
+from ExpresionRelacional import Relacional
 
-from logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
-from logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
-from logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
+from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
+from ExpresionAuxiliarRelacional import AuxiliarRelacional
+from ExpresionAuxiliarLogica import AuxiliarLogica
 
-from logica.sintactico.Mapa import mapita
-from logica.sintactico.ComponenteMapa import componenteMap
+from Mapa import mapita
+from ComponenteMapa import componenteMap
 
 
 

@@ -1,4 +1,4 @@
-from logica.lexico.Categoria import Categoria
+from Categoria import Categoria
 
 class Token:
     

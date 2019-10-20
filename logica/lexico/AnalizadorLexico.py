@@ -1,6 +1,6 @@
 
-from logica.lexico.Token import Token
-from logica.lexico.Categoria import Categoria
+from Token import Token
+from Categoria import Categoria
 import time
 
 class ALexico:

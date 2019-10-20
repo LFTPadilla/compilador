@@ -1,4 +1,5 @@
 from enum import Enum
+
 class Categoria(Enum):
     Identificador = 1
     NumeroReal = 2
