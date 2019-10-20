@@ -4,37 +4,37 @@ from compilador.logica.lexico.Categoria import Categoria
 
 from PyQt5 import QtWidgets
 
-from UnidadCompilacion import UnidadComp
+from compilador.logica.sintactico.UnidadCompilacion import UnidadComp
 
-from Funcion import Function
-from Error import errorSintactico
+from compilador.logica.sintactico.Funcion import Function
+from compilador.logica.sintactico.Error import errorSintactico
 
-from Parametro import Parameter
-from Argumento import Argument
-from Arreglo import Array
+from compilador.logica.sintactico.Parametro import Parameter
+from compilador.logica.sintactico.Argumento import Argument
+from compilador.logica.sintactico.Arreglo import Array
 
-from Sentencia import Sentence
-from SentenciaAsignacion import Asignacion
-from SentenciaDeclararVariable import DeclaracionVariable
-from SentenciaIfElse import IfElse
-from SentenciaImprimir import Imprimir
-from SentenciaInvocarFuncion import InvocarFuncion
-from SentenciaLeer import Leer
-from SentenciaRetorno import Retorno
-from SentenciaWhile import SentenceWhile
+from compilador.logica.sintactico.Sentencia import Sentence
+from compilador.logica.sintactico.SentenciaAsignacion import Asignacion
+from compilador.logica.sintactico.SentenciaDeclararVariable import DeclaracionVariable
+from compilador.logica.sintactico.SentenciaIfElse import IfElse
+from compilador.logica.sintactico.SentenciaImprimir import Imprimir
+from compilador.logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
+from compilador.logica.sintactico.SentenciaLeer import Leer
+from compilador.logica.sintactico.SentenciaRetorno import Retorno
+from compilador.logica.sintactico.SentenciaWhile import SentenceWhile
 
-from Expresion import Expression
-from ExpresionAritmetica import Aritmetica 
-from ExpresionCadena import Cadena
-from ExpresionLogica import Logica
-from ExpresionRelacional import Relacional
+from compilador.logica.sintactico.Expresion import Expression
+from compilador.logica.sintactico.ExpresionAritmetica import Aritmetica 
+from compilador.logica.sintactico.ExpresionCadena import Cadena
+from compilador.logica.sintactico.ExpresionLogica import Logica
+from compilador.logica.sintactico.ExpresionRelacional import Relacional
 
-from ExpresionAuxiliarAritmetica import AuxiliarAritmetica
-from ExpresionAuxiliarRelacional import AuxiliarRelacional
-from ExpresionAuxiliarLogica import AuxiliarLogica
+from compilador.logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
+from compilador.logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
+from compilador.logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
 
-from Mapa import mapita
-from ComponenteMapa import componenteMap
+from compilador.logica.sintactico.Mapa import mapita
+from compilador.logica.sintactico.ComponenteMapa import componenteMap
 
 
 

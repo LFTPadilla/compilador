@@ -1,4 +1,4 @@
-from logica.sintactico.Sentencia import Sentence
+from compilador.logica.sintactico.Sentencia import Sentence
 
 class IfElse(Sentence):
 

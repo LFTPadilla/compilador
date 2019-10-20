@@ -1,4 +1,4 @@
-from Categoria import Categoria
+from compilador.logica.lexico.Categoria import Categoria
 
 class Token:
     

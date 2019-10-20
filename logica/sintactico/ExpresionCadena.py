@@ -1,4 +1,4 @@
-from logica.sintactico.Expresion import Expression
+from compilador.logica.sintactico.Expresion import Expression
 
 
 class Cadena(Expression):
