@@ -1,4 +1,4 @@
-from compilador.logica.sintactico.Expresion import Expression
+from logica.sintactico.Expresion import Expression
 
 
 class AuxiliarLogica(Expression):

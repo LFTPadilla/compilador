@@ -4,6 +4,7 @@ sys.path.append(".")
 from compilador.logica.lexico.AnalizadorLexico import ALexico
 from compilador.logica.sintactico.AnalizadorSintactico import ASintactico
 
+#qtCreatorFile = "compilador/interfaz/interfazQT.ui" # Nombre del archivo aquí.
 qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -20,10 +21,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
         
-        
-        
-
-
     def AnalisisSintactico(self):
         Asin = ASintactico(self.tokens,self.treeFunciones)
         Asin.esUnidadDeCompilacion()

@@ -1,4 +1,4 @@
-from compilador.logica.sintactico.Sentencia import Sentence
+from logica.sintactico.Sentencia import Sentence
 
 class SentenceWhile(Sentence):
 

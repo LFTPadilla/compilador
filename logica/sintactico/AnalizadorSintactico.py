@@ -1,42 +1,40 @@
 
-from compilador.logica.lexico.Token import Token
-from compilador.logica.lexico.Categoria import Categoria
+from logica.lexico.Categoria import Categoria
+from logica.lexico.Token import Token
 
 from PyQt5 import QtWidgets
 
-from compilador.logica.sintactico.UnidadCompilacion import UnidadComp
 
-from compilador.logica.sintactico.Funcion import Function
-from compilador.logica.sintactico.Error import errorSintactico
+from logica.sintactico.UnidadCompilacion import UnidadComp
+from logica.sintactico.Error import errorSintactico
+from logica.sintactico.Funcion import Function
 
-from compilador.logica.sintactico.Parametro import Parameter
-from compilador.logica.sintactico.Argumento import Argument
-from compilador.logica.sintactico.Arreglo import Array
+from logica.sintactico.Argumento import Argument
+from logica.sintactico.Parametro import Parameter
+from logica.sintactico.Arreglo import Array
 
-from compilador.logica.sintactico.Sentencia import Sentence
-from compilador.logica.sintactico.SentenciaAsignacion import Asignacion
-from compilador.logica.sintactico.SentenciaDeclararVariable import DeclaracionVariable
-from compilador.logica.sintactico.SentenciaIfElse import IfElse
-from compilador.logica.sintactico.SentenciaImprimir import Imprimir
-from compilador.logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
-from compilador.logica.sintactico.SentenciaLeer import Leer
-from compilador.logica.sintactico.SentenciaRetorno import Retorno
-from compilador.logica.sintactico.SentenciaWhile import SentenceWhile
+from logica.sintactico.Sentencia import Sentence
+from logica.sintactico.SentenciaAsignacion import Asignacion
+from logica.sintactico.SentenciaDeclararVariable import DeclaracionVariable
+from logica.sintactico.SentenciaIfElse import IfElse
+from logica.sintactico.SentenciaImprimir import Imprimir
+from logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
+from logica.sintactico.SentenciaLeer import Leer
+from logica.sintactico.SentenciaRetorno import Retorno
+from logica.sintactico.SentenciaWhile import SentenceWhile
 
-from compilador.logica.sintactico.Expresion import Expression
-from compilador.logica.sintactico.ExpresionAritmetica import Aritmetica 
-from compilador.logica.sintactico.ExpresionCadena import Cadena
-from compilador.logica.sintactico.ExpresionLogica import Logica
-from compilador.logica.sintactico.ExpresionRelacional import Relacional
+from logica.sintactico.Expresion import Expression
+from logica.sintactico.ExpresionAritmetica import Aritmetica 
+from logica.sintactico.ExpresionCadena import Cadena
+from logica.sintactico.ExpresionLogica import Logica
+from logica.sintactico.ExpresionRelacional import Relacional
 
-from compilador.logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
-from compilador.logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
-from compilador.logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
+from logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
+from logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
+from logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
 
-from compilador.logica.sintactico.Mapa import mapita
-from compilador.logica.sintactico.ComponenteMapa import componenteMap
-
-
+from logica.sintactico.Mapa import mapita
+from logica.sintactico.ComponenteMapa import componenteMap
 
 class ASintactico: 
     arbol = None
@@ -74,7 +72,7 @@ class ASintactico:
     """
         <ListaFunciones> ::= <Funcion>[<ListaFunciones>]
     """
-    def esListaFunciones(self):           
+    def esListaFunciones(self):
         lista = []
         f = self.esFuncion()
         while f != None:
@@ -84,7 +82,6 @@ class ASintactico:
 
     """
        <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" "{" <bloqueSentencias> "}"
-
     """
     def esFuncion(self):
 
@@ -164,7 +161,6 @@ class ASintactico:
                 return tipoRet
         return None
     
-    
     """
     <TipoDato> ::= int | String | double | boolean | char
     """
@@ -180,14 +176,34 @@ class ASintactico:
     <ListaParametros> ::= <Parametro> [","<listaParametros>]
     """
     def esListaParametros(self):
-        lista = []
-        f = self.esParametro()
-        while(f!=None):
-            lista.append(f)
-            f=None
-            if(","): #falta la coma
-                f = self.esParametro()
-        return lista
+
+        # Se inicializa la lista de parametros
+        listaParametros = []
+
+        # obligatoriamente debe de existir un parametro
+        parametro = self.esParametro()
+
+        while parametro != None:
+
+                # se agrega parametro actual
+                listaParametros.append(parametro)
+
+                # despues de ser agregado a la lista se vuelve nulo para hallar uno nuevo
+                parametro = None
+                
+                # se pregunta si sigue un separador para agregar un nuevo parametro
+                if self.tokenActual.categoria == Categoria.Separador:
+                    self.obtenerSiguienteToken()
+
+                    # se busca un nuevo parametro
+                    parametro = self.esParametro()
+
+                    # el parametro no puede se None
+                    if argumento == None:
+                        self.reportarError("despues de la coma no se encontro un parametro valido", self.tokenActual.fila, self.tokenActual.columna)
+
+        # se retorna la lista de argumentos del mapa
+        return listaParametros
         
     """
     <Parametro> ::= <TipoDato> identificador
@@ -298,7 +314,6 @@ class ASintactico:
 
         return s
 
-    
     """
     <Expresion>::= <ExpresionAritmetica> | <ExpresionLogica> |<ExpresionRelacional> |<ExpresionCadena>
     """
@@ -326,10 +341,6 @@ class ASintactico:
         if e != None:
             return e
              
-        
-
-
-
     """
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
     """
@@ -354,7 +365,6 @@ class ASintactico:
                     return Aritmetica(None, ea , termino)
         return None
 
- 
     """
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
@@ -366,7 +376,6 @@ class ASintactico:
             if(ea != None):
                 eAux = self.esExpresionAritmetica()
                 return AuxiliarAritmetica(operador,ea,eAux)                     
-                
 
     """
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
@@ -418,9 +427,7 @@ class ASintactico:
         else:
             self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
             return None
-            
-    
-    
+             
     """
     <Termino>::= <ValorNumerico> | identificador
     """    
@@ -457,9 +464,7 @@ class ASintactico:
                 self.reportarError("No hay '+' para concatenar", self.tokenActual.fila, self.tokenActual.columna)
         else:
             return None        
-                
-                
-    
+                 
     """
     <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
     """
@@ -485,9 +490,6 @@ class ASintactico:
                 return Logica(None, None, eal, er)                    
         else:
             return None    
-        
-    
-    
 
     """
     <ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
@@ -510,14 +512,10 @@ class ASintactico:
                     return AuxiliarLogica(opBin, e, eal)
         else:
             return None    
-        
-    
-            
     
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
     """
-
     def esDecision(self):
         a = None
         return a
@@ -547,48 +545,193 @@ class ASintactico:
     <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";"
     """
     def esAsignacionVariable(self):
-        a = None
-        return a  #se puso true, para que no arroje error su declaracionen el metodo esSentencia
+        # obligatoriamente debe de iniciar con un identificador la asignacion de una variable
+        if self.tokenActual.categoria == Categoria.Identificador:
+            identificador = self.tokenActual
+            self.obtenerSiguienteToken()
+
+            # sigue obligatoriamente un operador de asignacion
+            if self.tokenActual.categoria == Categoria.OperadorAsignacion:
+                operadorAsignacion = self.tokenActual
+                self.obtenerSiguienteToken()
+                expresion = self.esExpresion()
+                
+                # la expresion no puede ser None
+                if expresion != None:
+
+                    # termina con un fin de sentencia
+                    if self.tokenActual.categoria == Categoria.FinSentencia:
+                        self.obtenerSiguienteToken()
+                        
+                        return Asignacion(identificador, operadorAsignacion, expresion)
+                    else:
+                        self.reportarError("falta el fin de sentencia en la sentencia asignacion variable", self.tokenActual.f, self.tokenActual.c)
+
+                else:
+                    self.reportarError("expresion no valida en la sentencia asignacion variable", self.tokenActual.f, self.tokenActual.c)
+
+            else:
+                self.reportarError("falta el operador de asignacion", self.tokenActual.f, self.tokenActual.c)
+
+        else:
+            self.reportarError("falta el identificador para ser una asignacion de variable", self.tokenActual.f, self.tokenActual.c)
+
+        return None
 
     """
     <Imprimir>::= imprimir "(" [<expresion>] ")" ";"
     """
     def esImprimir(self):
-        a = None
-        return a#se puso true, para que no arroje error su declaracionen el metodo esSentencia
+
+        # se debe de iniciar con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            # la palabra reservada debe de ser "imprimir"
+            if self.tokenActual.lexema == "imprimir":
+                self.obtenerSiguienteToken()
+
+                # verifica que siga un parentesis izquierdo
+                if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+                    self.obtenerSiguienteToken()
+
+                    # busca si existe una expresion puede retornar None
+                    expresion = self.esExpresion()
+
+                    # se verifica que siga un parentesis derecho
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                        self.obtenerSiguienteToken()
+
+                        # la sentencia es imprimir termina con un fin de sentencia
+                        if self.tokenActual.categoria == Categoria.FinSentencia:
+                            self.obtenerSiguienteToken()
+
+                            return Imprimir (expresion)
+
+                        else:
+                            self.reportarError("falta un final de sentencia \";\"", self.tokenActual.f, self.tokenActual.c)
+
+                    else:
+                        self.reportarError("falta el parentesis derecho en la sentencia imprimir", self.tokenActual.f, self.tokenActual.c)
+
+                else:
+                    self.reportarError("falta el parentesis izquierdo en la sentencia imprimir", self.tokenActual.f, self.tokenActual.c)
+
+        return None
 
     """
     <Leer>::= leer "(" [<expresion>] ")" ";"
     """
     def esLeer(self):
-        a = None
-        return a#se puso true, para que no arroje error su declaracionen el metodo esSentencia
+        # se debe de iniciar con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            # la palabra reservada debe de ser "leer""
+            if self.tokenActual.lexema == "leer":
+                self.obtenerSiguienteToken()
+
+                # verifica que siga un parentesis izquierdo
+                if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+                    self.obtenerSiguienteToken()
+
+                    # busca si existe una expresion puede retornar None
+                    expresion = self.esExpresion()
+
+                    # se verifica que siga un parentesis derecho
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                        self.obtenerSiguienteToken()
+
+                        # la sentencia es leer termina con un fin de sentencia
+                        if self.tokenActual.categoria == Categoria.FinSentencia:
+                            self.obtenerSiguienteToken()
+
+                            return Leer (expresion)
+
+                        else:
+                            self.reportarError("falta un final de sentencia \";\"", self.tokenActual.f, self.tokenActual.c)
+
+                    else:
+                        self.reportarError("falta el parentesis derecho en la sentencia leer", self.tokenActual.f, self.tokenActual.c)
+
+                else:
+                    self.reportarError("falta el parentesis izquierdo en la sentencia leer", self.tokenActual.f, self.tokenActual.c)
+
+        return None
 
     """
     <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia>
     """
     def esCiclo(self):
-        a = None
-        return a#se puso true, para que no arroje error su declaracionen el metodo esSentencia
+
+        # se debe de iniciar con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            # la palabra reservada debe de ser "while"
+            if self.tokenActual.lexema == "while":
+                self.obtenerSiguienteToken()
+
+                # verifica que siga un parentesis izquierdo
+                if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+                    self.obtenerSiguienteToken()
+
+                    # busca si existe una expresion logica 
+                    expresionLogica = self.esExpresionLogica()
+
+                    # la expresion logica no puede ser None
+                    if expresionLogica != None:
+
+                        # se verifica que siga un parentesis derecho
+                        if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                            self.obtenerSiguienteToken()
+
+                            # se busca un bloque de sentencias
+                            bloqueSentencia = self.esBloqueSentencias()
+
+                            # el bloque de sentencia no puede ser None
+                            if bloqueSentencia != None
+
+                                return SentenceWhile (expresionLogica, bloqueSentencia)
+                            
+                            else:
+                                self.reportarError("falta un bloque de sentencias para el ciclo", self.tokenActual.f, self.tokenActual.c)    
+                        else:
+                            self.reportarError("falta el parentesis derecho", self.tokenActual.f, self.tokenActual.c)
+                    else:
+                        self.reportarError("la expresion logica del ciclo es invalida", self.tokenActual.f, self.tokenActual.c)
+                else:
+                    self.reportarError("falta el parentesis izquierdo", self.tokenActual.f, self.tokenActual.c)
+
+        return None
 
     """
-    <Retorno>::= retorno <Expresion> ";"
+    <Retorno>::= return <Expresion> ";"
     """
     def esRetorno(self):
         print("ENTRO A VERIFICAR RETORNO")
-        if self.tokenActual.lexema == "return":
-            self.obtenerSiguienteToken()
-            e = self.esExpresion()
-            print("Paso ES EXPRESION ",e)
 
-            if e!=None:
+        #Verifica que sea una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            #Verifica que la palabra reservada sea return
+            if self.tokenActual.lexema == "return":
                 self.obtenerSiguienteToken()
-                if self.tokenActual.categoria == Categoria.FinSentencia:
-                    self.obtenerSiguienteToken()
-                    print("Va a retornar el retorno ",self.tokenActual)
-                    return Retorno(e)
-            else:
-                self.reportarError("No hay una expresion valida de retorno",self.tokenActual.fila,self.tokenActual.columna)
+
+                #Busca la expresion
+                expresion = self.esExpresion()
+                print("Paso ES EXPRESION () ",expresion)
+
+                #Verifica que la expresion no sea nula
+                if expresion != None:
+
+                    #Verifica que la sentencia retorno termine con un fin de sentencia
+                    if self.tokenActual.categoria == Categoria.FinSentencia:
+                        self.obtenerSiguienteToken()
+
+                        print("Va a retornar el retorno ",self.tokenActual)
+                        return Retorno(expresion)
+                    else:
+                        self.reportarError("El retorno no termino con \";\"", self.tokenActual.f, self.tokenActual.c)
+                else:
+                    self.reportarError("No hay una expresion valida de retorno", self.tokenActual.fila, self.tokenActual.columna)
 
         return None#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
@@ -596,21 +739,89 @@ class ASintactico:
     <InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"
     """
     def esInvocarMetodo(self):
-        a = None
-        return a#se puso true, para que no arroje error su declaracionen el metodo esSentencia
+
+        # verifica que empiece con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
+
+            # verifica que la palabra reservada sea "invocar"
+            if self.tokenActual.lexema == "invocar":
+                self.obtenerSiguienteToken()
+
+                # debe de seguir un identificador y lo debe de guardar
+                if self.tokenActual.categoria == Categoria.Identificador:
+
+                    identificador = self.tokenActual
+                    self.obtenerSiguienteToken()
+
+                    # debe de seguir un parentesis Izquierdo
+                    if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+                        self.obtenerSiguienteToken()
+
+                        #busca la lista de los argumentos
+                        listaArgumentos = self.esListaArgumentos()
+
+                        # la lista de argumentos no puede ser None
+                        if listaArgumentos != None:
+
+                            # verifica que sigua un parentesis Derecho
+                            if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                                self.obtenerSiguienteToken()
+
+                                # verifica que la invocacion de una funcion termine con un fin de sentencia
+                                if self.tokenActual.categoria == Categoria.FinSentencia:
+                                    self.obtenerSiguienteToken()
+
+                                    return InvocarFuncion(identificador, listaArgumentos)
+
+                                else:
+                                    self.reportarError("falta finalizar la sentencia con \";\"", self.tokenActual.f, self.tokenActual.c)
+
+                            else:
+                                self.reportarError("falta parentesis derecho en invocar metodo", self.tokenActual.f, self.tokenActual.c)
+
+                        else:
+                            self.reportarError("la lista de argumentos no fue valida", self.tokenActual.f, self.tokenActual.c)
+
+                    else:
+                        self.reportarError("falta parentesis izquierdo en invocar metodo", self.tokenActual.f, self.tokenActual.c)
+
+                else:
+                    self.reportarError("Identificador no encontrado en invocar metodo", self.tokenActual.f, self.tokenActual.c)
+
+        return None
 
     """
     <ListaArgumentos>::= <Argumento> ["," <ListaArgumentos>]
     """
     def esListaArgumentos(self):
 
-        lista = []
-        f = self.esArgumento()
-        while(f!=None):
-            lista.append(f)
-            if(","): #falta la coma
-                f = self.esArgumento()
-        return lista
+        # Se inicializa la lista de argumentos
+        listaArgumentos = []
+
+        # obligatoriamente debe de existir un argumento
+        argumento = self.esArgumento()
+
+        while argumento != None:
+
+                # se agrega argumento actual
+                listaArgumentos.append(argumento)
+
+                # despues de ser agregado a la lista se vuelve nulo para hallar uno nuevo
+                argumento = None
+                
+                # se pregunta si sigue un separador para agregar un nuevo argumento
+                if self.tokenActual.categoria == Categoria.Separador:
+                    self.obtenerSiguienteToken()
+
+                    # se busca un nuevo argumento
+                    argumento = self.esArgumento()
+
+                    # el argumento no puede se None
+                    if argumento == None:
+                        self.reportarError("despues de la coma no se encontro un argumento valido", self.tokenActual.fila, self.tokenActual.columna)
+
+        # se retorna la lista de argumentos del mapa
+        return listaArgumentos
 
     """
     <Argumento>::= identificador | <expresion>
@@ -702,11 +913,7 @@ class ASintactico:
                         self.reportarError("no encuentra un identificador valido", self.tokenActual.fila, self.tokenActual.columna)
                 else:
                     self.reportarError("tipo de dato invalido", self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("la palabra reservada no es \"array\"", self.tokenActual.fila, self.tokenActual.columna)
-        else:
-            self.reportarError("se debe de empezar con una palabra reservada", self.tokenActual.fila, self.tokenActual.columna)
-
+            
         return None 
     
     """
@@ -741,7 +948,6 @@ class ASintactico:
 
         # se retorna la lista de expresions del mapa
         return listaExpresiones
-
 
     """
     <Mapa>::= map identificador "=" <listaComponentesMap>
@@ -779,10 +985,6 @@ class ASintactico:
                         self.reportarError("falta el \"=\" en el mapa", self.tokenActual.fila, self.tokenActual.columna)
                 else:        
                     self.reportarError("el mapa no tiene identificador",self.tokenActual.fila,self.tokenActual.columna)
-            else:            
-                self.reportarError("la palabra reservada no es la correcta para iniciar un mapa", self.tokenActual.fila, self.tokenActual.columna)
-        else:
-            self.reportarError("no es una palabra reservada", self.tokenActual.fila, self.tokenActual.columna)        
         return None
 
     """
