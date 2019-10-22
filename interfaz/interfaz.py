@@ -1,8 +1,8 @@
 import sys
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
 sys.path.append(".") 
-from compilador.logica.lexico.AnalizadorLexico import ALexico
-from compilador.logica.sintactico.AnalizadorSintactico import ASintactico
+from logica.lexico.AnalizadorLexico import ALexico
+from logica.sintactico.AnalizadorSintactico import ASintactico
 
 #qtCreatorFile = "compilador/interfaz/interfazQT.ui" # Nombre del archivo aquí.
 qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.

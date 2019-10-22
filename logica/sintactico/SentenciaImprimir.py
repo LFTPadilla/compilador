@@ -2,14 +2,13 @@ from logica.sintactico.Sentencia import Sentence
 
 class Imprimir(Sentence):
 
-    def __init__(self, identificador, expresion):
-        self.identificador = identificador
+    def __init__(self, expresion):
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Sentencia Imprimir: identificador:%s, expresion: %s)" % (self.identificador, self.expresion)
+        return "(Sentencia Imprimir: expresion: %s)" % ( self.expresion)
 
     def __str__(self):
-        return "Sentencia Imprimir [%s, %s]"% (self.identificador, self.expresion)
+        return "Sentencia Imprimir [%s]" % (self.expresion)
 
     

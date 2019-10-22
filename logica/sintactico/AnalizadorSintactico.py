@@ -1,4 +1,3 @@
-
 from logica.lexico.Categoria import Categoria
 from logica.lexico.Token import Token
 
@@ -206,7 +205,7 @@ class ASintactico:
                     parametro = self.esParametro()
 
                     # el parametro no puede se None
-                    if argumento == None:
+                    if parametro == None:
                         self.reportarError("despues de la coma no se encontro un parametro valido", self.tokenActual.fila, self.tokenActual.columna)
 
         # se retorna la lista de argumentos del mapa
@@ -771,7 +770,7 @@ class ASintactico:
                             bloqueSentencia = self.esBloqueSentencias()
 
                             # el bloque de sentencia no puede ser None
-                            if bloqueSentencia != None
+                            if bloqueSentencia != None:
 
                                 return SentenceWhile (expresionLogica, bloqueSentencia)
                             

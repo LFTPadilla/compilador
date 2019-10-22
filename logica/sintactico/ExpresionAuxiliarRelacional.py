@@ -1,6 +1,5 @@
 from logica.sintactico.Expresion import Expression
 
-
 class AuxiliarRelacional(Expression):
     
     def __init__(self,operadorRelacional, expresionRelacional, expresionAuxiliarRelacional):
