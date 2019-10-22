@@ -1,6 +1,8 @@
 from PyQt5 import QtWidgets
 
-
+"""
+    <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" "{" <bloqueSentencias> "}"
+"""
 class Function:
 
     def __init__(self, visibilidad, retorno, identificador, parametros, bloque):
@@ -16,39 +18,26 @@ class Function:
         titulo = "Funcion "+str(n)
         arbolFuncion.setText(0,titulo)
 
-        visi = QtWidgets.QTreeWidgetItem(arbolFuncion)
-        visi.setText(0,"Visibilidad "+self.visibilidad.lexema)
+        if self.visibilidad != None:
+            ramaVisibilidad = QtWidgets.QTreeWidgetItem(arbolFuncion)
+            ramaVisibilidad.setText(0,"Visibilidad "+self.visibilidad.lexema)
+          
+        ramaRetorno = QtWidgets.QTreeWidgetItem(arbolFuncion)
+        ramaRetorno.setText(0,"Retorno "+self.retorno.lexema)
         
-        
-        retor = QtWidgets.QTreeWidgetItem(arbolFuncion)
-        retor.setText(0,"Retorno "+self.retorno.lexema)
-        
-        ident = QtWidgets.QTreeWidgetItem(arbolFuncion)
-        ident.setText(0,"Nombre "+self.identificador.lexema)
+        ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolFuncion)
+        ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
 
+        if len(self.parametros) > 0:
+            ramaParametro = QtWidgets.QTreeWidgetItem(arbolFuncion)
+            ramaParametro.setText(0,"Parametros")
+            cont = 0
 
-        bloq = QtWidgets.QTreeWidgetItem(arbolFuncion)
-        bloq.setText(0,"Bloque Sentecias")
+            for parametro in self.parametros:
+                parametro.construirArbol(ramaParametro, cont)
+                cont += 1
 
-        #AQUI FOR QUE RECORRA LAS SENTENCIAS
-
-        param = QtWidgets.QTreeWidgetItem(arbolFuncion)
-        param.setText(0,"Parametros")
-        cont=0
-        for parametro in self.parametros:
-            par = QtWidgets.QTreeWidgetItem(param)
-            par.setText(0,"Parametro "+str(cont))
-            cont+=1
-
-            i = QtWidgets.QTreeWidgetItem(par)
-            i.setText(0,parametro.identificador.lexema)
-
-            tip = QtWidgets.QTreeWidgetItem(par)
-            tip.setText(0,parametro.tipoRetorno.lexema)
-            #p = str(parametro.tipoRetorno.lexema)+" "+str(parametro.identificador.lexema)
-            
-        
-        
+        self.bloque.construirArbol(arbolFuncion)
 
     def __repr__(self):
         return "(Funcion: visibilidad: %s, identificador: %s, parametros: %s, retorno: %s, bloqueSentencias: %s)" % (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)

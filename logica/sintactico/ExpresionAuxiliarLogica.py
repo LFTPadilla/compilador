@@ -9,6 +9,6 @@ class AuxiliarLogica(Expression):
         self.expresionLogica = expresionLogica
         self.expresionAuxiliarLogica = expresionAuxiliarLogica
     
-    def getArbolVisual(self):
+    def construirArbol(self, arbol, n):
         pass
         

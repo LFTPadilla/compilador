@@ -8,5 +8,5 @@ class Relacional(Expression):
         self.expresionAuxiliarRelacional = expAuxiliarRelacional
         self.termino = termino
 
-    def getArbolVisual(self):
+    def construirArbol(self, arbol, n):
         pass

@@ -1,0 +1,56 @@
+<UnidadDeCompilacion> ::= <ListaFunciones>														FUNCIONA
+<ListaFunciones> ::= <Funcion>[<ListaFunciones>] 													FUNCIONA
+<Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" <bloqueSentencias> 						FUNCIONA
+<Visibilidad> ::= public | private | protected | default 												FUNCIONA
+<TipoRetorno> ::= int | String | double | boolean | char | void 											FUNCIONA
+<TipoDato> ::= int | String | double | boolean | char 													FUNCIONA
+<ListaParametros> ::= <Parametro> [","<listaParametros>] 												FUNCIONA
+<Parametro> ::= <TipoDato> identificador 														FUNCIONA
+<BloqueSentencia> ::= "{" [<listaSentencias>] "}" 													FUNCIONA
+<ListaSentencias> ::= <sentencia> [<listaSentencias>] 													FUNCIONA
+<sentencia> ::= <Desicion> | <ciclo> | <Impresion> | <lectura> | <Asignacion> | <declaracionVariable> | <retorno> | <invocaFuncion> | <arreglo> | <mapa>
+<Decision>::= <sentenciaif>[<sentenciaElse>]														NO FUNCIONA
+<SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia> 											NO FUNCIONA
+<SentenciaElse>::= else <BloqueSentencia> 														SIN PROBAR
+<DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION
+<AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" 										NO FUNCIONA
+<Imprimir>::= imprimir "(" [<expresion>] ")" ";" 													FUNCIONA SIN EXPRESION
+<Leer>::= leer "(" [<expresion>] ")" ";" 														FUNCIONA SIN EXPRESION
+<Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
+<Retorno>::= return <Expresion> ";" 															NO FUNCIONA
+<InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"											FUNCIONA
+<ListaArgumentos>::= <Argumento> ["," <ListaArgumentos>]												FUNCIONA
+<Argumento>::= identificador | <expresion>														FUNCIONA SIN EXPRESION
+<Arreglo>::= array <tipoDato> identificador "=" "[" <listaExpresiones> "]" ";"										NO FUNCIONA
+<Mapa>::= map identificador "=" <listaComponentesMap>													FUNCIONA
+<listaComponentesMap>::= "[" <componenteMap> [ "," <listaComponentesMap>] "]" ";"									FUNCIONA
+<componenteMap>::= "(" <termino> "," <termino> ")"													FUNCIONA
+<listaExpresiones>::= <Expresion> ["," <listaExpresiones> ] 												NO FUNCIONA
+<Expresion>::= <ExpresionAritmetica> | <ExpresionLogica> |<ExpresionRelacional> |<ExpresionCadena>
+<ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
+<ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
+<ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
+<ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional>[<ExpresionAuxiliarRelacional>]
+<Termino>::= <ValorNumerico> | identificador
+<ValorNumerico>::= numeroNatural | numeroReal    
+<ExpresionCadena>::= cadena "+" <Expresion> 
+<ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
+<ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+
+
+pruebas
+int melissa(){
+leer();
+imprimir();
+String melissa;
+invocar juan (hola, melis);
+map mapita = [( valor, valor ),( valor, valor )];
+}
+void pipe (String roa){
+}
+public int melissa (int pipe, String roa){
+}
+protected double melissa (double pipe, boolean roa, char pipe){
+}
+default void melissa (int pipe, char roa){
+}

@@ -7,5 +7,5 @@ class Cadena(Expression):
         self.cadenaCaracteres = cadenaCaracteres
         self.expresion = expresion
 
-    def getArbolVisual(self):
+    def construirArbol(self, arbol, n):
         pass

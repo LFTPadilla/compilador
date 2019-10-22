@@ -9,6 +9,6 @@ class AuxiliarAritmetica(Expression):
         self.expresionAritmetica = expresionAritmetica
         self.expresionAuxiliar = expresionAuxiliarAritmetica
     
-    def getArbolVisual(self):
+    def construirArbol(self, arbol, n):
         pass
         

@@ -1,3 +1,7 @@
+from PyQt5 import QtWidgets
+"""
+    <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>
+"""
 class SentIF:
 
     def __init__(self, expresionLogica, bloqueSentencias):
@@ -11,5 +15,11 @@ class SentIF:
     def __str__(self):
         return "Sentencia If [%s, %s]"% (self.expresionLogica, self.bloqueSentencias)
                 
-    def getArbolVisual(self):
-        return None
+    def construirArbol(self, arbol):
+        arbolIf = QtWidgets.QTreeWidgetItem(arbol)
+        titulo = "If"
+        arbolIf.setText(0,titulo)
+
+        #self.expresionLogica.construirArbol(arbolIf)
+        
+        self.bloqueSentencias.construirArbol(arbolIf)

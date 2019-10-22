@@ -7,5 +7,5 @@ class Aritmetica(Expression):
         self.expresionAuxiliar = expAuxiliarAritmetica
         self.valorNumerico = valorNumerico
 
-    def getArbolVisual(self):
+    def construirArbol(self, arbol, n):
         pass

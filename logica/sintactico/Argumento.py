@@ -1,3 +1,7 @@
+from PyQt5 import QtWidgets
+"""
+    <Argumento>::= identificador | <expresion>
+"""
 class Argument:
 
     def __init__(self, identificador, expresion):
@@ -9,3 +13,15 @@ class Argument:
 
     def __str__(self):
         return "Argumento [ %s, %s]"% (self.identificador, self.expresion)
+
+    def construirArbol(self, arbol, n):
+        arbolArgumento = QtWidgets.QTreeWidgetItem(arbol)
+        titulo = "Argumento "+str(n)
+        arbolArgumento.setText(0, titulo)
+
+        if self.identificador == None:
+            self.expresion.construirArbol(arbolArgumento)
+
+        if self.expresion == None:
+            ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolArgumento)
+            ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
