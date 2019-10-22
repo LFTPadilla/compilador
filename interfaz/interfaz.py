@@ -25,6 +25,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Asin = ASintactico(self.tokens,self.treeFunciones)
         Asin.esUnidadDeCompilacion()
         self.treeFunciones.show()
+        if len(Asin.listaErrores)!=0:
+            for i in Asin.listaErrores:
+                self.listViewErrores.addItem(str(i))
 
     
     def AnalisisLexico(self):
@@ -50,6 +53,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.txtCodigo.clear()
         self.listViewTokens.clear()
         self.treeFunciones.clear()
+        self.listViewErrores.clear()
 
 
             
