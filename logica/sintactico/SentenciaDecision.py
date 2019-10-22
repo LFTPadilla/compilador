@@ -1,17 +1,27 @@
+from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
-
+"""
+    <Decision>::= <sentenciaif>[<sentenciaElse>]
+"""
 class Decision(Sentence):
 
-    def __init__(self,sentencia_if, sentencia_else):
-        self.sentencia_if = sentencia_if
-        self.sentencia_else = sentencia_else
+    def __init__(self,sentenciaIf, sentenciaElse):
+        self.sentenciaIf = sentenciaIf
+        self.sentenciaElse = sentenciaElse
 
 
     def __repr__(self):
-        return "(Sentencia If Else: SentenciasIF: %s, SentenciasELSE: %s)" % (self.sentencia_if, self.sentencia_else)
+        return "(Sentencia If Else: SentenciasIF: %s, SentenciasELSE: %s)" % (self.sentenciaIf, self.sentenciaElse)
 
     def __str__(self):
-        return "Sentencia Decision [%s, %s]"% (self.sentencia_if, self.sentencia_else)
+        return "Sentencia Decision [%s, %s]"% (self.sentenciaIf, self.sentenciaElse)
                 
-    def getArbolVisual(self):
-        return None
+    def construirArbol(self, arbol, n):
+        arbolDecision = QtWidgets.QTreeWidgetItem(arbol)
+        titulo = "Decision "+str(n)
+        arbolDecision.setText(0,titulo)
+
+        self.sentenciaIf.construirArbol(arbolDecision)
+
+        if self.sentenciaElse != None:
+            self.sentenciaElse.construirArbol(arbolDecision)

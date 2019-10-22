@@ -1,3 +1,6 @@
+"""
+    <Arreglo>::= array <tipoDato> identificador "=" "[" <listaExpresiones> "]" ";"
+"""
 class Array:
 
     def __init__(self, tipoDato, identificador, listaExpresiones):
@@ -10,3 +13,6 @@ class Array:
 
     def __str__(self):
         return "Arreglo [ %s, %s, %s]"% (self.tipoDato, self.identificador, self.listaExpresiones)
+    
+    def construirArbol(self, arbol, n):
+        pass

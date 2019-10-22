@@ -1,5 +1,8 @@
+from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
-
+"""
+    <InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"
+"""
 class InvocarFuncion(Sentence):
 
     def __init__(self, identificador, listaArgumentos):
@@ -11,3 +14,19 @@ class InvocarFuncion(Sentence):
 
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
+    
+    def construirArbol(self, arbol, n):
+        arbolInvocarFuncion = QtWidgets.QTreeWidgetItem(arbol)
+        titulo = "InvocarFuncion "+str(n)
+        arbolInvocarFuncion.setText(0,titulo)
+
+        ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolInvocarFuncion)
+        ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
+
+        ramaListaArgumentos = QtWidgets.QTreeWidgetItem(arbolInvocarFuncion)
+        ramaListaArgumentos.setText(0,"Argumentos ")
+        cont = 0
+
+        for argumento in self.listaArgumentos:
+            argumento.construirArbol(ramaListaArgumentos, cont)
+            cont += 1

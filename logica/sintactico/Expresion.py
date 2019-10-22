@@ -8,3 +8,6 @@ class Expression(ABC):
 
     def __init_(self):
         pass
+
+    def construirArbol(self, arbol, n):
+        pass

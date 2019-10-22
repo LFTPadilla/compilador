@@ -1,5 +1,8 @@
+from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
-
+"""
+    <Leer>::= leer "(" [<expresion>] ")" ";"
+"""
 class Leer(Sentence):
 
     def __init__(self, expresion):
@@ -11,5 +14,10 @@ class Leer(Sentence):
     def __str__(self):
         return "Sentencia Leer [%s]"% (self.expresion)
     
-    def getArbolVisual(self):
-        return None
+    def construirArbol(self, arbol, n):
+        arbolLeer = QtWidgets.QTreeWidgetItem(arbol)
+        titulo = "Leer "+str(n)
+        arbolLeer.setText(0,titulo)
+
+        #if self.expresion != None:
+        #    self.expresion.contruirArbol(arbolLeer)
