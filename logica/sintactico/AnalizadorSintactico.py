@@ -97,7 +97,6 @@ class ASintactico:
         #El tipo de retorno es obligatorio  
         tipoRetorno = self.esTipoRetorno()  
         if tipoRetorno!=None :
-           
             #El identificador es obligatorio             
             if self.tokenActual.categoria == Categoria.Identificador:
                 identificador = self.tokenActual
@@ -137,7 +136,7 @@ class ASintactico:
             else:
                 self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
         else:
-            self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
+            #self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
         return None
 
     """
@@ -306,12 +305,12 @@ class ASintactico:
 
         if(s!=None):
             return s
-
+        """
         s = self.esDeclaracionVariable()
 
         if(s!=None):
             return s
-
+        """
         s = self.esRetorno()
 
         if(s!=None):
