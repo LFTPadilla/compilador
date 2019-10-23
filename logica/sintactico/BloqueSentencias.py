@@ -15,7 +15,7 @@ class bloqueSent:
 
     def construirArbol(self, arbol):
         arbolBloque = QtWidgets.QTreeWidgetItem(arbol)
-        arbolBloque.setText(0,"Bloque Sentecias")
+        arbolBloque.setText(0,"Bloque Sentencias")
 
         if len(self.listaSentencias) > 0:
             ramaListaSent = QtWidgets.QTreeWidgetItem(arbolBloque)

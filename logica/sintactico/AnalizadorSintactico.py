@@ -140,7 +140,7 @@ class ASintactico:
             else:
                 self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
         else:
-            #self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
+            self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
         return None
 
     """
