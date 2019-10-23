@@ -54,6 +54,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listViewTokens.clear()
         self.treeFunciones.clear()
         self.listViewErrores.clear()
+        self.btnAnalisisSintactico.setEnabled(False)
 
 
             

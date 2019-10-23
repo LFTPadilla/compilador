@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1210</width>
-    <height>839</height>
+    <width>1364</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,9 +26,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>470</y>
-      <width>131</width>
+      <x>450</x>
+      <y>360</y>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -41,8 +41,8 @@
      <rect>
       <x>380</x>
       <y>140</y>
-      <width>801</width>
-      <height>301</height>
+      <width>941</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="font">
@@ -55,9 +55,9 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>560</y>
-      <width>421</width>
-      <height>221</height>
+      <y>450</y>
+      <width>401</width>
+      <height>141</height>
      </rect>
     </property>
    </widget>
@@ -67,7 +67,7 @@
       <x>20</x>
       <y>140</y>
       <width>331</width>
-      <height>651</height>
+      <height>451</height>
      </rect>
     </property>
     <property name="font">
@@ -85,7 +85,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>530</y>
+      <y>410</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -122,7 +122,7 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>1181</width>
+      <width>1341</width>
       <height>71</height>
      </rect>
     </property>
@@ -170,9 +170,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>470</y>
-      <width>141</width>
+      <x>770</x>
+      <y>360</y>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -186,8 +186,8 @@
    <widget class="QPushButton" name="btnLimpiar">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>470</y>
+      <x>1150</x>
+      <y>360</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -199,18 +199,18 @@
    <widget class="QListWidget" name="listViewErrores">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>560</y>
-      <width>361</width>
-      <height>221</height>
+      <x>800</x>
+      <y>450</y>
+      <width>521</width>
+      <height>141</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>530</y>
+      <x>800</x>
+      <y>420</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -230,7 +230,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1210</width>
+     <width>1364</width>
      <height>21</height>
     </rect>
    </property>
