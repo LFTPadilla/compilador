@@ -104,13 +104,9 @@ class ALexico:
             columnaInicial = self.colActual
             posInicial = self.posicionActual
             self.obtenerSiguienteCaracter()
-            if(self.caracterActual == "\n"):
-                self.tokens.append(Token(";", Categoria.FinSentencia,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
-                return True
-            else:
-                self.hacerBT(posInicial, filaInicial, columnaInicial)
-                return False
+            self.tokens.append(Token(";", Categoria.FinSentencia,self.filaActual,self.colActual)) 
+            return True
+            
 
     def esComentarioLinea(self):
         if(self.caracterActual == "/"):
