@@ -51,7 +51,7 @@ class ASintactico:
         self.arbol = arbol
         self.listaTokens = listaTokens
         self.tokenActual = self.listaTokens[self.posActual]
-        self.palabrasReservadas = ["String","abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map", "array"]
+        self.palabrasReservadas = ["String","abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map", "array" "let", "asig"]
 
     def reportarError(self,msj,fila,columna):
         err = errorSintactico(msj,fila,columna)
@@ -72,10 +72,6 @@ class ASintactico:
         
         return None
 
-
-
- 
-    
     """
         <ListaFunciones> ::= <Funcion>[<ListaFunciones>]
     """
@@ -90,57 +86,66 @@ class ASintactico:
         return lista
 
     """
-       <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" <bloqueSentencias>
+       <Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParametros>] ")" <bloqueSentencias>
     """
     def esFuncion(self, contador):
+        if self.posActual < len(self.listaTokens):
+            print("token ",self.tokenActual)
+            #El token de visibilidad es opcional, por eso esta en un if que de no cumplirse, no pasa nada
+            visibilidad  = self.esVisibilidad()
+            print("visibilidad", visibilidad)
+                
+            #El tipo de retorno es obligatorio  
+            tipoRetorno = self.esTipoRetorno()  
+            print ("tipo retorno",tipoRetorno)
 
-        print("token ",self.tokenActual)
-        #El token de visibilidad es opcional, por eso esta en un if que de no cumplirse, no pasa nada
-        visibilidad  = self.esVisibilidad()
-               
-        #El tipo de retorno es obligatorio  
-        tipoRetorno = self.esTipoRetorno()  
-        if tipoRetorno!=None :
-            #El identificador es obligatorio             
-            if self.tokenActual.categoria == Categoria.Identificador:
-                identificador = self.tokenActual
-                print("El ident", identificador)
-                self.obtenerSiguienteToken()
-                print("parentesis izq",self.tokenActual)
-                #El parentesis izquierdo es obligatorio pero no se guarda
-                if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+            if tipoRetorno!=None :
+                #El identificador es obligatorio             
+                if self.tokenActual.categoria == Categoria.Identificador:
+                    identificador = self.tokenActual
+                    print("El identificador", identificador)
 
                     self.obtenerSiguienteToken()
-                    print("Paso a parametros",self.tokenActual)
-                    #La lista de parametros no es obligatoria, solo se guarda de haber algo
-                    parametros = self.esListaParametros()   
-                    print("Lista parametros ",parametros)
-                    #El parentesis derecho es obligario pero no se guarda
-                    if(self.tokenActual.categoria == Categoria.ParentesisDerecho):
+                    print("parentesis izquierdo",self.tokenActual)
+
+                    #El parentesis izquierdo es obligatorio pero no se guarda
+                    if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
 
                         self.obtenerSiguienteToken()
-                        print("bloque ",self.tokenActual)
-                        #El bloque de sentencias se guarda 
-                        bloque = self.esBloqueSentencias()#BloqueSentencia 
-                        if(bloque != None ): #return cuenta como sentencia y minimo debe tenerlo 
-                     
-                            funcion = Function(visibilidad,tipoRetorno,identificador,parametros,bloque)
-                            print("FUNCION ", funcion)
-                            funcion.construirArbol(self.arbol,contador)
+                        print("Paso a parametros",self.tokenActual)
 
-                            print("Debe ser siguiente funcion ",self.tokenActual)
+                        #La lista de parametros no es obligatoria, solo se guarda de haber algo
+                        parametros = self.esListaParametros()   
+                        print("Lista parametros ",parametros)
 
-                            return funcion
+                        #El parentesis derecho es obligario pero no se guarda
+                        if(self.tokenActual.categoria == Categoria.ParentesisDerecho):
+
+                            self.obtenerSiguienteToken()
+                            print("bloque ",self.tokenActual)
+
+                            #El bloque de sentencias se guarda 
+                            bloque = self.esBloqueSentencias()#BloqueSentencia 
+                            
+                            if bloque != None: #return cuenta como sentencia y minimo debe "{" "}"
+                        
+                                funcion = Function(visibilidad,tipoRetorno,identificador,parametros,bloque)
+                                print("FUNCION ", funcion)
+
+                                funcion.construirArbol(self.arbol,contador)
+
+                                return funcion
+                            else:
+                                self.reportarError("Falta Bloque sentencias en la funcion", self.tokenActual.fila, self.tokenActual.columna)   
                         else:
-                            self.reportarError("Falta Bloque sentencias", self.tokenActual.fila, self.tokenActual.columna)   
+                            self.reportarError("Falta parentesis Derecho en la funcion", self.tokenActual.fila, self.tokenActual.columna)
                     else:
-                        self.reportarError("Falta parentesis Derecho", self.tokenActual.fila, self.tokenActual.columna)
+                        self.reportarError("Falta parentesis izquierdo en la funcion", self.tokenActual.fila, self.tokenActual.columna)
                 else:
-                    self.reportarError("Falta parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
+                    self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
             else:
-                self.reportarError("Falta identificador de funcion", self.tokenActual.fila, self.tokenActual.columna)        
-        else:
-            self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
+                self.reportarError("Falta tipo de retorno de la funcion", self.tokenActual.fila, self.tokenActual.columna)
+            return None
         return None
 
     """
@@ -150,11 +155,8 @@ class ASintactico:
         if(self.tokenActual.categoria == Categoria.PalabraReservada):        
             if(self.tokenActual.lexema == "public" or self.tokenActual.lexema == "private" or self.tokenActual.lexema == "protected" or self.tokenActual.lexema == "default"):
                 visibilidad = self.tokenActual
-                self.obtenerSiguienteToken()
-                
+                self.obtenerSiguienteToken()        
                 return visibilidad
-            else:
-                self.reportarError("palabra reservada invalida", self.tokenActual.fila, self.tokenActual.columna)
         return None
 
     """
@@ -166,10 +168,9 @@ class ASintactico:
                 tipoRetorno = self.tokenActual
                 print("Debe ser tipo retorno ",tipoRetorno)
                 self.obtenerSiguienteToken()
-                print("Aqui identificador ",self.tokenActual)
                 return tipoRetorno
             else:
-                self.reportarError("No es un tipo de retorno valido", self.tokenActual.fila, self.tokenActual.columna)
+                self.reportarError("No es un TipoRetorno valido", self.tokenActual.fila, self.tokenActual.columna)
         return None
     
     """
@@ -225,37 +226,41 @@ class ASintactico:
         <Parametro> ::= <TipoDato> identificador
     """   
     def esParametro(self, contador):
+        if self.tokenActual.categoria != Categoria.ParentesisDerecho:
+            tipo_dato = self.esTipoDato()
+            if  not tipo_dato == False :  #si el token actual es un tipo de dato
+                if ( self.tokenActual.categoria == Categoria.Identificador ):   #
+                    
+                    nombre = self.tokenActual
+                    self.obtenerSiguienteToken()
 
-        tipo_dato = self.esTipoDato()
-        if ( not tipo_dato == False ):                                      #si el token actual es un tipo de dato
-            if ( self.tokenActual.categoria == Categoria.Identificador ):   #
-                
-                nombre = self.tokenActual
-                self.obtenerSiguienteToken()
+                    Parametro = Parameter(tipo_dato,nombre)
+                    print("Parametro ", Parametro)
 
-                Parametro = Parameter(tipo_dato,nombre)
-                print("Parametro ", Parametro)
+                    #Parametro.construirArbol(self.funcion, contador)
 
-                #Parametro.construirArbol(self.funcion, contador)
-
-                return Parametro
+                    return Parametro
+                else:
+                    self.reportarError("No hay identificador definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                self.reportarError("No hay identificador definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
-        else:
-            self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
-    
+                self.reportarError("No hay tipo de dato definido para el parametro", self.tokenActual.fila, self.tokenActual.columna)
+        return None
+        
     """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
     """
     def esBloqueSentencias(self):
+
         if(self.tokenActual.categoria == Categoria.LlaveIzquierda):
             self.obtenerSiguienteToken()
             print("Llego llave izq")
+
             sentencias = self.esListaSentencias()
             print("lista de sent ",sentencias)
             
             if(self.tokenActual.categoria == Categoria.LlaveDerecha):
                 print("LLego llave der")
+
                 self.obtenerSiguienteToken()
                 return bloqueSent (sentencias)
             else:
@@ -284,60 +289,68 @@ class ASintactico:
                     <retorno> | <invocaFuncion> | <arreglo> | <mapa>
     """
     def esSentencia(self, contador):
-        s = None
-
-        s = self.esDecision() #Falla
-        if(s!=None):
-            return s
-
-        s = self.esCiclo()
         
-        if(s!=None):
+        if self.tokenActual.categoria != Categoria.LlaveDerecha:
+
+            s = None
+
+            s = self.esDecision() #Falla
+            if(s!=None):
+                return s
+
+            s = self.esCiclo()
+            
+            if(s!=None):
+                return s
+            
+            s = self.esImprimir()
+
+            if(s!=None):
+                return s
+
+            s = self.esLeer()
+            
+            if(s!=None):
+                return s
+            
+            s = self.esDeclaracionVariable()
+
+            if(s!=None):
+                return s
+            
+            s = self.esRetorno()
+
+            if(s!=None):
+                return s
+
+            s = self.esInvocarMetodo()
+
+            if(s!=None):
+                return s
+
+            s = self.esArreglo()
+
+            if(s!=None):
+                return s
+
+            s = self.esMapa()
+
+            if(s!=None):
+                return s
+
+            s = self.esAsignacionVariable()
+
+            if(s!=None):
+                return s
+
+            if s == None:
+                self.reportarError("La sentencia es invalida", self.tokenActual.fila, self.tokenActual.columna)
+
+            contador += 1
+
             return s
-        
-        s = self.esImprimir()
 
-        if(s!=None):
-            return s
-
-        s = self.esLeer()
-        
-        if(s!=None):
-            return s
-        
-        s = self.esAsignacionVariable()
-
-        if(s!=None):
-            return s
-        """
-        s = self.esDeclaracionVariable()
-
-        if(s!=None):
-            return s
-        """
-        s = self.esRetorno()
-
-        if(s!=None):
-            return s
-
-        s = self.esInvocarMetodo()
-
-        if(s!=None):
-            return s
-
-        s = self.esArreglo()
-
-        if(s!=None):
-            return s
-
-        s = self.esMapa()
-
-        if(s!=None):
-            return s
-
-        contador += 1
-
-        return s
+        return None
 
     """
     <Expresion>::= <ExpresionAritmetica> | <ExpresionLogica> |<ExpresionRelacional> |<ExpresionCadena>
@@ -585,8 +598,7 @@ class ASintactico:
                         self.reportarError("falta expresion logica valida en el if", self.tokenActual.fila, self.tokenActual.columna)
                 else:
                     self.reportarError("falta parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("palabra reservada invalida, intenten con la palabra \"if\"", self.tokenActual.fila, self.tokenActual.columna)
+
         return None
 
     """
@@ -605,80 +617,87 @@ class ASintactico:
                     return SentELSE (bloqueSentencias)
                 else:
                     self.reportarError("Bloque de sentencias del else es invalido", self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("palabra reservada invalida, intenten con la palabra \"else\"", self.tokenActual.fila, self.tokenActual.columna)
         return None
 
     """
-    <DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";"
+    <DeclaracionVariable>::= let <tipoDato> identificador [ "=" <Expresion> ] ";"
     """
     def esDeclaracionVariable(self):
         #comienza con una palabra reservada
         if self.tokenActual.categoria == Categoria.PalabraReservada:
-            # la palabra reservada debe de ser un tipo deoDato 
-            tipoDato = self.esTipoDato()
-            #No puede ser None eloDato
-            if tipoDato != None:
-                #Sigue un identificador
-                if self.tokenActual.categoria == Categoria.Identificador:
-                    identificador = self.tokenActual
-                    self.obtenerSiguienteToken()
-                    #sigue opcionalmente un "="
-                    expresion = None
-                    if self.tokenActual.lexema == "=":
+            if self.tokenActual.lexema == "let":
+                self.obtenerSiguienteToken()
+                # la palabra reservada debe de ser un tipo de Dato 
+                tipoDato = self.esTipoDato()
+                #No puede ser None eloDato
+                if tipoDato != None:
+                    #Sigue un identificador
+                    if self.tokenActual.categoria == Categoria.Identificador:
+                        identificador = self.tokenActual
                         self.obtenerSiguienteToken()
-                        # obligatoriamente despues del igual debe de seguir una expresion
-                        expresion = self.esExpresion()
-                        # la expresion si es igual a None es un error sintactico 
-                        if expresion == None:
-                            self.reportarError("Expresion de declaracion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
-                    # la declaracion de variable finaliza con un fin de sentencia ";"
-                    if self.tokenActual.categoria == Categoria.FinSentencia:
-                        self.obtenerSiguienteToken()
-                        return DeclaracionVariable(tipoDato, identificador, expresion)
-                    else:               
-                        self.reportarError("La declaracion de variable no termino con un fin de sentencia \";\"", self.tokenActual.fila, self.tokenActual.columna) 
+                        #sigue opcionalmente un "="
+                        expresion = None
+                        if self.tokenActual.lexema == "=":
+                            self.obtenerSiguienteToken()
+                            # obligatoriamente despues del igual debe de seguir una expresion
+                            expresion = self.esExpresion()
+                            # la expresion si es igual a None es un error sintactico 
+                            if expresion == None:
+                                self.reportarError("Expresion de declaracion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
+                        # la declaracion de variable finaliza con un fin de sentencia ";"
+                        if self.tokenActual.categoria == Categoria.FinSentencia:
+                            self.obtenerSiguienteToken()
+                            return DeclaracionVariable(tipoDato, identificador, expresion)
+                        else:               
+                            self.reportarError("La declaracion de variable no termino con un fin de sentencia \";\"", self.tokenActual.fila, self.tokenActual.columna) 
+                    else:
+                        self.reportarError("No se encontro un identificador valido para la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna)
                 else:
-                    self.reportarError("No se encontro un identificador valido para la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("Tipo deoDato no encontrado para la declaracion de un a variable", self.tokenActual.fila, self.tokenActual.columna)
-        
+                    self.reportarError("Tipo de Dato no encontrado para la declaracion de un a variable", self.tokenActual.fila, self.tokenActual.columna)
+            
         return None        
 
     """
-    <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";"
+    <AsignacionVariable>::= asig identificador operadorAsignacion <expresion> ";"
     """
     def esAsignacionVariable(self):
-        # obligatoriamente debe de iniciar con un identificador la asignacion de una variable
-        if self.tokenActual.categoria == Categoria.Identificador:
-            identificador = self.tokenActual
-            self.obtenerSiguienteToken()
+        # verifica que empiece con una palabra reservada
+        if self.tokenActual.categoria == Categoria.PalabraReservada:
 
-            # sigue obligatoriamente un operador de asignacion
-            if self.tokenActual.categoria == Categoria.OperadorAsignacion:
-                operadorAsignacion = self.tokenActual
+            # verifica que la palabra reservada sea "asig"
+            if self.tokenActual.lexema == "asig":
                 self.obtenerSiguienteToken()
-                expresion = self.esExpresion()
-                
-                # la expresion no puede ser None
-                if expresion != None:
 
-                    # termina con un fin de sentencia
-                    if self.tokenActual.categoria == Categoria.FinSentencia:
+                # obligatoriamente debe de iniciar con un identificador la asignacion de una variable
+                if self.tokenActual.categoria == Categoria.Identificador:
+                    identificador = self.tokenActual
+                    self.obtenerSiguienteToken()
+
+                    # sigue obligatoriamente un operador de asignacion
+                    if self.tokenActual.categoria == Categoria.OperadorAsignacion:
+                        operadorAsignacion = self.tokenActual
                         self.obtenerSiguienteToken()
+                        expresion = self.esExpresion()
                         
-                        return Asignacion(identificador, operadorAsignacion, expresion)
+                        # la expresion no puede ser None
+                        if expresion != None:
+
+                            # termina con un fin de sentencia
+                            if self.tokenActual.categoria == Categoria.FinSentencia:
+                                self.obtenerSiguienteToken()
+                                
+                                return Asignacion(identificador, operadorAsignacion, expresion)
+                            else:
+                                self.reportarError("falta el fin de sentencia en la sentencia asignacion variable", self.tokenActual.fila, self.tokenActual.columna)
+
+                        else:
+                            self.reportarError("expresion no valida en la sentencia asignacion variable", self.tokenActual.fila, self.tokenActual.columna)
+
                     else:
-                        self.reportarError("falta el fin de sentencia en la sentencia asignacion variable", self.tokenActual.fila, self.tokenActual.columna)
+                        self.reportarError("falta el operador de asignacion", self.tokenActual.fila, self.tokenActual.columna)
 
                 else:
-                    self.reportarError("expresion no valida en la sentencia asignacion variable", self.tokenActual.fila, self.tokenActual.columna)
-
-            else:
-                self.reportarError("falta el operador de asignacion", self.tokenActual.fila, self.tokenActual.columna)
-
-        else:
-            self.reportarError("falta el identificador para ser una asignacion de variable", self.tokenActual.fila, self.tokenActual.columna)
+                    self.reportarError("falta el identificador para ser una asignacion de variable", self.tokenActual.fila, self.tokenActual.columna)
 
         return None
 

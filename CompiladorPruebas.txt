@@ -1,6 +1,6 @@
 <UnidadDeCompilacion> ::= <ListaFunciones>														FUNCIONA
 <ListaFunciones> ::= <Funcion>[<ListaFunciones>] 													FUNCIONA
-<Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParamentros>] ")" <bloqueSentencias> 						FUNCIONA
+<Funcion> ::= [<visibilidad>] <TipoRetorno> Identificador "(" [<ListaParametros>] ")" <bloqueSentencias> 						FUNCIONA
 <Visibilidad> ::= public | private | protected | default 												FUNCIONA
 <TipoRetorno> ::= int | String | double | boolean | char | void 											FUNCIONA
 <TipoDato> ::= int | String | double | boolean | char 													FUNCIONA
@@ -12,8 +12,8 @@
 <Decision>::= <sentenciaif>[<sentenciaElse>]														NO FUNCIONA
 <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia> 											NO FUNCIONA
 <SentenciaElse>::= else <BloqueSentencia> 														SIN PROBAR
-<DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION
-<AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" 										NO FUNCIONA
+<DeclaracionVariable>::= let <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION
+<AsignacionVariable>::= asig identificador operadorAsignacion <expresion> ";" 										NO FUNCIONA
 <Imprimir>::= imprimir "(" [<expresion>] ")" ";" 													FUNCIONA SIN EXPRESION
 <Leer>::= leer "(" [<expresion>] ")" ";" 														FUNCIONA SIN EXPRESION
 <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
