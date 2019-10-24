@@ -374,7 +374,7 @@ class ASintactico:
         if e != None:
             return e
         
-        #e = self.esExpresionLogica()
+        e = self.esExpresionLogica()
         
         if e != None:
             return e
@@ -383,7 +383,8 @@ class ASintactico:
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
     """
     def esExpresionAritmetica(self):
-        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino()!=None : 
+        termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
+        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
                 e = self.esExpresionAritmetica()
@@ -397,10 +398,13 @@ class ASintactico:
                 else:
                     self.reportarError("No hay una expresion aritmetica valida", self.tokenActual.fila,self.tokenActual.columna)
             else:
-                termino = self.esTermino()
+                
+                
                 if(termino != None):
                     ea = self.esExpresionAuxiliarAritmetica()
                     return Aritmetica(None, ea , termino)
+                else:
+                    self.reportarError("No hay un termino valido", self.tokenActual.fila, self.tokenActual.columna)
         return None
 
     """
@@ -471,6 +475,7 @@ class ASintactico:
     """    
     def esTermino(self):
         
+        print("Entro a verificar si es un termino", self.tokenActual.lexema)
         if(self.esValorNumerico() != None or self.tokenActual.categoria == Categoria.Identificador):
             termino = self.tokenActual
             self.obtenerSiguienteToken()
@@ -826,7 +831,7 @@ class ASintactico:
         return None
 
     """
-    <Retorno>::= return <Expresion> ";"
+    <Retorno>::= return <Expresion> ";" 
     """
     def esRetorno(self):
         print("ENTRO A VERIFICAR RETORNO")

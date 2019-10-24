@@ -1,6 +1,6 @@
 
-from logica.lexico.Token import Token
-from logica.lexico.Categoria import Categoria
+from logica.lexico.Tokens import Token
+from logica.lexico.Categorias import Categoria
 import time
 
 class ALexico:
@@ -336,8 +336,7 @@ class ALexico:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)
                 return False
             else:
-                self.tokens.append(Token("+", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
+                self.tokens.append(Token("+", Categoria.OperadorAritmetico,self.filaActual,self.colActual))                 
                 return True
         
         if(self.caracterActual == "-"):
@@ -350,7 +349,6 @@ class ALexico:
                 return False
             else:
                 self.tokens.append(Token("-", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
                 return True
 
         if(self.caracterActual == "*"):
@@ -363,7 +361,6 @@ class ALexico:
                 return False
             else:
                 self.tokens.append(Token("*", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
                 return True
         
         if(self.caracterActual == "/"):
@@ -376,7 +373,6 @@ class ALexico:
                 return False
             else:
                 self.tokens.append(Token("/", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
                 return True
         
         if(self.caracterActual == "%"):
@@ -389,7 +385,6 @@ class ALexico:
                 return False
             else:
                 self.tokens.append(Token("%", Categoria.OperadorAritmetico,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
                 return True
 
     def esOperadorAsignacion(self):
@@ -545,7 +540,10 @@ class ALexico:
             return False     
 
     def esNatural(self):
+        
         if(self.caracterActual.isdigit()):  
+            print("es numero "+self.caracterActual)
+            
             lexema = ""          
             filaInicial = self.filaActual
             columnaInicial = self.colActual

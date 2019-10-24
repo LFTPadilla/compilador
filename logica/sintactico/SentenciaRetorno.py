@@ -16,7 +16,12 @@ class Retorno(Sentence):
     
     def construirArbol(self, arbol, n):
         arbolRetorno = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "Return "+str(n)
-        arbolRetorno.setText(0,titulo)
+        arbolRetorno.setText(0,"Return")
+        
+        arbolExpresion = QtWidgets.QTreeWidgetItem(arbolRetorno)
+        self.expresion.construirArbol(arbolExpresion)
+        
+    
+
 
         #self.expresion.contruirArbol(arbolRetorno)
