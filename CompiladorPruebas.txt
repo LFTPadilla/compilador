@@ -14,7 +14,7 @@
 <SentenciaElse>::= else <BloqueSentencia> 														SIN PROBAR
 <DeclaracionVariable>::= let <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION
 <AsignacionVariable>::= asig identificador operadorAsignacion <expresion> ";" 										NO FUNCIONA
-<Imprimir>::= imprimir "(" [<expresion>] ")" ";" 													FUNCIONA SIN EXPRESION
+<Imprimir>::= imprimir "(" [<expresion>] ")" ";"													FUNCIONA SIN EXPRESION
 <Leer>::= leer "(" [<expresion>] ")" ";" 														FUNCIONA SIN EXPRESION
 <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
 <Retorno>::= return <Expresion> ";" 															NO FUNCIONA
@@ -27,14 +27,14 @@
 <componenteMap>::= "(" <termino> "," <termino> ")"													FUNCIONA
 <listaExpresiones>::= <Expresion> ["," <listaExpresiones> ] 												NO FUNCIONA
 <Expresion>::= <ExpresionAritmetica> | <ExpresionLogica> |<ExpresionRelacional> |<ExpresionCadena>
-<ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
+<ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]   mmmmmmmmmmmmmmmmm
 <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
-<ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
+<ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>] mmmmmmmmmmmmmmmmmm
 <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional>[<ExpresionAuxiliarRelacional>]
 <Termino>::= <ValorNumerico> | identificador
 <ValorNumerico>::= numeroNatural | numeroReal    
-<ExpresionCadena>::= cadena "+" <Expresion> 
-<ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
+<ExpresionCadena>::= cadena ["+" <Expresion>] FUNCIONA CONCATENANDO EXPRESION CADENA SOLAMENTE "UIUHIUH" + "!JIOJOI"
+<ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>] mmmmmmmmmmmmmmmmm
 <ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
 
 
@@ -42,7 +42,7 @@ pruebas
 int melissa(){
 leer();
 imprimir();
-String melissa;
+let String melissa;
 invocar juan (hola, melis);
 map mapita = [( valor, valor ),( valor, valor )];
 }

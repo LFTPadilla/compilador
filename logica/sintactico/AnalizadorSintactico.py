@@ -387,11 +387,17 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
+
                 e = self.esExpresionAritmetica()
+
                 if(e!=None):
+
                     if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
+
                         ea = self.esExpresionAuxiliarAritmetica()
+                        self.obtenerSiguienteToken()
+
                         return Aritmetica(e,ea, None)
                     else:
                         self.reportarError("Falta el parentesis de cierre en la expresion aritmetica",self.tokenActual.fila,self.tokenActual.columna)
@@ -402,6 +408,8 @@ class ASintactico:
                 
                 if(termino != None):
                     ea = self.esExpresionAuxiliarAritmetica()
+                    self.obtenerSiguienteToken()
+
                     return Aritmetica(None, ea , termino)
                 else:
                     self.reportarError("No hay un termino valido", self.tokenActual.fila, self.tokenActual.columna)
@@ -411,13 +419,23 @@ class ASintactico:
     <ExpresionAuxiliar>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
     def esExpresionAuxiliarAritmetica(self):
+
         if(self.tokenActual.categoria == Categoria.OperadorAritmetico):
+
             operador = self.tokenActual
+
             self.obtenerSiguienteToken()
+
             ea = self.esExpresionAritmetica()
+
             if(ea != None):
-                eAux = self.esExpresionAritmetica()
-                return AuxiliarAritmetica(operador,ea,eAux)                     
+
+                eAux = self.esExpresionAuxiliarAritmetica()
+
+                return AuxiliarAritmetica(operador,ea,eAux)      
+
+            else: 
+                self.reportarError("despues del operador aritmetico no existe una expresion aritmetica valida", self.tokenActual.fila, self.tokenActual.columna)               
 
     """
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
@@ -492,20 +510,30 @@ class ASintactico:
         return None
 
     """
-    <ExpresionCadena>::= cadena "+" <Expresion> 
+    <ExpresionCadena>::= cadena [ "+" <Expresion> ] 
     """
     def esExpresionCadena(self):
         
         if self.tokenActual.categoria == Categoria.CadenaCaracteres :
             cadena = self.tokenActual
+
             self.obtenerSiguienteToken()
+
             if self.tokenActual.lexema == "+":
                 
                 self.obtenerSiguienteToken()
+
                 e = self.esExpresion()
-                return Cadena(cadena, e)
+
+                if e != None:
+
+                    return Cadena(cadena, e)
+                
+                else:
+                    self.reportarError("Mal concatenado", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                self.reportarError("No hay '+' para concatenar", self.tokenActual.fila, self.tokenActual.columna)
+                
+                return Cadena(cadena, None)
         else:
             return None        
                  
@@ -736,7 +764,7 @@ class ASintactico:
                             return Imprimir (expresion)
 
                         else:
-                            self.reportarError("falta un final de sentencia \";\"", self.tokenActual.fila, self.tokenActual.columna)
+                            self.reportarError("falta un final de sentencia \";\" en la sentencia imprimir", self.tokenActual.fila, self.tokenActual.columna)
 
                     else:
                         self.reportarError("falta el parentesis derecho en la sentencia imprimir", self.tokenActual.fila, self.tokenActual.columna)
@@ -775,7 +803,7 @@ class ASintactico:
                             return Leer (expresion)
 
                         else:
-                            self.reportarError("falta un final de sentencia \";\"", self.tokenActual.fila, self.tokenActual.columna)
+                            self.reportarError("falta un final de sentencia \";\" en la sentencia leer", self.tokenActual.fila, self.tokenActual.columna)
 
                     else:
                         self.reportarError("falta el parentesis derecho en la sentencia leer", self.tokenActual.fila, self.tokenActual.columna)
