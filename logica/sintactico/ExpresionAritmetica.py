@@ -9,28 +9,30 @@ class Aritmetica(Expression):
         self.termino = termino
 
     def construirArbol(self, arbol):
-        
+        #Los arboles en realidad son nodos de partida o raices
+        #llega el 'arbol' nodo 'R'
                
-        if self.expresionAuxiliar != None: 
-            print("Hay auxiliar Grfica")
-            self.expresionAuxiliar.construirArbol(arbol)
+        if self.expresionAuxiliar != None:                          #Si hay una expr Auxiliar
             
-            if self.termino != None:
-                term = QtWidgets.QTreeWidgetItem(arbol)
-                term.setText(0,self.termino.lexema)
-            elif self.expresionAritmetica != None:
-                arbolExp = QtWidgets.QTreeWidgetItem(arbol)
-                self.expresionAritmetica.construirArbol(arbolExp)
+            self.expresionAuxiliar.construirArbol(arbol)            #Llamamos el mtodo crear arbol de aux
+            
+            if self.termino != None:                                #Si hay un termino
+                term = QtWidgets.QTreeWidgetItem(arbol)             #Sacamos un hijo 'A' de 'R' 
+                term.setText(0,self.termino.lexema)                 #le asignamos a 'A' el termino
+                
+            elif self.expresionAritmetica != None:                  #Sino, si hay expresion Aritmetica
+                arbolExp = QtWidgets.QTreeWidgetItem(arbol)         #Sacamos un hijo 'B' de R
+                self.expresionAritmetica.construirArbol(arbolExp)   #en 'B' hacemos la raiz del arbol de ExpresionAritmetica
         
-        else:
-            if self.termino != None:
-                print ("termino")
-                arbol.setText(0, self.termino.lexema)
+        
+        else:                                                       #Sino hay una expresion auxiliar(mas facil)
+            
+            if self.termino != None:                                #Si hay un termino                                
+                arbol.setText(0, self.termino.lexema)               #nombremos 'R' como el termino
         
            
-            elif self.expresionAritmetica != None:  
-                print ("-------------------Hay expresion aritmetica", (str)(self.expresionAritmetica))
-                self.expresionAritmetica.construirArbol(arbol)          
+            elif self.expresionAritmetica != None:                  #Sino, si hay una expresion Aritmetica
+                self.expresionAritmetica.construirArbol(arbol)      #hacemos 'R' la raiz del nuevo arbol de expresion aritmetica    
             
       
     def __repr__(self):
