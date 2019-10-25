@@ -39,19 +39,19 @@ from logica.sintactico.ComponenteMapa import componenteMap
 from logica.sintactico.SentenciaIF import SentIF
 from logica.sintactico.SentenciaELSE import SentELSE
 
+from logica.semantica.AnalizadorSemantico import ASemantico
+
 class ASintactico: 
-    arbol = None
-    funcion = None
-    listaTokens = []
-    posActual = 0
-    listaErrores = []
-    palabrasReservadas =[]
+    
 
     def __init__(self,listaTokens,arbol):
         self.arbol = arbol
+        self.posActual = 0
         self.listaTokens = listaTokens
         self.tokenActual = self.listaTokens[self.posActual]
-        self.palabrasReservadas = ["String","abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map", "array" "let", "asig"]
+        self.palabrasReservadas = ["String","abstract","continue","for","new","switch","assert","default","goto","package","synchronized","boolean","do","if","private","this","break","double","implements","protected","throw","byte","else","import","public","throws","case","enum","instanceof","return","transient","catch","extends","int","short","try","char","final","interface","static","void","class","finally","long","strictfp","volatile","const","float","native","super","while","map", "array" "let", "asig"]        
+        self.listaErrores = []
+        
 
     def reportarError(self,msj,fila,columna):
         err = errorSintactico(msj,fila,columna)
@@ -68,8 +68,12 @@ class ASintactico:
     def esUnidadDeCompilacion(self):
         listaFunciones = self.esListaFunciones()
         if(len(listaFunciones)!=0):
+            
             return UnidadComp(listaFunciones)
         
+        
+
+
         return None
 
     """

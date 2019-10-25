@@ -12,6 +12,17 @@ class Function:
         self.retorno = retorno
         self.bloque = bloque
 
+
+    def getTiposParametros():
+        l = []
+        for p in self.ListaParamentros:
+            l.add(p.tipoDato.lexema) #p.getTipoDatos().getLexema()
+    
+
+    def llenarTablaSimbolos():
+        tablaSimbolos.guardarSimboloFuncion(nombre.lexema,self.retorno.lexema,self.parametros,)
+
+
     def construirArbol(self, arbol, n):
         arbolFuncion = QtWidgets.QTreeWidgetItem(arbol)
 

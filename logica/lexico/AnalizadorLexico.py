@@ -4,22 +4,19 @@ from logica.lexico.Categorias import Categoria
 import time
 
 class ALexico:
-    private__ = ""
-    codigo = ""
-    tokens = []
-    caracterActual = ""
-    finCodigo = "¿"
-    posicionActual = 0
-    filaActual = 0
-    colActual = 0
-    palabrasReservadas=[]
     
-
-
     def __init__(self,codigo):
         self.codigo = codigo
-        self.caracterActual = self.codigo[self.posicionActual]
+        self.caracterActual = self.codigo[0]
         self.palabrasReservadas = [ "String", "abstract", "continue", "for", "new", "switch", "assert", "default", "goto", "package", "synchronized", "boolean", "do", "if", "private", "this", "break", "double", "implements", "protected", "throw", "byte", "else", "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", "native", "super", "while", "map", "array", "invocar", "imprimir", "leer", "let", "asig"]
+        self.private__ = ""
+        self.tokens = []
+        self.finCodigo = "¿"
+        self.posicionActual = 0
+        self.filaActual = 0
+        self.colActual = 0
+        self.palabrasReservadas=[]
+        self.listaErrores = []
         
 
     def getListaTokens(self):
@@ -92,10 +89,8 @@ class ALexico:
 
             if(self.esIdentificador()):
                 continue
-            
-           
 
-            self.tokens.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
+            self.listaErrores.append(Token(self.caracterActual, Categoria.Desconocido, self.filaActual, self.colActual)) 
             self.obtenerSiguienteCaracter()
 
     def esFinSentencia(self):
@@ -538,7 +533,7 @@ class ALexico:
     def esNatural(self):
         
         if(self.caracterActual.isdigit()):  
-            print("es numero "+self.caracterActual)
+            #print("es numero "+self.caracterActual)
             
             lexema = ""          
             filaInicial = self.filaActual
