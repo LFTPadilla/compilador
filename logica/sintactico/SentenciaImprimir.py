@@ -16,8 +16,11 @@ class Imprimir(Sentence):
     
     def construirArbol(self, arbol, n):
         arbolImprimir = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "Imprimir "+str(n)
+        titulo = "Imprimir " 
         arbolImprimir.setText(0,titulo)
+        
+        arbolExpresion = QtWidgets.QTreeWidgetItem(arbolImprimir)
+        self.expresion.construirArbol(arbolExpresion)
 
         #self.expresion.construirArbol(arbolImprimir)
 
