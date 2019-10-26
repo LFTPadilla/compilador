@@ -1,20 +1,22 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
 """
-    <DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";"
+    <DeclaracionVariable>::= <tipoDato> identificador [ "=" <lectura> | "=" <invocacion> |  "=" <Expresion> ]  ";"
 """
 class DeclaracionVariable(Sentence):
 
-    def __init__(self,tipoDato, identificador, expresion):
+    def __init__(self,tipoDato, identificador, lectura, invocacion, expresion):
         self.tipoDato = tipoDato
         self.identificador = identificador
+        self.lectura = lectura
+        self.invocacion = invocacion
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Sentencia Declaracion Variable: tipoDato: %s, identificador: %s, expresion: %s)" % (self.tipoDato, self.identificador, self.expresion)
+        return "(Sentencia Declaracion Variable: tipoDato: %s, identificador: %s, lectura: %s, invocacion: %s, expresion: %s)" % (self.tipoDato, self.identificador, self.lectura, self.invocacion, self.expresion)
 
     def __str__(self):
-        return "Sentencia Declaracion Variable [%s, %s, %s]"% (self.tipoDato, self.identificador, self.expresion)
+        return "[Sentencia Declaracion Variable [%s, %s, %s, %s, %s]"% (self.tipoDato, self.identificador, self.lectura, self.invocacion, self.expresion)
     
     def construirArbol(self, arbol, n):
         arbolDeclaracionVariable = QtWidgets.QTreeWidgetItem(arbol)
@@ -26,6 +28,12 @@ class DeclaracionVariable(Sentence):
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
+
+        if self.lectura != None:
+            self.lectura.construirArbol(arbolDeclaracionVariable, 0)        
+
+        if self.invocacion != None:
+            self.invocacion.construirArbol(arbolDeclaracionVariable, 0)
 
         #if self.expresion != None:
         #    self.expresion.construirArbol(arbol)
