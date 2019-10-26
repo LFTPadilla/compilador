@@ -20,9 +20,6 @@ class bloqueSent:
         if len(self.listaSentencias) > 0:
             ramaListaSent = QtWidgets.QTreeWidgetItem(arbolBloque)
             ramaListaSent.setText(0,"listaSentencias")
-
-            cont = 0
             
             for sentencia in self.listaSentencias:
-                sentencia.construirArbol(ramaListaSent, cont)
-                cont += 1
+                sentencia.construirArbol(ramaListaSent)

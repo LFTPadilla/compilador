@@ -25,7 +25,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
     
     def AnalisisCompleto(self):
-        print("entor")
         self.AnalisisLexico()
         self.AnalisisSintactico()
         self.AnalisisSemantico()

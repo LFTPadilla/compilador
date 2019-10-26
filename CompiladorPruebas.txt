@@ -9,11 +9,11 @@
 <BloqueSentencia> ::= "{" [<listaSentencias>] "}" 													FUNCIONA
 <ListaSentencias> ::= <sentencia> [<listaSentencias>] 													FUNCIONA
 <sentencia> ::= <Desicion> | <ciclo> | <Impresion> | <lectura> | <Asignacion> | <declaracionVariable> | <retorno> | <invocaFuncion> | <arreglo> | <mapa>
-<Decision>::= <sentenciaif>[<sentenciaElse>]														NO FUNCIONA
+<Decision>::= <sentenciaif>[<sentenciaElse>]														NO FUNCIONA ->Falta expresion logica
 <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia> 											NO FUNCIONA
 <SentenciaElse>::= else <BloqueSentencia> 														SIN PROBAR
-<DeclaracionVariable>::= let <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION
-<AsignacionVariable>::= asig identificador operadorAsignacion <expresion> ";" 										NO FUNCIONA
+<DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";" 										FUNCIONA SIN EXPRESION ARITMETICA Y LOGICA
+<AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" 										FUNCIONA SIN EXPRESION ARITMETICA Y LOGICA
 <Imprimir>::= imprimir "(" [<expresion>] ")" ";"													FUNCIONA SIN EXPRESION
 <Leer>::= leer "(" [<expresion>] ")" ";" 														FUNCIONA SIN EXPRESION
 <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
