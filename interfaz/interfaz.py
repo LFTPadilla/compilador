@@ -19,7 +19,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-        self.btnLimpiar.clicked.connect(self.limpiar)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
@@ -58,7 +57,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.limpiar()  
         codigo = self.txtCodigo.toPlainText()
-
+    
         if len(codigo)==0:
             return False
 

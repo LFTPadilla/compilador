@@ -19,9 +19,6 @@ class Imprimir(Sentence):
         titulo = "Imprimir " 
         arbolImprimir.setText(0,titulo)
         
-        arbolExpresion = QtWidgets.QTreeWidgetItem(arbolImprimir)
-        self.expresion.construirArbol(arbolExpresion)
-
         if self.expresion != None:
             ramaExpresion = QtWidgets.QTreeWidgetItem(arbolImprimir)
             ramaExpresion.setText(0,"Expresion ")

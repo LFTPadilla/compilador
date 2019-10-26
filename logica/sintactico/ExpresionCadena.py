@@ -5,20 +5,21 @@ from logica.sintactico.Expresion import Expression
 """
 class Cadena(Expression):
 
-    def __init__(self, cadenaCaracteres, expresion):
+    def __init__(self, cadenaCaracteres, listarExpresiones):
         self.cadenaCaracteres = cadenaCaracteres
-        self.expresion = expresion
+        self.listarExpresiones =  listarExpresiones
 
     def construirArbol(self, arbolExpresionCadena):
-        titulo = "Expresion Cadena"
-        arbolExpresionCadena.setText(0,titulo)
-
+        arbolExpresionCadena.setText(0,"Cadena")
         ramaCadena = QtWidgets.QTreeWidgetItem(arbolExpresionCadena)
-        ramaCadena.setText(0,"Cadena Caracteres "+self.cadenaCaracteres.lexema)
+        ramaCadena.setText(0,self.cadenaCaracteres.lexema)
 
-        if self.expresion != None:
-            ramaExpresion = QtWidgets.QTreeWidgetItem(arbolExpresionCadena)
-            ramaExpresion.setText(0,"Expresion ")
 
-            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
-            self.expresion.construirArbol(arbolExpresion)
+        if len(self.listarExpresiones) >0:
+        
+                         
+            for exp in  self.listarExpresiones:
+                arbolExpresion = QtWidgets.QTreeWidgetItem(arbolExpresionCadena)
+                exp.construirArbol(arbolExpresion)
+
+            

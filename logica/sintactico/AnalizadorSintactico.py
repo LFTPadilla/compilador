@@ -349,6 +349,7 @@ class ASintactico:
         e = None
         
         posToken = self.posActual
+        
         e = self.esExpresionAritmetica()
                 
         if e != None:
@@ -359,6 +360,7 @@ class ASintactico:
         
         posToken = self.posActual
         e = self.esExpresionLogica()
+        
         
         if e != None:
             return e
@@ -438,6 +440,7 @@ class ASintactico:
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
     def esExpresionRelacional(self):  
+        
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
@@ -476,6 +479,7 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.OperadorRelacional :
             opRelacional = self.tokenActual
             self.obtenerSiguienteToken()
+            
             er = self.esExpresionRelacional()
             if er!=None:
                 return AuxiliarRelacional(opRelacional,er,None)
@@ -505,7 +509,7 @@ class ASintactico:
         return None
 
     """
-    <ExpresionCadena>::= cadena [ "+" <Expresion> ] 
+    <ExpresionCadena>::= cadena [ "," <listaExpresiones> ] 
     """
     def esExpresionCadena(self):
         
@@ -513,18 +517,22 @@ class ASintactico:
             cadena = self.tokenActual
             
             self.obtenerSiguienteToken()    
-            if self.tokenActual.lexema == "+":
+            
+            if self.tokenActual.lexema == ",":
                 
                 self.obtenerSiguienteToken()
 
-                e = self.esExpresion()
+                e = self.esListaExpresiones()
 
-                if e != None:
+                
+                if len(e)>0:
+                    
                     return Cadena(cadena, e)                
                 else:
                     self.reportarError("Mal concatenado", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                return Cadena(cadena, None)
+                listvacia =  []
+                return Cadena(cadena,listvacia)
         else:
             return None        
                  
@@ -987,24 +995,21 @@ class ASintactico:
     def esArgumento(self):
 
         # se verifica que sea un identificador
-        if self.tokenActual.categoria == Categoria.Identificador:
+        expresion = self.esExpresion()
+        if expresion !=None:
+            # busca que sea una expresion
+            # verifica que la expresion no sea nula
+            
+            return Argument(None, expresion) 
+        # si no es un identificador
+        elif self.tokenActual.categoria == Categoria.Identificador:
+            
             identificador = self.tokenActual
             self.obtenerSiguienteToken()
 
             # guarda el identificador como un argumento
             return Argument(identificador, None)
-            
-        # si no es un identificador
-        else:
-
-            # busca que sea una expresion
-            expresion = self.esExpresion()
-            
-            # verifica que la expresion no sea nula
-            if expresion != None:
-                
-                # guarda la expresion como un argumento
-                return Argument(None, expresion)
+           
         return None
     
     """
@@ -1021,7 +1026,6 @@ class ASintactico:
 
                 # se busca el tipo de dato del arreglo
                 tipoDato = self.esTipoDato()
-
                 # se verifica que el tipo de dato no sea None
                 if tipoDato != None:
 
