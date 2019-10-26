@@ -15,9 +15,9 @@ class SentenceWhile(Sentence):
     def __str__(self):
         return "Sentencia While [%s, %s]"% (self.expresionLogica, self.bloqueSentencias)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolWhile = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "While "+str(n)
+        titulo = "While "
         arbolWhile.setText(0,titulo)
 
         #self.expresionLogica.construirArbol(arbolWhile)

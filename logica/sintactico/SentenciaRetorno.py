@@ -14,7 +14,7 @@ class Retorno(Sentence):
     def __str__(self):
         return "Sentencia Retorno [%s]"% (self.expresion)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolRetorno = QtWidgets.QTreeWidgetItem(arbol)
         arbolRetorno.setText(0,"Return")
         

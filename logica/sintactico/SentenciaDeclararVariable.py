@@ -30,10 +30,12 @@ class DeclaracionVariable(Sentence):
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
 
         if self.lectura != None:
-            self.lectura.construirArbol(arbolDeclaracionVariable, 0)        
+            self.lectura.construirArbol(arbolDeclaracionVariable)        
 
         if self.invocacion != None:
-            self.invocacion.construirArbol(arbolDeclaracionVariable, 0)
+            self.invocacion.construirArbol(arbolDeclaracionVariable)
 
         if self.expresion != None:
-           self.expresion.construirArbol(arbolDeclaracionVariable)
+            ramaExpresion = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
+            ramaExpresion.setText(0,"Expresion ")
+            self.expresion.construirArbol(arbol)
