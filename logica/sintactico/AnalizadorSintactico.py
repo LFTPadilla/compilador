@@ -62,6 +62,10 @@ class ASintactico:
         if(self.posActual<len(self.listaTokens)):
             self.tokenActual = self.listaTokens[self.posActual]
 
+    def hacerBT(self, posToken):
+        self.posActual = posToken
+        self.tokenActual = self.listaTokens[posToken]
+
     """
         <UnidadDeCompilacion> ::= <ListaFunciones>
     """
@@ -344,25 +348,38 @@ class ASintactico:
         
         e = None
         
-        e = self.esExpresionAritmetica()
-        
+        posToken = self.posActual
+        print("Token inicial ",self.listaTokens[posToken])
+       # e = self.esExpresionAritmetica()
+                
         if e != None:
             return e
+        else:
+            print("Voy a hacer BT hasta ",self.listaTokens[posToken])            
+        #    self.hacerBT(posToken)
         
+        posToken = self.posActual
         e = self.esExpresionRelacional()
+        self.hacerBT(posToken)
+        
         print("Es una exp Relacional ",e)
         if e != None:
             return e
+        else:
+            self.hacerBT(posToken)
+            
+        e = self.esExpresionLogica()
+        
+        if e != None:
+            return e
+        
         
         e = self.esExpresionCadena()
         
         if e != None:
             return e
         
-        e = self.esExpresionLogica()
-        
-        if e != None:
-            return e
+       
         
         
              
@@ -370,6 +387,7 @@ class ASintactico:
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
     """
     def esExpresionAritmetica(self):
+        
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
@@ -395,6 +413,9 @@ class ASintactico:
                 if(termino != None): #si solo es un termino, ya estamos obteniendo el siguiente token en esTermino()
                     ea = self.esExpresionAuxiliarAritmetica()
 
+                    if ea == False:
+                        return None
+                            
                     return Aritmetica(None, ea , termino)
                 else:
                     self.reportarError("No hay un termino valido", self.tokenActual.fila, self.tokenActual.columna)
@@ -419,11 +440,14 @@ class ASintactico:
 
             else: 
                 self.reportarError("despues del operador aritmetico no existe una expresion aritmetica valida", self.tokenActual.fila, self.tokenActual.columna)               
+        elif self.tokenActual.categoria == Categoria.OperadorRelacional or self.tokenActual.categoria == Categoria.OperadorLogico :
+            return False           
         
     """
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
-    def esExpresionRelacional(self):   
+    def esExpresionRelacional(self):  
+        print("Recibo un ", self.tokenActual) 
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
