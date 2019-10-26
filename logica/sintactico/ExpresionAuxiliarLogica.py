@@ -3,12 +3,12 @@ from logica.sintactico.Expresion import Expression
 
 class AuxiliarLogica(Expression):
     
-    def __init__(self,operadorBinario, expresionLogica, expresionAuxiliarLogica):
+    def __init__(self,operadorLogico,expresionRelacional):
         
-        self.operadorBinario = operadorBinario
-        self.expresionLogica = expresionLogica
-        self.expresionAuxiliarLogica = expresionAuxiliarLogica
+        self.operadorLogico = operadorLogico
+        self.expresionRelacional = expresionRelacional
     
-    def construirArbol(self, arbol, n):
-        pass
+    def construirArbol(self, arbol):
+        
+        arbol.setText(0,self.operadorLogico.lexema+" "+(str)(self.expresionRelacional) )
         

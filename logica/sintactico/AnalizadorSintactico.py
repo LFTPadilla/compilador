@@ -349,29 +349,20 @@ class ASintactico:
         e = None
         
         posToken = self.posActual
-        print("Token inicial ",self.listaTokens[posToken])
         e = self.esExpresionAritmetica()
                 
         if e != None:
             return e
         else:
-            print("Voy a hacer BT hasta ",self.listaTokens[posToken])            
+            
             self.hacerBT(posToken)
         
         posToken = self.posActual
-        e = self.esExpresionRelacional()
-        
-        print("Es una exp Relacional ",e)
-        if e != None:
-            return e
-        else:
-            self.hacerBT(posToken)
-            
         e = self.esExpresionLogica()
         
         if e != None:
             return e
-        
+            
         
         e = self.esExpresionCadena()
         
@@ -440,13 +431,13 @@ class ASintactico:
             else: 
                 self.reportarError("despues del operador aritmetico no existe una expresion aritmetica valida", self.tokenActual.fila, self.tokenActual.columna)               
         elif self.tokenActual.categoria == Categoria.OperadorRelacional or self.tokenActual.categoria == Categoria.OperadorLogico :
+            print("No hay un operador aritmetico, puede ser un logico o un relacional")     
             return False           
         
     """
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
     def esExpresionRelacional(self):  
-        print("Recibo un ", self.tokenActual) 
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
@@ -485,16 +476,13 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.OperadorRelacional :
             opRelacional = self.tokenActual
             self.obtenerSiguienteToken()
-            print("Es un operador relacional ",opRelacional)
             er = self.esExpresionRelacional()
             if er!=None:
                 return AuxiliarRelacional(opRelacional,er,None)
             else:
-                #self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
-                return None
-        else:
-            #self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
-            return None
+                self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
+       
+       
              
     """
     <Termino>::= <ValorNumerico> | identificador
@@ -525,7 +513,6 @@ class ASintactico:
             cadena = self.tokenActual
             
             self.obtenerSiguienteToken()    
-            print("PASO LA CADENA",self.tokenActual.lexema) 
             if self.tokenActual.lexema == "+":
                 
                 self.obtenerSiguienteToken()
@@ -542,50 +529,63 @@ class ASintactico:
             return None        
                  
     """
-    <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
+    <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional1> operadorLogico <ExpresionRelacional2> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional>
     """
 
     def esExpresionLogica(self):
         
-        er = self.esExpresionRelacional()
-        if self.tokenActual.lexema == '!' or er != None :
+        er1 = self.esExpresionRelacional()
+        if self.tokenActual.lexema == '!' or er1 != None :
             
             if self.tokenActual.lexema == '!' : 
                 self.obtenerSiguienteToken()
                 
-                e = self.esExpresionLogica()
-                if e != None:
-                    eal = self.esExpresionAuxiliarLogica()
+                el = self.esExpresionLogica()
+                if el != None:             
                     
-                    return Logica("!", e, eal, None)
+                    eAuxl = self.esExpresionAuxiliarLogica()
+                        
+                    return Logica("!", el, None, eAuxl)
                 else:
                     self.reportarError("Expresion logica no valida",self.tokenActual.fila, self.tokenActual.columna)
             
-            elif er != None:
-                self.obtenerSiguienteToken()
-                eal = self.esExpresionAuxiliarLogica()
-                return Logica(None, None, eal, er)                    
+            elif er1 != None:
+                    
+                if self.tokenActual.categoria == Categoria.OperadorLogico:
+                    operadorLogico = self.tokenActual
+                    self.obtenerSiguienteToken()
+                    
+                    er2 = self.esExpresionRelacional()
+                    
+                    if er2 != None:
+                        
+                        eAuxl = self.esExpresionAuxiliarLogica()
+                        
+                        return Logica(operadorLogico,er1,er2,eAuxl )
+                    else:
+                        self.reportarError("Luego del operador logico, no hay una expresion relacional valida", self.tokenActual.fila,self.tokenActual.columna)    
+                    
+                else:    
+                    return Logica(None, er1, None, None)                    
         else:
             return None    
 
     """
-    <ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    <ExpresionAuxiliarLogica>::= operadorLogico <ExpresionRelacional>
     """
     def esExpresionAuxiliarLogica(self):
         
-        if self.tokenActual.categoria == Categoria.OperadorLogico :
+        if self.tokenActual.categoria == Categoria.OperadorLogico:
+            operadorLogico = self.tokenActual
+            self.obtenerSiguienteToken()
+            er = self.esExpresionRelacional()
             
-            if self.tokenActual.lexema == "&&" or self.tokenActual.lexema == "||" :
-                opBin = self.tokenActual
-                self.obtenerSiguienteToken()
-                
-                e = self.esExpresionLogica()
-                if e != None:
-                    eal = self.esExpresionAuxiliarLogica()
-                    
-                    return AuxiliarLogica(opBin, e, eal)
-        else:
-            return None    
+            if er != None:
+                return AuxiliarLogica(operadorLogico,er)
+            else:
+                self.reportarError("No hay una expresion relacional valida luego del operador logico", self.tokenActual.fila, self.tokenActual.columna)
+            
+            
     
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
