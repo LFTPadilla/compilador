@@ -35,5 +35,5 @@ class DeclaracionVariable(Sentence):
         if self.invocacion != None:
             self.invocacion.construirArbol(arbolDeclaracionVariable, 0)
 
-        #if self.expresion != None:
-        #    self.expresion.construirArbol(arbol)
+        if self.expresion != None:
+           self.expresion.construirArbol(arbolDeclaracionVariable)

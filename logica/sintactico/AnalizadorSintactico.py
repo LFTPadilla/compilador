@@ -171,13 +171,10 @@ class ASintactico:
         <TipoDato> ::= int | String | double | boolean | char
     """
     def esTipoDato(self):
-        if self.tokenActual.categoria == Categoria.PalabraReservada:
-            if self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char":
-                tipoDato = self.tokenActual
-                self.obtenerSiguienteToken()
-                return tipoDato
-            else:
-                self.reportarError("No es un tipo de dato valido", self.tokenActual.fila, self.tokenActual.columna)
+        if self.tokenActual.categoria == Categoria.PalabraReservada and (self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char") :
+            tipoDato = self.tokenActual
+            self.obtenerSiguienteToken()
+            return tipoDato
         return None        
     
     """
@@ -641,45 +638,45 @@ class ASintactico:
     def esDeclaracionVariable(self):
         #comienza con una palabra reservada
         
-        if self.tokenActual.categoria == Categoria.PalabraReservada:
-            # la palabra reservada debe de ser un tipo de Dato 
-            tipoDato = self.esTipoDato()
-            if tipoDato != None:
-                #Sigue un identificador
-                if self.tokenActual.categoria == Categoria.Identificador:
-                    identificador = self.tokenActual
-                    self.obtenerSiguienteToken()
-                    #sigue opcionalmente un "="
-                    lectura = None
-                    invocar = None
-                    expresion = None
-                    if self.tokenActual.lexema == "=":
-                        self.obtenerSiguienteToken()
-                        # obligatoriamente despues del igual debe de seguir una expresion
-                        
-                        #busca si es una lectura    
-                        lectura = self.esLeer()
-                        
-                        #busca si es una invocacion
-                        invocar = self.esInvocarMetodo()
-
-                        #busca si es una expresion
-                        expresion = self.esExpresion()
-
-                        # si no es lectura, ni invocacion, ni expresion es un error sintactico 
-                        if expresion == None and lectura == None and invocar == None:
-                            self.reportarError("La asignacion de declaracion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
-                    # la declaracion de variable finaliza con un fin de sentencia ";"
-                    if self.tokenActual.categoria == Categoria.FinSentencia and (lectura == None and invocar == None):
-                        self.obtenerSiguienteToken()
-                        return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
-                    if lectura != None or invocar != None:
-                        return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
-                    else:
-                        self.reportarError("Revise la declaracion de una varable", self.tokenActual.fila, self.tokenActual.columna) 
-                else:
-                    self.reportarError("No se encontro un identificador valido para la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna)
+        tipoDato = self.esTipoDato()
+        if tipoDato != None:
+            # la palabra reservada debe de ser un tipo de Dato            
             
+            #Sigue un identificadoresTipoDat
+            if self.tokenActual.categoria == Categoria.Identificador:
+                identificador = self.tokenActual
+                self.obtenerSiguienteToken()
+                #sigue opcionalmente un "="
+                lectura = None
+                invocar = None
+                expresion = None
+                if self.tokenActual.lexema == "=":
+                    self.obtenerSiguienteToken()
+                    # obligatoriamente despues del igual debe de seguir una expresion
+                    
+                    #busca si es una lectura    
+                    lectura = self.esLeer()
+                    
+                    #busca si es una invocacion
+                    invocar = self.esInvocarMetodo()
+
+                    #busca si es una expresion
+                    expresion = self.esExpresion()
+
+                    # si no es lectura, ni invocacion, ni expresion es un error sintactico 
+                    if expresion == None and lectura == None and invocar == None:
+                        self.reportarError("La asignacion de declaracion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
+                # la declaracion de variable finaliza con un fin de sentencia ";"
+                if self.tokenActual.categoria == Categoria.FinSentencia and (lectura == None and invocar == None):
+                    self.obtenerSiguienteToken()
+                    return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
+                if lectura != None or invocar != None:
+                    return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
+                else:
+                    self.reportarError("Revise la declaracion de una varable", self.tokenActual.fila, self.tokenActual.columna) 
+            else:
+                self.reportarError("No se encontro un identificador valido para la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna)
+        
         return None        
 
     """
