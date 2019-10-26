@@ -18,9 +18,9 @@ class DeclaracionVariable(Sentence):
     def __str__(self):
         return "[Sentencia Declaracion Variable [%s, %s, %s, %s, %s]"% (self.tipoDato, self.identificador, self.lectura, self.invocacion, self.expresion)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolDeclaracionVariable = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "DeclaracionVariable "+str(n)
+        titulo = "DeclaracionVariable "
         arbolDeclaracionVariable.setText(0,titulo)
 
         ramaTipoDato = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
@@ -38,4 +38,5 @@ class DeclaracionVariable(Sentence):
         if self.expresion != None:
             ramaExpresion = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
             ramaExpresion.setText(0,"Expresion ")
-            self.expresion.construirArbol(arbol)
+            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
+            self.expresion.construirArbol(arbolExpresion)
