@@ -35,5 +35,9 @@ class Asignacion(Sentence):
         if self.invocacion != None:
             self.invocacion.construirArbol(arbolAsignacionVariable)
 
-        #if self.expresion != None:
-        #    self.expresion.construirArbol(arbol)
+        if self.expresion != None:
+            ramaExpresion = QtWidgets.QTreeWidgetItem(arbolAsignacionVariable)
+            ramaExpresion.setText(0,"Expresion ")
+
+            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
+            self.expresion.construirArbol(arbolExpresion)
