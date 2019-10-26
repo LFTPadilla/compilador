@@ -344,11 +344,11 @@ class ASintactico:
         
         e = None
         
-        """e = self.esExpresionAritmetica()
+        e = self.esExpresionAritmetica()
         
         if e != None:
             return e
-        """
+        
         e = self.esExpresionRelacional()
         print("Es una exp Relacional ",e)
         if e != None:
@@ -524,21 +524,21 @@ class ASintactico:
 
     def esExpresionLogica(self):
         
-        if self.tokenActual.lexema == '!' or self.esExpresionRelacional() :
+        er = self.esExpresionRelacional()
+        if self.tokenActual.lexema == '!' or er != None :
             
             if self.tokenActual.lexema == '!' : 
                 self.obtenerSiguienteToken()
-                if self.esExpresionLogica():
-                    e = self.tokenActual
-                    self.obtenerSiguienteToken()
+                
+                e = self.esExpresionLogica()
+                if e != None:
                     eal = self.esExpresionAuxiliarLogica()
                     
                     return Logica("!", e, eal, None)
                 else:
                     self.reportarError("Expresion logica no valida",self.tokenActual.fila, self.tokenActual.columna)
             
-            elif self.esExpresionRelacional():
-                er = self.tokenActual
+            elif er != None:
                 self.obtenerSiguienteToken()
                 eal = self.esExpresionAuxiliarLogica()
                 return Logica(None, None, eal, er)                    
@@ -552,15 +552,12 @@ class ASintactico:
         
         if self.tokenActual.categoria == Categoria.OperadorLogico :
             
-            self.obtenerSiguienteToken()
-            
             if self.tokenActual.lexema == "&&" or self.tokenActual.lexema == "||" :
                 opBin = self.tokenActual
                 self.obtenerSiguienteToken()
                 
-                if self.esExpresionLogica():
-                    e = self.tokenActual
-                    self.obtenerSiguienteToken()
+                e = self.esExpresionLogica()
+                if e != None:
                     eal = self.esExpresionAuxiliarLogica()
                     
                     return AuxiliarLogica(opBin, e, eal)
