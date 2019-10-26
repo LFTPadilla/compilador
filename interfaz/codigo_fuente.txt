@@ -1,0 +1,9 @@
+public String calcular(int talla){
+	
+	return (talla * 3) + 4;
+}
+
+public String calcular(int talla, double peso, String nombre, boolean disponible, char ambito){
+	
+	return talla *(3+ 4);
+}
