@@ -1,20 +1,22 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
 """
-    <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";"
+    <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" | identificador operadorAsignacion <Lectura> ";" | identificador operadorAsignacion <invocacion> ";"
 """
 class Asignacion(Sentence):
 
-    def __init__(self, identificador, operadorAsignacion, expresion):
+    def __init__(self, identificador, operadorAsignacion, lectura, invocacion, expresion):
         self.identificador = identificador
         self.operadorAsignacion = operadorAsignacion
+        self.lectura = lectura
+        self.invocacion = invocacion
         self.expresion = expresion
 
     def __repr__(self):
-        return "(Sentencia Asignacion: identificador: %s,operadorAsignacion: %s, expresion: %s)" % (self.identificador, self.operadorAsignacion, self.expresion)
+        return "(Asignacion Variable: identificador: %s, operadorAsignacion: %s, lectura: %s, invocacion: %s, expresion: %s)" % (self.identificador, self.operadorAsignacion, self.lectura, self.invocacion, self.expresion)
 
     def __str__(self):
-        return "Sentencia Asignacion [%s, %s, %s]"% (self.identificador, self.operadorAsignacion, self.expresion)
+        return "[asignacion Variable [%s, %s, %s, %s, %s]"% (self.identificador,self.operadorAsignacion, self.lectura, self.invocacion, self.expresion)
     
     def construirArbol(self, arbol, n):
         arbolAsignacionVariable = QtWidgets.QTreeWidgetItem(arbol)
@@ -27,4 +29,11 @@ class Asignacion(Sentence):
         ramaOperadorAsignacion = QtWidgets.QTreeWidgetItem(arbolAsignacionVariable)
         ramaOperadorAsignacion.setText(0,"OperadorAsignacion "+self.operadorAsignacion.lexema)
 
-        #self.expresion.construirArbol(arbolAsignacionVariable)
+        if self.lectura != None:
+            self.lectura.construirArbol(arbolAsignacionVariable, 0)        
+
+        if self.invocacion != None:
+            self.invocacion.construirArbol(arbolAsignacionVariable, 0)
+
+        #if self.expresion != None:
+        #    self.expresion.construirArbol(arbol)
