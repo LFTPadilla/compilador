@@ -41,8 +41,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.listViewErroresSintacticos.addItem(str(i))
     
     def AnalisisSintactico(self):
-        Asin = ASintactico(self.tokens,self.treeFunciones)
-        Asin.esUnidadDeCompilacion()
+        ASin = ASintactico(self.tokens,self.treeFunciones)
+        ASin.esUnidadDeCompilacion()
 
         self.treeFunciones.show()
         if len(Asin.listaErrores)!=0:
