@@ -38,7 +38,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if len(ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
-            for i in Asin.listaErrores:
+            for i in ASem.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
     
     def AnalisisSintactico(self):
