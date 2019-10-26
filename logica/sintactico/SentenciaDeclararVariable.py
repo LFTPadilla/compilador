@@ -38,5 +38,6 @@ class DeclaracionVariable(Sentence):
         if self.expresion != None:
             ramaExpresion = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
             ramaExpresion.setText(0,"Expresion ")
+            
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
             self.expresion.construirArbol(arbolExpresion)
