@@ -350,17 +350,16 @@ class ASintactico:
         
         posToken = self.posActual
         print("Token inicial ",self.listaTokens[posToken])
-       # e = self.esExpresionAritmetica()
+        e = self.esExpresionAritmetica()
                 
         if e != None:
             return e
         else:
             print("Voy a hacer BT hasta ",self.listaTokens[posToken])            
-        #    self.hacerBT(posToken)
+            self.hacerBT(posToken)
         
         posToken = self.posActual
         e = self.esExpresionRelacional()
-        self.hacerBT(posToken)
         
         print("Es una exp Relacional ",e)
         if e != None:
