@@ -8,7 +8,7 @@ class Sentence(ABC):
     def __init__(self):
         pass
 
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         pass
         
         

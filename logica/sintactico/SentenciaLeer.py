@@ -14,9 +14,9 @@ class Leer(Sentence):
     def __str__(self):
         return "Sentencia Leer [%s]"% (self.expresion)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolLeer = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "Leer "+str(n)
+        titulo = "Leer "
         arbolLeer.setText(0,titulo)
 
         #if self.expresion != None:

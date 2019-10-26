@@ -14,7 +14,7 @@ class Imprimir(Sentence):
     def __str__(self):
         return "Sentencia Imprimir [%s]" % (self.expresion)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolImprimir = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "Imprimir " 
         arbolImprimir.setText(0,titulo)

@@ -18,9 +18,9 @@ class Asignacion(Sentence):
     def __str__(self):
         return "[asignacion Variable [%s, %s, %s, %s, %s]"% (self.identificador,self.operadorAsignacion, self.lectura, self.invocacion, self.expresion)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolAsignacionVariable = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "AsignacionVariable "+str(n)
+        titulo = "AsignacionVariable "
         arbolAsignacionVariable.setText(0,titulo)
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolAsignacionVariable)
@@ -30,10 +30,10 @@ class Asignacion(Sentence):
         ramaOperadorAsignacion.setText(0,"OperadorAsignacion "+self.operadorAsignacion.lexema)
 
         if self.lectura != None:
-            self.lectura.construirArbol(arbolAsignacionVariable, 0)        
+            self.lectura.construirArbol(arbolAsignacionVariable)        
 
         if self.invocacion != None:
-            self.invocacion.construirArbol(arbolAsignacionVariable, 0)
+            self.invocacion.construirArbol(arbolAsignacionVariable)
 
         #if self.expresion != None:
         #    self.expresion.construirArbol(arbol)

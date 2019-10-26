@@ -15,9 +15,9 @@ class InvocarFuncion(Sentence):
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolInvocarFuncion = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "InvocarFuncion "+str(n)
+        titulo = "InvocarFuncion "
         arbolInvocarFuncion.setText(0,titulo)
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolInvocarFuncion)

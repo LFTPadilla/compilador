@@ -16,9 +16,9 @@ class Decision(Sentence):
     def __str__(self):
         return "Sentencia Decision [%s, %s]"% (self.sentenciaIf, self.sentenciaElse)
                 
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolDecision = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "Decision "+str(n)
+        titulo = "Decision "
         arbolDecision.setText(0,titulo)
 
         self.sentenciaIf.construirArbol(arbolDecision)
