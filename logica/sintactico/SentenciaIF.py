@@ -19,7 +19,11 @@ class SentIF:
         arbolIf = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "If"
         arbolIf.setText(0,titulo)
+        
+        ramaExpresionLogica = QtWidgets.QTreeWidgetItem(arbolIf)
+        ramaExpresionLogica.setText(0,"Expresion Logica")
 
-        #self.expresionLogica.construirArbol(arbolIf)
+        arbolExpresionLogica = QtWidgets.QTreeWidgetItem(ramaExpresionLogica)
+        self.expresionLogica.construirArbol(arbolExpresionLogica)
         
         self.bloqueSentencias.construirArbol(arbolIf)

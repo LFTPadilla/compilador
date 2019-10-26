@@ -22,7 +22,12 @@ class Imprimir(Sentence):
         arbolExpresion = QtWidgets.QTreeWidgetItem(arbolImprimir)
         self.expresion.construirArbol(arbolExpresion)
 
-        #self.expresion.construirArbol(arbolImprimir)
+        if self.expresion != None:
+            ramaExpresion = QtWidgets.QTreeWidgetItem(arbolImprimir)
+            ramaExpresion.setText(0,"Expresion ")
+            
+            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
+            self.expresion.construirArbol(arbolExpresion)
 
         
 

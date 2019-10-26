@@ -19,5 +19,9 @@ class Leer(Sentence):
         titulo = "Leer "
         arbolLeer.setText(0,titulo)
 
-        #if self.expresion != None:
-        #    self.expresion.contruirArbol(arbolLeer)
+        if self.expresion != None:
+            ramaExpresion = QtWidgets.QTreeWidgetItem(arbolLeer)
+            ramaExpresion.setText(0,"Expresion ")
+            
+            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
+            self.expresion.construirArbol(arbolExpresion)

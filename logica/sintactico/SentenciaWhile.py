@@ -20,6 +20,10 @@ class SentenceWhile(Sentence):
         titulo = "While "
         arbolWhile.setText(0,titulo)
 
-        #self.expresionLogica.construirArbol(arbolWhile)
+        ramaExpresionLogica = QtWidgets.QTreeWidgetItem(arbolWhile)
+        ramaExpresionLogica.setText(0,"Expresion Logica")
+
+        arbolExpresionLogica = QtWidgets.QTreeWidgetItem(ramaExpresionLogica)
+        self.expresionLogica.construirArbol(arbolExpresionLogica)
         
         self.bloqueSentencias.construirArbol(arbolWhile)
