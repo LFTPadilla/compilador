@@ -9,8 +9,7 @@ class Cadena(Expression):
         self.cadenaCaracteres = cadenaCaracteres
         self.expresion = expresion
 
-    def construirArbol(self, arbol):
-        arbolExpresionCadena = QtWidgets.QTreeWidgetItem(arbol)
+    def construirArbol(self, arbolExpresionCadena):
         titulo = "Expresion Cadena"
         arbolExpresionCadena.setText(0,titulo)
 

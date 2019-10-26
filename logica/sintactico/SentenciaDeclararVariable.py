@@ -38,10 +38,5 @@ class DeclaracionVariable(Sentence):
         if self.expresion != None:
             ramaExpresion = QtWidgets.QTreeWidgetItem(arbolDeclaracionVariable)
             ramaExpresion.setText(0,"Expresion ")
-<<<<<<< Updated upstream
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
-=======
-
-            arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
->>>>>>> Stashed changes
             self.expresion.construirArbol(arbolExpresion)
