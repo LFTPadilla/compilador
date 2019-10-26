@@ -347,13 +347,13 @@ class ASintactico:
         
         e = None
         
-        e = self.esExpresionAritmetica()
+        """e = self.esExpresionAritmetica()
         
         if e != None:
             return e
-        
+        """
         e = self.esExpresionRelacional()
-        
+        print("Es una exp Relacional ",e)
         if e != None:
             return e
         
@@ -366,6 +366,8 @@ class ASintactico:
         
         if e != None:
             return e
+        
+        
              
     """
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliar>] | <Termino>[<ExpresionAuxiliar>]
@@ -425,51 +427,53 @@ class ASintactico:
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
     def esExpresionRelacional(self):   
-        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or self.esTermino != None : 
-            if self.tokenActual.categoria == Categoria.ParentesisIzquierdo :
+        termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
+        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
+            if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
+                
                 self.obtenerSiguienteToken()
-                er = self.esExpresionRelacional()
-                if er != None :
-                    self.obtenerSiguienteToken()
-                    if self.tokenActual.categoria == Categoria.ParentesisDerecho :
+                e = self.esExpresionRelacional()
+
+                if(e!=None):
+
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
-                        ear = self.esExpresionAuxiliarRelacional()
-                        return Relacional(er,ear,None)
+
+                        ea = self.esExpresionAuxiliarRelacional()
+
+                        return Relacional(e,ea, None)
                     else:
-                        self.reportarError("Falta parentesis derecho en la expresion relacional",self.tokenActual.fila, self.tokenActual.columna)
-                        return None
+                        self.reportarError("Falta el parentesis de cierre en la expresion Relacional",self.tokenActual.fila,self.tokenActual.columna)
                 else:
-                    self.reportarError("No hay una expresion relacional valida dentro de los parentesis",self.tokenActual.fila, self.tokenActual.columna)        
-                    return None
+                    self.reportarError("No hay una expresion Relacional valida", self.tokenActual.fila,self.tokenActual.columna)
             else:
-                termino = self.esTermino()
-                if termino != None: #si es un termino valido         
-                    self.obtenerSiguienteToken()
-                    ear = self.esExpresionAuxiliarRelacional()
-                    return Relacional(None, ear,termino)
-                #aca no se reporta el error de que "falta un termino valido" ya que si no hay parentesis izquierdo
-                #  y tampoco hay un termino, ni siquiera seria una expresion  
-        else: 
-            return None                  
-    
+                
+                
+                if(termino != None): #si solo es un termino, ya estamos obteniendo el siguiente token en esTermino()
+                    ea = self.esExpresionAuxiliarRelacional()
+
+                    return Relacional(None, ea , termino)
+                else:
+                    self.reportarError("No hay un termino valido", self.tokenActual.fila, self.tokenActual.columna)
+        return None
+        
     """
-    <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional>[<ExpresionAuxiliarRelacional>]
+    <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional> "[<ExpresionAuxiliarRelacional>]"
     """
     def esExpresionAuxiliarRelacional(self):
         
         if self.tokenActual.categoria == Categoria.OperadorRelacional :
             opRelacional = self.tokenActual
             self.obtenerSiguienteToken()
+            print("Es un operador relacional ",opRelacional)
             er = self.esExpresionRelacional()
-            if er != None:
-                self.obtenerSiguienteToken()
-                ear = self.esExpresionAuxiliarRelacional()
-                return AuxiliarRelacional(opRelacional,er,ear)
+            if er!=None:
+                return AuxiliarRelacional(opRelacional,er,None)
             else:
-                self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
+                #self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
                 return None
         else:
-            self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
+            #self.reportarError("No hay un operador relacional",self.tokenActual.fila,self.tokenActual.columna)                
             return None
              
     """
@@ -499,9 +503,9 @@ class ASintactico:
         
         if self.tokenActual.categoria == Categoria.CadenaCaracteres :
             cadena = self.tokenActual
-
-            self.obtenerSiguienteToken()
-
+            
+            self.obtenerSiguienteToken()    
+            print("PASO LA CADENA",self.tokenActual.lexema) 
             if self.tokenActual.lexema == "+":
                 
                 self.obtenerSiguienteToken()
@@ -509,13 +513,10 @@ class ASintactico:
                 e = self.esExpresion()
 
                 if e != None:
-
-                    return Cadena(cadena, e)
-                
+                    return Cadena(cadena, e)                
                 else:
                     self.reportarError("Mal concatenado", self.tokenActual.fila, self.tokenActual.columna)
             else:
-                
                 return Cadena(cadena, None)
         else:
             return None        
@@ -523,6 +524,7 @@ class ASintactico:
     """
     <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
     """
+
     def esExpresionLogica(self):
         
         if self.tokenActual.lexema == '!' or self.esExpresionRelacional() :
