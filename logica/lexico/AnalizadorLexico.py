@@ -8,14 +8,13 @@ class ALexico:
     def __init__(self,codigo):
         self.codigo = codigo
         self.caracterActual = self.codigo[0]
-        self.palabrasReservadas = [ "String", "abstract", "continue", "for", "new", "switch", "assert", "default", "goto", "package", "synchronized", "boolean", "do", "if", "private", "this", "break", "double", "implements", "protected", "throw", "byte", "else", "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", "native", "super", "while", "map", "array", "invocar", "imprimir", "leer", "let", "asig"]
+        self.palabrasReservadas = [ "public","String", "abstract", "continue", "for", "new", "switch", "assert", "default", "goto", "package", "synchronized", "boolean", "do", "if", "private", "this", "break", "double", "implements", "protected", "throw", "byte", "else", "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", "native", "super", "while", "map", "array", "invocar", "imprimir", "leer", "let", "asig"]
         self.private__ = ""
         self.tokens = []
         self.finCodigo = "¿"
         self.posicionActual = 0
         self.filaActual = 0
         self.colActual = 0
-        self.palabrasReservadas=[]
         self.listaErrores = []
         
 
@@ -187,6 +186,7 @@ class ALexico:
                 self.obtenerSiguienteCaracter()
             
             #Las palabras reservadas estan en un arreglo global
+            print("El lexema es ", lexema,lexema in self.palabrasReservadas)
             if lexema in self.palabrasReservadas:
                 self.tokens.append(Token(lexema,Categoria.PalabraReservada,self.filaActual,self.colActual))
             else:

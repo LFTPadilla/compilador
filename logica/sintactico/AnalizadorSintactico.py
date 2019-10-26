@@ -156,7 +156,8 @@ class ASintactico:
         <Visibilidad> ::= public | private | protected | default
     """
     def esVisibilidad(self):
-        if(self.tokenActual.categoria == Categoria.PalabraReservada):        
+        if(self.tokenActual.categoria == Categoria.PalabraReservada):
+            print("Visibilidad ",self.tokenActual.lexema)        
             if(self.tokenActual.lexema == "public" or self.tokenActual.lexema == "private" or self.tokenActual.lexema == "protected" or self.tokenActual.lexema == "default"):
                 visibilidad = self.tokenActual
                 self.obtenerSiguienteToken()        
