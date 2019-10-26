@@ -25,7 +25,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
     
     def AnalisisCompleto(self):
-        print("entor")
         self.AnalisisLexico()
         self.AnalisisSintactico()
         self.AnalisisSemantico()
@@ -38,7 +37,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if len(ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
-            for i in Asin.listaErrores:
+            for i in ASem.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
     
     def AnalisisSintactico(self):
@@ -65,7 +64,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         analisisLexico = ALexico(codigo)
         analisisLexico.analizar()
-        print(analisisLexico.listaErrores)
         self.tokens = analisisLexico.tokens
         for i in self.tokens:
             self.listViewTokens.addItem(str(i))

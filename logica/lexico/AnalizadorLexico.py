@@ -186,7 +186,6 @@ class ALexico:
                 self.obtenerSiguienteCaracter()
             
             #Las palabras reservadas estan en un arreglo global
-            print("El lexema es ", lexema,lexema in self.palabrasReservadas)
             if lexema in self.palabrasReservadas:
                 self.tokens.append(Token(lexema,Categoria.PalabraReservada,self.filaActual,self.colActual))
             else:
@@ -202,7 +201,6 @@ class ALexico:
             self.obtenerSiguienteCaracter()
 
             while(self.caracterActual!="\"" and self.caracterActual!=self.finCodigo):
-                #print(self.caracterActual,self.caracterActual!="\"")
                 aux = self.caracterActual
                 texto+=self.caracterActual
                 self.obtenerSiguienteCaracter()
@@ -533,7 +531,6 @@ class ALexico:
     def esNatural(self):
         
         if(self.caracterActual.isdigit()):  
-            #print("es numero "+self.caracterActual)
             
             lexema = ""          
             filaInicial = self.filaActual

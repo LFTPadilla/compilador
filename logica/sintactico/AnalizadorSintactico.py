@@ -94,39 +94,31 @@ class ASintactico:
     """
     def esFuncion(self, contador):
         if self.posActual < len(self.listaTokens):
-            print("token ",self.tokenActual)
             #El token de visibilidad es opcional, por eso esta en un if que de no cumplirse, no pasa nada
             visibilidad  = self.esVisibilidad()
-            print("visibilidad", visibilidad)
                 
             #El tipo de retorno es obligatorio  
             tipoRetorno = self.esTipoRetorno()  
-            print ("tipo retorno",tipoRetorno)
 
             if tipoRetorno!=None :
                 #El identificador es obligatorio             
                 if self.tokenActual.categoria == Categoria.Identificador:
                     identificador = self.tokenActual
-                    print("El identificador", identificador)
 
                     self.obtenerSiguienteToken()
-                    print("parentesis izquierdo",self.tokenActual)
 
                     #El parentesis izquierdo es obligatorio pero no se guarda
                     if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
 
                         self.obtenerSiguienteToken()
-                        print("Paso a parametros",self.tokenActual)
 
                         #La lista de parametros no es obligatoria, solo se guarda de haber algo
                         parametros = self.esListaParametros()   
-                        print("Lista parametros ",parametros)
 
                         #El parentesis derecho es obligario pero no se guarda
                         if(self.tokenActual.categoria == Categoria.ParentesisDerecho):
 
                             self.obtenerSiguienteToken()
-                            print("bloque ",self.tokenActual)
 
                             #El bloque de sentencias se guarda 
                             bloque = self.esBloqueSentencias()#BloqueSentencia 
@@ -134,7 +126,6 @@ class ASintactico:
                             if bloque != None: #return cuenta como sentencia y minimo debe "{" "}"
                         
                                 funcion = Function(visibilidad,tipoRetorno,identificador,parametros,bloque)
-                                print("FUNCION ", funcion)
 
                                 funcion.construirArbol(self.arbol,contador)
 
@@ -157,7 +148,6 @@ class ASintactico:
     """
     def esVisibilidad(self):
         if(self.tokenActual.categoria == Categoria.PalabraReservada):
-            print("Visibilidad ",self.tokenActual.lexema)        
             if(self.tokenActual.lexema == "public" or self.tokenActual.lexema == "private" or self.tokenActual.lexema == "protected" or self.tokenActual.lexema == "default"):
                 visibilidad = self.tokenActual
                 self.obtenerSiguienteToken()        
@@ -171,7 +161,6 @@ class ASintactico:
         if self.tokenActual.categoria == Categoria.PalabraReservada:
             if self.tokenActual.lexema == "int" or self.tokenActual.lexema == "String" or self.tokenActual.lexema == "double" or self.tokenActual.lexema == "boolean" or self.tokenActual.lexema == "char" or self.tokenActual.lexema == "void":
                 tipoRetorno = self.tokenActual
-                print("Debe ser tipo retorno ",tipoRetorno)
                 self.obtenerSiguienteToken()
                 return tipoRetorno
             else:
@@ -240,7 +229,6 @@ class ASintactico:
                     self.obtenerSiguienteToken()
 
                     Parametro = Parameter(tipo_dato,nombre)
-                    print("Parametro ", Parametro)
 
                     #Parametro.construirArbol(self.funcion, contador)
 
@@ -258,13 +246,10 @@ class ASintactico:
 
         if(self.tokenActual.categoria == Categoria.LlaveIzquierda):
             self.obtenerSiguienteToken()
-            print("Llego llave izq")
 
             sentencias = self.esListaSentencias()
-            print("lista de sent ",sentencias)
             
             if(self.tokenActual.categoria == Categoria.LlaveDerecha):
-                print("LLego llave der")
 
                 self.obtenerSiguienteToken()
                 return bloqueSent (sentencias)
@@ -282,11 +267,9 @@ class ASintactico:
         lista = []
         contador = 0
         f = self.esSentencia(contador)
-        print("Sentencia ",f,self.tokenActual)
         while(f!=None):
             lista.append(f)
             f = self.esSentencia(contador)
-        print("SIGUIENTE FUNCION ",self.tokenActual)
         return lista
 
     """
@@ -391,8 +374,8 @@ class ASintactico:
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
+                
                 self.obtenerSiguienteToken()
-
                 e = self.esExpresionAritmetica()
 
                 if(e!=None):
@@ -401,7 +384,6 @@ class ASintactico:
                         self.obtenerSiguienteToken()
 
                         ea = self.esExpresionAuxiliarAritmetica()
-                        self.obtenerSiguienteToken()
 
                         return Aritmetica(e,ea, None)
                     else:
@@ -411,9 +393,8 @@ class ASintactico:
             else:
                 
                 
-                if(termino != None):
+                if(termino != None): #si solo es un termino, ya estamos obteniendo el siguiente token en esTermino()
                     ea = self.esExpresionAuxiliarAritmetica()
-                    self.obtenerSiguienteToken()
 
                     return Aritmetica(None, ea , termino)
                 else:
@@ -426,22 +407,20 @@ class ASintactico:
     def esExpresionAuxiliarAritmetica(self):
 
         if(self.tokenActual.categoria == Categoria.OperadorAritmetico):
-
             operador = self.tokenActual
 
             self.obtenerSiguienteToken()
-
+            
             ea = self.esExpresionAritmetica()
 
             if(ea != None):
 
                 eAux = self.esExpresionAuxiliarAritmetica()
-
                 return AuxiliarAritmetica(operador,ea,eAux)      
 
             else: 
                 self.reportarError("despues del operador aritmetico no existe una expresion aritmetica valida", self.tokenActual.fila, self.tokenActual.columna)               
-
+        
     """
     <ExpresionRelacional>::= "("<ExpresionRelacional>")"[<ExpresionAuxiliarRela>] | <Termino> [<ExpresionAuxiliarRela>]
     """
@@ -498,7 +477,6 @@ class ASintactico:
     """    
     def esTermino(self):
         
-        print("Entro a verificar si es un termino", self.tokenActual.lexema)
         if(self.esValorNumerico() != None or self.tokenActual.categoria == Categoria.Identificador):
             termino = self.tokenActual
             self.obtenerSiguienteToken()
@@ -867,7 +845,6 @@ class ASintactico:
     <Retorno>::= return <Expresion> ";" 
     """
     def esRetorno(self):
-        print("ENTRO A VERIFICAR RETORNO")
 
         #Verifica que sea una palabra reservada
         if self.tokenActual.categoria == Categoria.PalabraReservada:
@@ -875,11 +852,10 @@ class ASintactico:
             #Verifica que la palabra reservada sea return
             if self.tokenActual.lexema == "return":
                 self.obtenerSiguienteToken()
+                
 
                 #Busca la expresion
                 expresion = self.esExpresion()
-                print("Paso ES EXPRESION () ",expresion)
-
                 #Verifica que la expresion no sea nula
                 if expresion != None:
 
@@ -887,7 +863,6 @@ class ASintactico:
                     if self.tokenActual.categoria == Categoria.FinSentencia:
                         self.obtenerSiguienteToken()
 
-                        print("Va a retornar el retorno ",self.tokenActual)
                         return Retorno(expresion)
                     else:
                         self.reportarError("El retorno no termino con \";\"", self.tokenActual.fila, self.tokenActual.columna)
