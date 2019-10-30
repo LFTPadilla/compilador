@@ -47,7 +47,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.treeFunciones.show()
         if len(self.ASin.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(1)
-            for i in ASin.listaErrores:
+            for i in self.ASin.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
         else:
             self.btnAnalisisSemantico.setEnabled(True)
