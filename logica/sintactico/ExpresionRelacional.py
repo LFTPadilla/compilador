@@ -3,36 +3,28 @@ from PyQt5 import QtWidgets
 
 class Relacional(Expression):
 
-    def __init__(self, expRelacional, expAuxiliarRelacional, termino):
-        self.expresionRelacional = expRelacional
-        self.expresionAuxiliarRelacional = expAuxiliarRelacional
-        self.termino = termino
+    def __init__(self, expresionAritmetica1,operadorRelacional, expresionAritmetica2):
+        self.expresionAritmetica1 = expresionAritmetica1
+        self.operadorRelacional = operadorRelacional
+        self.expresionAritmetica2 = expresionAritmetica2
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices
         #llega el 'arbol' nodo 'R'
-               
-        if self.expresionAuxiliarRelacional != None:                          #Si hay una expr Auxiliar
+
+        if self.operadorRelacional != None :
+            arbol.setText(0,self.operadorRelacional.lexema)
+
+            ramaExpresion1 = QtWidgets.QTreeWidgetItem(arbol)
+            self.expresionAritmetica1.construirArbol(ramaExpresion1)
             
-            self.expresionAuxiliarRelacional.construirArbol(arbol)            #Llamamos el mtodo crear arbol de aux
+            ramaExpresion2 = QtWidgets.QTreeWidgetItem(arbol)
+            self.expresionAritmetica2.construirArbol(ramaExpresion2)
             
-            if self.termino != None:                                #Si hay un termino
-                term = QtWidgets.QTreeWidgetItem(arbol)             #Sacamos un hijo 'A' de 'R' 
-                term.setText(0,self.termino.lexema)                 #le asignamos a 'A' el termino
-                
-            elif self.expresionRelacional != None:                  #Sino, si hay expresion relaciona
-                arbolExp = QtWidgets.QTreeWidgetItem(arbol)         #Sacamos un hijo 'B' de R
-                self.expresionRelacional.construirArbol(arbolExp)   #en 'B' hacemos la raiz del arbol de ExpresionAritmetica
-        
-        
-        else:                                                       #Sino hay una expresion auxiliar(mas facil)
-            
-            if self.termino != None:                                #Si hay un termino                                
-                arbol.setText(0, self.termino.lexema)               #nombremos 'R' como el termino
-        
-           
-            elif self.expresionRelacional != None:                  #Sino, si hay una expresion Aritmetica
-                self.expresionRelacional.construirArbol(arbol)      #hacemos 'R' la raiz del nuevo arbol de expresion aritmetica    
+        elif self.expresionArimetica1 != None and self.operadorRelacional == None:            
+            self.expresionAritmetica1.construirArbol(arbol)
+
+
     
 
     def __repr__(self):
