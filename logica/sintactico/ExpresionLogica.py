@@ -3,31 +3,50 @@ from PyQt5 import QtWidgets
 from logica.sintactico.Expresion import Expression
 
 """
-    <ExpresionLogica>::= "!" <ExpresionRelacional> | <ExpresionRelacional1> operadorLogico <ExpresionRelacional2> | <ExpresionRelacional>
+    <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] |  <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
 """
 
 class Logica(Expression):
 
-    def __init__(self, operadorLogico, expresionRelacional1, expresionRelacional2, expresionAuxiliarLogica):
-        self.operadorLogico = operadorLogico
-        self.expresionRelacional1 = expresionRelacional1
-        self.expresionRelacional2 = expresionRelacional2
+    def __init__(self, negacion, expresionLogica, expresionRelacional , expresionAuxiliarLogica):
+        self.negacion = negacion
+        self.expresionLogica = expresionLogica
+        self.expresionRelacional = expresionRelacional
+        self.expresionAuxiliarLogica = expresionAuxiliarLogica
 
     def construirArbol(self, arbol):
         
-        if(self.operadorLogico != None):
-            
-            arbol.setText(0,self.operadorLogico.lexema)
-            
-            arbolRelacional1 = QtWidgets.QTreeWidgetItem(arbol)
-            self.expresionRelacional1.construirArbol(arbolRelacional1)           
-            
-            if self.expresionRelacional2 != None:
-                
-                arbolRelacional2 = QtWidgets.QTreeWidgetItem(arbol)
-                self.expresionRelacional2.construirArbol(arbolRelacional2)
+        if self.expresionAuxiliarLogica != None:
+           
+           self.expresionAuxiliarLogica.construirArbol(arbol)
+           
+           arbolExpresion = QtWidgets.QTreeWidgetItem(arbol)
+                      
+           if self.negacion != None:
+               arbolExpresion.setText(0, "!")
+               arbolExpresionLogicaNegada = QtWidgets.QTreeWidgetItem(arbolExpresion)
+               self.expresionLogica.construirArbol(arbolExpresionLogicaNegada)
+           else:
+               self.expresionRelacional.construirArbol(arbolExpresion)
+        
         else:
-            self.expresionRelacional1.construirArbol(arbol)    
+            if self.negacion != None:
+               arbol.setText(0,"!")
+               arbolExpresionLogicaNegada = QtWidgets.QTreeWidgetItem(arbol)
+               self.expresionLogica.construirArbol(arbolExpresionLogicaNegada)
+            else:
+               self.expresionRelacional.construirArbol(arbol)
+
+                       
+
+               
+               
+               
+               
+               
+               
+           
+           
             
         
         

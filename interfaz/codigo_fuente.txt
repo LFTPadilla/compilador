@@ -1,5 +1,6 @@
 public String calcular(int talla){
 	
+	int a = !(a||b)&&(c&&d);
 	return (talla * 3) + 4;
 }
 
