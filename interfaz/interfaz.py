@@ -13,7 +13,8 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     tokens = []
-    Asin = None
+    ASin = None
+    ASem = None
 
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
@@ -32,19 +33,19 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #Analisador Semantico
     def AnalisisSemantico(self):
 
-        ASem = ASemantico()
-
-        if len(ASem.listaErrores)!=0:
+        self.ASem = ASemantico(self.ASin.unidadCompilacion)
+        self.ASem.llenarTablaSimpolos()
+        if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
-            for i in ASem.listaErrores:
+            for i in self.ASem.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
     
     def AnalisisSintactico(self):
-        ASin = ASintactico(self.tokens,self.treeFunciones)
-        ASin.esUnidadDeCompilacion()
+        self.ASin = ASintactico(self.tokens,self.treeFunciones)
+        self.ASin.esUnidadDeCompilacion()
 
         self.treeFunciones.show()
-        if len(ASin.listaErrores)!=0:
+        if len(self.ASin.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(1)
             for i in ASin.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
@@ -79,6 +80,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def limpiar(self):
         self.tokens = []
+        self.ASin = None 
+        self.ASem = None       
         self.listViewTokens.clear()
         self.treeFunciones.clear()
         self.listViewErroresSintacticos.clear()

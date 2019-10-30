@@ -5,4 +5,5 @@ class UnidadComp:
     
     def llenarTablaSimbolos(tablaSimbolos, erroresSemanticos):
         for fun in self.listaFunciones:
-            pass
+            fun.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
+    
