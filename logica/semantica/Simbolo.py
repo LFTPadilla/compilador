@@ -12,4 +12,4 @@ class simbolito:
         self.ambito = ambito
         self.expresion = expresion
         self.tipoRetorno = tipoRetorno
-        self.tipoParametros = tipoParametro
+        self.tipoParametros = tipoParametros

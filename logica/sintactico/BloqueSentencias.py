@@ -25,3 +25,7 @@ class bloqueSent:
             for sentencia in self.listaSentencias:
                 sentencia.construirArbol(ramaListaSent)
 
+    def llenarTablaSimbolos(self, tablaSimbolos, erroresSemanticos):
+
+         for sentencia in self.listaSentencias:
+             tablaSimbolos.append
