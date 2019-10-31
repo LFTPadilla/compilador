@@ -365,7 +365,7 @@ class ASintactico:
         
         posToken = self.posActual
         e = self.esExpresionRelacional()
-        
+
         if e != None and self.tokenActual.categoria != Categoria.OperadorLogico:
             return e
         else:
@@ -541,17 +541,15 @@ class ASintactico:
             return None        
     """
     <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
-    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
+    <ExpresionLogica> [operadorLogicoBinario <ExpresionLogica> ] |
     <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
     """
     def esExpresionLogica(self):
-        print ("Entro a logica")
         """
         <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
         """
         posActual = self.posActual
         relacional1 = self.esExpresionRelacional()
-        print(relacional1)
         if relacional1 != None:
 
             if self.tokenActual.categoria == Categoria.OperadorLogico and (self.tokenActual.lexema == "||" or self.tokenActual.lexema == "&&"):
@@ -566,16 +564,28 @@ class ASintactico:
             return Logica (None, None, relacional1, None, None)
         else:
             self.hacerBT(posActual)
-
+        """
+        "!" "{" <ExpresionLogica> "}"
         """
         if self.tokenActual.categoria == Categoria.OperadorLogico and self.tokenActual.lexema == "!":
             operador = self.tokenActual
             self.obtenerSiguienteToken()
             if self.tokenActual.categoria == Categoria.LlaveIzquierda:
+                self.obtenerSiguienteToken()
                 expLog = self.esExpresionLogica()
                 if expLog != None:
                     if self.tokenActual.categoria == Categoria.LlaveDerecha:
                         self.obtenerSiguienteToken()
+
+                        if self.tokenActual.categoria == Categoria.OperadorLogico and (self.tokenActual.lexema == "||" or self.tokenActual.lexema == "&&"):
+                            operadorBinario = self.tokenActual
+                            self.obtenerSiguienteToken()
+                            expLogi2 = self.esExpresionLogica()
+                            if expLogi2 != None:
+                                return Logica(expLogi1, expLogi2, None, operadorBinario, None)
+                            else:
+                                self.reportarError("falta expresionlogica",self.tokenActual.fila, self.tokenActual.columna)
+                        
                         return (expLog, None, None, operador, None)
                     else:
                         self.reportarError("no existe la llave de cierre",self.tokenActual.fila, self.tokenActual.columna)
@@ -584,6 +594,7 @@ class ASintactico:
             else:
                 self.reportarError("la negacion de la expresion logica falta llave de inicio",self.tokenActual.fila, self.tokenActual.columna)
         
+        """
         if self.tokenActual.categoria == Categoria.LlaveIzquierda:
             expLogi1 = self.esExpresionLogica()
             if expLogi1 != None:
