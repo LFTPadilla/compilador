@@ -21,15 +21,5 @@ class Relacional(Expression):
             ramaExpresion2 = QtWidgets.QTreeWidgetItem(arbol)
             self.expresionAritmetica2.construirArbol(ramaExpresion2)
             
-        elif self.expresionArimetica1 != None and self.operadorRelacional == None:            
+        elif self.expresionAritmetica1 != None and self.operadorRelacional == None:            
             self.expresionAritmetica1.construirArbol(arbol)
-
-
-    
-
-    def __repr__(self):
-        return "(Expresion relaciona:  %s eAuxArit:: %s termino: %s)" % (self.expresionRelacional, self.expresionAuxiliarRelacional, self.termino)
-
-    def __str__(self):
-        return "ExpresionRelaciona:  %s eAuxArit:: %s termino: %s)" % (self.expresionRelacional, self.expresionAuxiliarRelacional, self.termino)
-    

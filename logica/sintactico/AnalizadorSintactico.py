@@ -366,7 +366,7 @@ class ASintactico:
         posToken = self.posActual
         e = self.esExpresionRelacional()
         
-        if e != None:
+        if e != None and self.tokenActual.categoria != Categoria.OperadorLogico:
             return e
         else:
             self.hacerBT(posToken)
@@ -380,10 +380,8 @@ class ASintactico:
         
         if e != None:
             return e
-        
-       
-        
-        
+
+        return None
              
     """
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliarAritmetica>] | <Termino>[<ExpresionAuxiliarAritmetica>]
@@ -547,7 +545,7 @@ class ASintactico:
     <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
     """
     def esExpresionLogica(self):
-
+        print ("Entro a logica")
         """
         <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
         """
