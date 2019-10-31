@@ -402,6 +402,7 @@ class ASintactico:
                         ea = self.esExpresionAuxiliarAritmetica(evaluandoRelacional)
                         
                         if ea == False and evaluandoRelacional==False:
+                            print("No es Aritmetica")
                             return None
                         elif ea == False:
                             ea = None
@@ -452,10 +453,8 @@ class ASintactico:
         
     """
     <ExpresionRelacional>::= <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica>
-                           | [<ExpresionAritmetica>
     """
-    def esExpresionRelacional(self):  
-        
+    def esExpresionRelacional(self):              
         esArit =  self.esExpresionAritmetica(True)
         
         if esArit !=None:
@@ -477,21 +476,6 @@ class ASintactico:
                 return None
         return None
         
-    """
-    <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional> "[<ExpresionAuxiliarRelacional>]"
-    """
-    def esExpresionAuxiliarRelacional(self):
-        
-        if self.tokenActual.categoria == Categoria.OperadorRelacional :
-            opRelacional = self.tokenActual
-            self.obtenerSiguienteToken()
-            
-            er = self.esExpresionRelacional()
-            if er!=None:
-                return AuxiliarRelacional(opRelacional,er,None)
-            else:
-                self.reportarError("Falta una expresion relacional valida",self.tokenActual.fila,self.tokenActual.columna)
-       
        
              
     """
@@ -543,7 +527,8 @@ class ASintactico:
             return None        
                  
     """
-    <ExpresionLogica>::= "!" "(" <ExpresionLogica> ")" [<ExpresionAuxiliarLogica>] |  <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
+    <ExpresionLogica>::=    "!" "(" <ExpresionLogica> ")" | "!" "(" <ExpresionRelacional> ")" |
+    <ExpresionRelacional> operadorLogico <ExpresionRelacional> 
     """
     def esExpresionLogica(self):
         
