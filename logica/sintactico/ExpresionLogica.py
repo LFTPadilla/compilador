@@ -8,10 +8,10 @@ from logica.sintactico.Expresion import Expression
 
 class Logica(Expression):
 
-    def __init__(self, expresionLogica1, expresionLogica2, expresionAuxLogica1 , operadorLogico, expresionAuxLogica2):
+    def __init__(self, expresionLogica1, expresionLogica2, expresionRelacional1 , operadorLogico, expresionRelacional2):
         self.expresionLogica1 = expresionLogica1
-        self.expresionAuxLogica1 = expresionAuxLogica1
-        self.expresionAuxLogica2 = expresionAuxLogica2
+        self.expresionRelacional1 = expresionRelacional1
+        self.expresionRelacional2 = expresionRelacional2
         self.operadorLogico = operadorLogico
 
     def construirArbol(self, arbol):

@@ -371,7 +371,10 @@ class ASintactico:
         else:
             self.hacerBT(posToken)
         
-            
+        e = self.esExpresionLogica()
+        
+        if e != None:
+            return e
         
         e = self.esExpresionCadena()
         
@@ -541,28 +544,28 @@ class ASintactico:
     """
     <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
     "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
-    <ExpresionAuxiliarLogica> [operadorLogicoBinario <ExpresionAuxiliarLogica>]
+    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
     """
     def esExpresionLogica(self):
 
         """
-        <ExpresionAuxiliarLogica> [operadorLogicoBinario <ExpresionAuxiliarLogica>
+        <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
         """
         posActual = self.posActual
-        expAux1 = self.esExpresionAuxiliarLogica()
-        print(expAux1)
-        if expAux1 != None:
+        relacional1 = self.esExpresionRelacional()
+        print(relacional1)
+        if relacional1 != None:
 
             if self.tokenActual.categoria == Categoria.OperadorLogico and (self.tokenActual.lexema == "||" or self.tokenActual.lexema == "&&"):
                 operadorBinario = self.tokenActual
                 self.obtenerSiguienteToken()
-                expAux2 = self.esExpresionAuxiliarLogica()
-                if expAux2 != None:
-                    return Logica(None, None, expAux1, operadorBinario, expAux2)
+                relacional2 = self.esExpresionRelacional()
+                if relacional2 != None:
+                    return Logica(None, None, relacional1, operadorBinario, relacional2)
                 else:
                     self.reportarError("falta expresion auxiliar logica",self.tokenActual.fila, self.tokenActual.columna)
             
-            return Logica (None, None, expAux1, None, None)
+            return Logica (None, None, relacional1, None, None)
         else:
             self.hacerBT(posActual)
 
@@ -605,26 +608,7 @@ class ASintactico:
                 self.reportarError("expresion logica invalida entre llaves",self.tokenActual.fila, self.tokenActual.columna)
         """
         return None
-
-   
-    """
-    <ExpresionAuxiliarLogica>::= ["!"] <ExpresionRelacional>
-    """
-    def esExpresionAuxiliarLogica(self):
-
-        if self.tokenActual.categoria == Categoria.OperadorLogico and self.tokenActual.lexema == "!":
-            negacion = self.tokenActual
-            self.obtenerSiguienteToken()
-            expresion = self.esExpresionRelacional()
-            if expresion != None:
-                return AuxiliarLogica(negacion, expresion)
-            self.reportarError("No encontro expresion auxiliar logica valida", self.tokenActual.fila, self.tokenActual.columna)    
-        else:
-            expresion = self.esExpresionRelacional()
-            if expresion != None:
-                return AuxiliarLogica(None, expresion)
-            self.reportarError("No encontro expresion auxiliar logica valida", self.tokenActual.fila, self.tokenActual.columna)
-        return None
+    
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
     """
