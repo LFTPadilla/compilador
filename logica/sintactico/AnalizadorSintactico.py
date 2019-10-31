@@ -22,6 +22,7 @@ from logica.sintactico.SentenciaInvocarFuncion import InvocarFuncion
 from logica.sintactico.SentenciaLeer import Leer
 from logica.sintactico.SentenciaRetorno import Retorno
 from logica.sintactico.SentenciaWhile import SentenceWhile
+from logica.sintactico.SentenciaIncrementoDecremento import IncrementoDecremento
 
 from logica.sintactico.Expresion import Expression
 from logica.sintactico.ExpresionAritmetica import Aritmetica 
@@ -316,6 +317,12 @@ class ASintactico:
             if(s!=None):
                 return s
 
+            s = self.esIncrementoDecremento()
+            
+            if(s!=None):
+                return s
+
+            
             s = self.esArreglo()
 
             if(s!=None):
@@ -330,7 +337,7 @@ class ASintactico:
 
             if(s!=None):
                 return s
-
+            
             if s == None:
                 self.reportarError("La sentencia es invalida", self.tokenActual.fila, self.tokenActual.columna)
 
@@ -828,6 +835,34 @@ class ASintactico:
                     self.reportarError("falta el parentesis izquierdo en la sentencia leer", self.tokenActual.fila, self.tokenActual.columna)
 
         return None
+
+
+    """
+        <IncrementoDecremento>::=  identificador ++ ";" |    identificador -- ";" 
+    """
+    def esIncrementoDecremento(self):
+        print("Entró ",self.tokenActual.categoria)
+        if self.tokenActual.categoria == Categoria.Identificador:
+            identificador = self.tokenActual
+            posInicio = self.posActual
+            self.obtenerSiguienteToken()
+            print("Entró 2",self.tokenActual)
+            if self.tokenActual.categoria == Categoria.OperadorIncrementoDecremento:
+                operador = self.tokenActual
+                self.obtenerSiguienteToken()
+                print("Entró 3",self.tokenActual.categoria)
+                 #Verifica que la sentencia retorno termine con un fin de sentencia
+                if self.tokenActual.categoria == Categoria.FinSentencia:
+                    self.obtenerSiguienteToken()
+                    return IncrementoDecremento(identificador,operador)
+                else:
+                    self.reportarError("El retorno no termino con \";\"", self.tokenActual.fila, self.tokenActual.columna)
+            else:
+                self.hacerBT(posInicio)
+        
+        return None
+
+
 
     """
     <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia>
