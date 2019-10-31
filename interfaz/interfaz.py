@@ -19,11 +19,18 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
+
+        num1 =6
+        num2 =3.3333
+        multi = num1*num2
+        print(multi)
+
         self.setupUi(self)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
-    
+        #self.txtCodigo.setText("        public int nombre ( String a ){            a++;            b--;            return (2+1)>b;        }        ")    
+
     def AnalisisCompleto(self):
         self.AnalisisLexico()
         self.AnalisisSintactico()
