@@ -8,34 +8,15 @@ from logica.sintactico.Expresion import Expression
 
 class Logica(Expression):
 
-    def __init__(self, negacion, expresionLogica, expresionRelacional , expresionAuxiliarLogica):
-        self.negacion = negacion
-        self.expresionLogica = expresionLogica
-        self.expresionRelacional = expresionRelacional
-        self.expresionAuxiliarLogica = expresionAuxiliarLogica
+    def __init__(self, expresionLogica1, expresionLogica2, expresionAuxLogica1 , operadorLogico, expresionAuxLogica2):
+        self.expresionLogica1 = expresionLogica1
+        self.expresionAuxLogica1 = expresionAuxLogica1
+        self.expresionAuxLogica2 = expresionAuxLogica2
+        self.operadorLogico = operadorLogico
 
     def construirArbol(self, arbol):
         
-        if self.expresionAuxiliarLogica != None:
-           
-           self.expresionAuxiliarLogica.construirArbol(arbol)
-           
-           arbolExpresion = QtWidgets.QTreeWidgetItem(arbol)
-                      
-           if self.negacion != None:
-               arbolExpresion.setText(0, "!")
-               arbolExpresionLogicaNegada = QtWidgets.QTreeWidgetItem(arbolExpresion)
-               self.expresionLogica.construirArbol(arbolExpresionLogicaNegada)
-           else:
-               self.expresionRelacional.construirArbol(arbolExpresion)
-        
-        else:
-            if self.negacion != None:
-               arbol.setText(0,"!")
-               arbolExpresionLogicaNegada = QtWidgets.QTreeWidgetItem(arbol)
-               self.expresionLogica.construirArbol(arbolExpresionLogicaNegada)
-            else:
-               self.expresionRelacional.construirArbol(arbol)
+        pass
 
                        
 

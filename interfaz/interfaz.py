@@ -27,7 +27,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def AnalisisCompleto(self):
         self.AnalisisLexico()
         self.AnalisisSintactico()
-        self.AnalisisSemantico()
+        #self.AnalisisSemantico()
 
 
     #Analisador Semantico
