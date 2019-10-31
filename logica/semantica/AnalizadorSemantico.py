@@ -6,8 +6,10 @@ class ASemantico:
     tablaSimbolos = None
     listaErrores = []
 
-    def _init_ (self, listaSimbolos):
+    def __init__ (self, unidadCompilacion):
+        self.uc = unidadCompilacion
         
-        uc.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
-
+    def llenarTablaSimpolos (self):
+        self.uc.llenarTablaSimbolos(self.tablaSimbolos,self.listaErrores)
+    
     

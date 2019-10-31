@@ -43,6 +43,7 @@ from logica.semantica.AnalizadorSemantico import ASemantico
 
 class ASintactico: 
     
+    unidadCompilacion = None
 
     def __init__(self,listaTokens,arbol):
         self.arbol = arbol
@@ -72,13 +73,11 @@ class ASintactico:
     def esUnidadDeCompilacion(self):
         listaFunciones = self.esListaFunciones()
         if(len(listaFunciones)!=0):
-            
-            return UnidadComp(listaFunciones)
-        
-        
-
-
+            self.unidadCompilacion = UnidadComp(listaFunciones)
+            return self.unidadCompilacion
         return None
+
+    
 
     """
         <ListaFunciones> ::= <Funcion>[<ListaFunciones>]

@@ -19,13 +19,9 @@ class Function:
             l.add(p.tipoDato.lexema) #p.getTipoDatos().getLexema()
     
 
-    def llenarTablaSimbolos(self, tablaSimbolos, erroresSemanticos):
-        tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.parametros,)
-        # tipo de retorno != null 
-        #else
+    def llenarTablaSimbolos(tablaSimbolos,erroresSemanticos):
         
-        self.bloque.llenarTablaSimbolos(tablaSimbolos, erroresSemanticos);
-        
+        tablaSimbolos.guardarSimboloFuncion(self.nombre.lexema,self.retorno.lexema,self.parametros)
 
 
     def construirArbol(self, arbol, n):

@@ -15,9 +15,9 @@ class mapita(Sentence):
     def __str__(self):
         return "Mapa [%s, %s]" % (self.identificador, self.listaComponentes)
     
-    def construirArbol(self, arbol, n):
+    def construirArbol(self, arbol):
         arbolMapa = QtWidgets.QTreeWidgetItem(arbol)
-        titulo = "Map "+str(n)
+        titulo = "Map "
         arbolMapa.setText(0,titulo)
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolMapa)
