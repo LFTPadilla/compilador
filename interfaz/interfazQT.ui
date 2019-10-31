@@ -39,10 +39,10 @@
    <widget class="QPlainTextEdit" name="txtCodigo">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>890</x>
       <y>140</y>
-      <width>481</width>
-      <height>201</height>
+      <width>441</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="font">
@@ -54,10 +54,10 @@
    <widget class="QListWidget" name="listViewTokens">
     <property name="geometry">
      <rect>
-      <x>890</x>
+      <x>380</x>
       <y>140</y>
-      <width>431</width>
-      <height>441</height>
+      <width>481</width>
+      <height>191</height>
      </rect>
     </property>
     <property name="font">
@@ -89,8 +89,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>110</y>
+      <x>380</x>
+      <y>100</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -107,7 +107,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>890</x>
       <y>100</y>
       <width>111</width>
       <height>21</height>
