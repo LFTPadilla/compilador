@@ -742,14 +742,16 @@ class ASintactico:
                     # si no es lectura, ni invocacion, ni expresion es un error sintactico 
                     if expresion == None and lectura == None and invocar == None:
                         self.reportarError("La asignacion de declaracion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
-                # la declaracion de variable finaliza con un fin de sentencia ";"
-                if self.tokenActual.categoria == Categoria.FinSentencia and expresion != None:
-                    self.obtenerSiguienteToken()
-                    return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
-                elif lectura != None or invocar != None:
-                    return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
+                    # la declaracion de variable finaliza con un fin de sentencia ";"
+                    if self.tokenActual.categoria == Categoria.FinSentencia and expresion != None:
+                        self.obtenerSiguienteToken()
+                        return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
+                    elif lectura != None or invocar != None:
+                        return DeclaracionVariable(tipoDato, identificador, lectura, invocar, expresion)
                 else:
-                    self.reportarError("Revise la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna) 
+                    if self.tokenActual.categoria == Categoria.FinSentencia:
+                        self.obtenerSiguienteToken()
+                        return DeclaracionVariable(tipoDato, identificador, None, None, None)
             else:
                 self.reportarError("No se encontro un identificador valido para la declaracion de una variable", self.tokenActual.fila, self.tokenActual.columna)
         
@@ -767,8 +769,13 @@ class ASintactico:
 
             # sigue obligatoriamente un operador de asignacion
             if self.tokenActual.categoria == Categoria.OperadorAsignacion:
+
                 operadorAsignacion = self.tokenActual
                 self.obtenerSiguienteToken()
+
+                
+                #busca si es una expresion
+                expresion = self.esExpresion()
 
                 #busca si es una lectura    
                 lectura = self.esLeer()
@@ -776,17 +783,17 @@ class ASintactico:
                 #busca si es una invocacion
                 invocar = self.esInvocarMetodo()
 
-                #busca si es una expresion
-                expresion = self.esExpresion()
+
+                # si no es lectura, ni invocacion, ni expresion es un error sintactico 
+                if expresion == None and lectura == None and invocar == None:
+                    self.reportarError("La asignacion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
                 
+                # la declaracion de variable finaliza con un fin de sentencia ";"
                 if self.tokenActual.categoria == Categoria.FinSentencia and expresion != None:
                     self.obtenerSiguienteToken()
-                    return Asignacion(identificador, operadorAsignacion, lectura, invocar, expresion)
-                if lectura != None or invocar != None:
-                    return Asignacion(identificador, operadorAsignacion, lectura, invocar, expresion)
-
-                else:
-                    self.reportarError("Revise la sentencia asignacion variable", self.tokenActual.fila, self.tokenActual.columna)
+                    return Asignacion(identificador, operadorAsignacion, None, None, expresion)
+                elif lectura != None or invocar != None:
+                    return Asignacion(identificador, operadorAsignacion, lectura, invocar, None)
 
             else:
                 self.reportarError("falta el operador de asignacion", self.tokenActual.fila, self.tokenActual.columna)
@@ -842,6 +849,7 @@ class ASintactico:
 
             # la palabra reservada debe de ser "leer""
             if self.tokenActual.lexema == "leer":
+                print ("entro leer")
                 self.obtenerSiguienteToken()
 
                 # verifica que siga un parentesis izquierdo
@@ -976,7 +984,7 @@ class ASintactico:
         return None#se puso true, para que no arroje error su declaracionen el metodo esSentencia
 
     """
-    <InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"
+    <InvocarMetodo>::= invocar identificador "(" [<ListaArgumentos>] ")" ";"
     """
     def esInvocarMetodo(self):
 
@@ -1001,26 +1009,23 @@ class ASintactico:
                         listaArgumentos = self.esListaArgumentos()
 
                         # la lista de argumentos no puede ser None
-                        if listaArgumentos != None:
+                        
 
-                            # verifica que sigua un parentesis Derecho
-                            if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                        # verifica que sigua un parentesis Derecho
+                        if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                            self.obtenerSiguienteToken()
+
+                            # verifica que la invocacion de una funcion termine con un fin de sentencia
+                            if self.tokenActual.categoria == Categoria.FinSentencia:
                                 self.obtenerSiguienteToken()
 
-                                # verifica que la invocacion de una funcion termine con un fin de sentencia
-                                if self.tokenActual.categoria == Categoria.FinSentencia:
-                                    self.obtenerSiguienteToken()
-
-                                    return InvocarFuncion(identificador, listaArgumentos)
-
-                                else:
-                                    self.reportarError("falta finalizar la sentencia con \";\"", self.tokenActual.fila, self.tokenActual.columna)
+                                return InvocarFuncion(identificador, listaArgumentos)
 
                             else:
-                                self.reportarError("falta parentesis derecho en invocar metodo", self.tokenActual.fila, self.tokenActual.columna)
+                                self.reportarError("falta finalizar la sentencia con \";\"", self.tokenActual.fila, self.tokenActual.columna)
 
                         else:
-                            self.reportarError("la lista de argumentos no fue valida", self.tokenActual.fila, self.tokenActual.columna)
+                            self.reportarError("falta parentesis derecho en invocar metodo", self.tokenActual.fila, self.tokenActual.columna)
 
                     else:
                         self.reportarError("falta parentesis izquierdo en invocar metodo", self.tokenActual.fila, self.tokenActual.columna)

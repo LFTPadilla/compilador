@@ -16,16 +16,22 @@ class Array:
         return "Arreglo [ %s, %s, %s]"% (self.tipoDato, self.identificador, self.listaExpresiones)
     
     def construirArbol(self, arbol):
-        arbol.setText(0,"Arreglo")
-        ramaCadena = QtWidgets.QTreeWidgetItem(arbol)
-        ramaCadena.setText(0,"identificador "+self.identificador.lexema)
-        ramaCadena = QtWidgets.QTreeWidgetItem(arbol)
-        ramaCadena.setText(0,"Tipo Dato "+self.tipoDato.lexema)
 
-        ramaElementos = QtWidgets.QTreeWidgetItem(arbol)
-        ramaElementos.setText(0,"Elementos ")
+        arbolArreglo = QtWidgets.QTreeWidgetItem(arbol)
+        arbolArreglo.setText(0,"Arreglo ")
+
+        ramaTipoDato = QtWidgets.QTreeWidgetItem(arbolArreglo)
+        ramaTipoDato.setText(0,"Tipo Dato "+self.tipoDato.lexema)
+
+        ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolArreglo)
+        ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
+
+        
         
         if len(self.listaExpresiones) >0:
+            ramaElementos = QtWidgets.QTreeWidgetItem(arbolArreglo)
+            ramaElementos.setText(0,"ListaExpresiones ")
+            
             for exp in self.listaExpresiones:
                 arbolExpresion = QtWidgets.QTreeWidgetItem(ramaElementos)
                 exp.construirArbol(arbolExpresion)

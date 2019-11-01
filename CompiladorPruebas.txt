@@ -15,20 +15,20 @@
 <ListaSentencias> ::= <sentencia> [<listaSentencias>] 													FUNCIONA
 <sentencia> ::= <Desicion> | <ciclo> | <Impresion> | <lectura> | <Asignacion> | <declaracionVariable> | <retorno> | <invocaFuncion> | <arreglo> | <mapa>
 
-<Decision>::= <sentenciaif>[<sentenciaElse>]														NO FUNCIONA ->Falta expresion logica
-<SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia> 											NO FUNCIONA
-<SentenciaElse>::= else <BloqueSentencia>
+<Decision>::= <sentenciaif>[<sentenciaElse>] FALTA														NO FUNCIONA ->Falta expresion logica
+<SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia> FALTA											NO FUNCIONA
+<SentenciaElse>::= else <BloqueSentencia> FALTA
 														SIN PROBAR
 <DeclaracionVariable>::= <tipoDato> identificador [ "=" <Expresion> ] ";" o leer o invocar										FUNCIONA SIN EXPRESION ARITMETICA Y LOGICA
-<AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" 										FUNCIONA SIN EXPRESION ARITMETICA Y LOGICA
+<AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" invocacion o lectura 										FUNCIONA SIN EXPRESION ARITMETICA Y LOGICA
 
 <Imprimir>::= imprimir "(" [<expresion>] ")" ";"													FUNCIONA SIN EXPRESION
 <Leer>::= leer "(" [<expresion>] ")" ";" 														FUNCIONA SIN EXPRESION
 
-<Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
+FALTAAAA <Ciclo>::= while "(" <expresionLogica> ")" <bloqueSentencia> 												NO FUNCIONA
 
 <Retorno>::= return <Expresion> ";" 															NO FUNCIONA
-<InvocarMetodo>::= invocar identificador "(" <ListaArgumentos> ")" ";"											FUNCIONA
+<InvocarMetodo>::= invocar identificador "(" [<ListaArgumentos>] ")" ";"											FUNCIONA
 
 <ListaArgumentos>::= <Argumento> ["," <ListaArgumentos>]												FUNCIONA
 <Argumento>::= identificador | <expresion>														FUNCIONA SIN EXPRESION
@@ -47,7 +47,7 @@
 <ExpresionAuxiliarRelacional>::= operadorRelacional <ExpresionRelacional>[<ExpresionAuxiliarRelacional>]
 <Termino>::= <ValorNumerico> | identificador
 <ValorNumerico>::= numeroNatural | numeroReal    
-<ExpresionCadena>::= cadena ["+" <Expresion>] FUNCIONA CONCATENANDO EXPRESION CADENA SOLAMENTE "UIUHIUH" + "!JIOJOI"
+<ExpresionCadena>::= cadena ["," <Expresion>] FUNCIONA CONCATENANDO EXPRESION CADENA SOLAMENTE "UIUHIUH" + "!JIOJOI"
 <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] | <ExpresionRelacional> [<ExpresionAuxiliarLogica>] mmmmmmmmmmmmmmmmm
 <ExpresionAuxiliarLogica>::= operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
 
