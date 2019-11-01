@@ -356,7 +356,7 @@ class ASintactico:
         
         posToken = self.posActual
         
-        e = self.esExpresionAritmetica(False)
+        e = self.esExpresionLogica()
                 
         if e != None:
             return e
@@ -364,18 +364,13 @@ class ASintactico:
             self.hacerBT(posToken)
         
         posToken = self.posActual
-        e = self.esExpresionRelacional()
+        e = self.esExpresionAritmetica()
         
-        if e != None and self.tokenActual.categoria != Categoria.OperadorLogico:
+        if e != None :
             return e
         else:
             self.hacerBT(posToken)
-        
-        e = self.esExpresionLogica()
-        
-        if e != None:
-            return e
-        
+                    
         e = self.esExpresionCadena()
         
         if e != None:
@@ -454,13 +449,9 @@ class ASintactico:
         
     """
     <ExpresionRelacional>::= <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica> |
-                     "[" <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica> "]"
+                     "(" <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica> ")"
     """
     def esExpresionRelacional(self):      
-        corcheteIzq = False
-        if self.tokenActual.categoria == Categoria.CorcheteIzquierdo:
-            self.obtenerSiguienteToken()
-            corcheteIzq = True
 
         esArit =  self.esExpresionAritmetica(True)
         
@@ -472,11 +463,7 @@ class ASintactico:
                 self.obtenerSiguienteToken()
                 esArit2 =  self.esExpresionAritmetica(True )
                 if esArit2 !=None:
-
-                    if corcheteIzq == True and self.tokenActual.categoria == Categoria.CorcheteDerecho:
-                        self.obtenerSiguienteToken()
-                        return Relacional(esArit,opRelaciona,esArit2)
-                    if corcheteIzq != True and self.tokenActual.categoria != Categoria.CorcheteDerecho:
+                    
                         return Relacional(esArit,opRelaciona,esArit2)
                     
                     self.reportarError("problema de agrupamiento", self.tokenActual.fila, self.tokenActual.columna)
@@ -540,72 +527,42 @@ class ASintactico:
         else:
             return None        
     """
-    <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
-    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
-    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
+    <ExpresionLogica>::=    
+    "!" "(" <ExpresionLogica> ")" [operadorLogico <ExpresionLogica>] [<ExpresionAuxiliarLogica>]
+    | "(" <ExpresionLogica> operadorLogicoBinario <ExpresionLogica> ")" operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]                         
     """
     def esExpresionLogica(self):
-        print ("Entro a logica")
-        """
-        <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
-        """
-        posActual = self.posActual
-        relacional1 = self.esExpresionRelacional()
-        print(relacional1)
-        if relacional1 != None:
-
-            if self.tokenActual.categoria == Categoria.OperadorLogico and (self.tokenActual.lexema == "||" or self.tokenActual.lexema == "&&"):
-                operadorBinario = self.tokenActual
-                self.obtenerSiguienteToken()
-                relacional2 = self.esExpresionRelacional()
-                if relacional2 != None:
-                    return Logica(None, None, relacional1, operadorBinario, relacional2)
-                else:
-                    self.reportarError("falta expresion auxiliar logica",self.tokenActual.fila, self.tokenActual.columna)
-            
-            return Logica (None, None, relacional1, None, None)
-        else:
-            self.hacerBT(posActual)
-
-        """
-        if self.tokenActual.categoria == Categoria.OperadorLogico and self.tokenActual.lexema == "!":
-            operador = self.tokenActual
-            self.obtenerSiguienteToken()
-            if self.tokenActual.categoria == Categoria.LlaveIzquierda:
-                expLog = self.esExpresionLogica()
-                if expLog != None:
-                    if self.tokenActual.categoria == Categoria.LlaveDerecha:
-                        self.obtenerSiguienteToken()
-                        return (expLog, None, None, operador, None)
-                    else:
-                        self.reportarError("no existe la llave de cierre",self.tokenActual.fila, self.tokenActual.columna)
-                else:
-                    self.reportarError("expresion logica invalida en una negacion",self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("la negacion de la expresion logica falta llave de inicio",self.tokenActual.fila, self.tokenActual.columna)
         
-        if self.tokenActual.categoria == Categoria.LlaveIzquierda:
-            expLogi1 = self.esExpresionLogica()
-            if expLogi1 != None:
-                if self.tokenActual.categoria == Categoria.LlaveDerecha:
-                    self.obtenerSiguienteToken()
-                    if self.tokenActual.categoria == Categoria.OperadorLogico and (self.tokenActual.lexema == "||" or self.tokenActual.lexema == "&&"):
-                        operadorBinario = self.tokenActual
-                        self.obtenerSiguienteToken()
-                        expLogi2 = self.esExpresionLogica()
-                        if expLogi2 != None:
-                            return Logica(expLogi1, expLogi2, None, operadorBinario, None)
-                        else:
-                            self.reportarError("falta expresionlogica",self.tokenActual.fila, self.tokenActual.columna)
-                    
-                    return Logica(expLogi1, None, None, None, None)
+        if self.tokenActual.lexema == "!":
+            operador1 = self.tokenActual
+            self.obtenerSiguienteToken()
+            
+            if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+                self.obtenerSiguienteToken()
                 
-                else:
-                    self.reportarError("no existe la llave de cierre",self.tokenActual.fila, self.tokenActual.columna)
-            else:
-                self.reportarError("expresion logica invalida entre llaves",self.tokenActual.fila, self.tokenActual.columna)
-        """
-        return None
+                el1 = esExpresionLogica()
+                if el != None:
+                    
+                    if self.tokenActual.lexema == Categoria.ParentesisDerecho:
+                        self.obtenerSiguienteToken()
+                        operador2 = self.tokenActual
+                        el2 = esExpresionLogica()
+                        eal =esExpresionAuxiliarLogica()
+                        
+                        return Logica(el1,)
+                        
+                        
+                
+                
+            
+        
+        
+        
+        
+        
+        
+       
     
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
