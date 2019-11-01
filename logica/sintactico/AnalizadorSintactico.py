@@ -546,14 +546,79 @@ class ASintactico:
                     
                     if self.tokenActual.lexema == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
-                        operador2 = self.tokenActual
-                        el2 = esExpresionLogica()
-                        eal =esExpresionAuxiliarLogica()
+                        operador2 = self.esOperadorLogicoBinario()
                         
-                        return Logica(el1,)
-                        
-                        
+                        if operador2 != None:
+                            el2 = esExpresionLogica()
+                            eal =esExpresionAuxiliarLogica()
+                            
+                            return Logica(operador1,el1,operador2,el2,None,None,eal)
+                    else:
+                        self.reportarError("No hay cierre de parentesis", self.tokenActual.fila, self.tokenActual.columna)
+                        return None
+                else:
+                    self.reportarError("No hay una expresion logica valida para negar", self.tokenActual.fila, self.tokenActual.columna)
+                    return None
+            else:
+                self.reportarError("No hay parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
+                return None
+        
+        elif self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+            self.obtenerSiguienteToken()
+            el1 = esExpresionLogica()
+            if el != None:
+                operador1 = self.esOperadorLogicoBinario()
+                if operador1 != None:
+                    
+                    el2 = esExpresionLogica()
+                    if el2 != None:
+                        if self.tokenActual.categoria == Categoria.ParentesisDerecho:
+                            self.obtenerSiguienteToken()
+                            operador2 = self.esOperadorLogicoBinario()
+                            
+                            if operador2 != None:
+                                el3 = esExpresionLogica()
+                                if el3 != None:
+                                    eal = esExpresionAuxiliarLogica()
+                                    
+                                    return Logica(operador1,el1,operador2,el2,el3,None,eal)
+                                else:
+                                    self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
+                                    return None
+                            else:
+                                self.reportarError("No hay un operador logico valido ", self.tokenActual.fila, self.tokenActual.columna)
+                                return None
+                        else:
+                            self.reportarError("No hay Parentesis derecho ", self.tokenActual.fila, self.tokenActual.columna)
+                            return None
+                    else:
+                        self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
+                        return None
+                else:
+                    self.reportarError("No hay un operador logico valido ", self.tokenActual.fila, self.tokenActual.columna)
+                    return None
+            else:
+                self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
+                return None
+        
+        er = esExpresionRelacional()
+        if er != None: 
+            eal = self.esExpresionAuxiliarLogica()
+            return Logica(None,None,None,None,None,er,eal)
+                                                                        
                 
+               
+    """
+    <EsOperadorLogicoBinario>::= && | ||
+    """
+    def esOperadorLogicoBinario(self):
+        
+        if self.tokenActual.lexema == "&&" or self.tokenActual.lexema == "||":
+            op = self.tokenActual
+            self.obtenerSiguienteToken()
+            return op
+        else:
+            return None              
                 
             
         
