@@ -9,3 +9,54 @@ public String calcular(int talla, double peso, String nombre, boolean disponible
 	
 	return talla *(3+ 4);
 }
+int main (String arg){
+	int variable;
+	String cadena = "hola";
+	double numerico = 5;
+	boolean condicion = 5 < 2;
+	char caracter = 5 + 3;
+	return "retornando";
+}
+void imprimirDatos (){
+	int variable;
+	String cadena = leer ((3+2)>(w));
+	double numerico = leer(3>2);
+	boolean condicion = invocar main (a, b);
+	char caracter = invocar main();
+	return metdo;
+}
+
+public String sumar(int dato1, double dato2){
+	variable = 5;
+	cadena += leer ("hola");
+	numerico -= leer();
+	condicion /= invocar main (a, b);
+	caracter *= invocar main ();
+	flag %= 5 < 3;	
+	return 4+2;
+}
+
+private double restar(boolean flag){
+	imprimir ();
+	imprimir("hola", "hola", 4+2);
+	imprimir(5+2);
+	imprimir(5>2);
+	imprimir((3+q)>(a+v));
+	return (d+5)>2;
+
+}
+
+protected boolean dividir(char caracter){
+	array int variable1 = [];
+	array String variable2 = [5+2, 3];
+	array boolean variable3 = [5+2, 3>2]; FALLA
+	array char variable4 = [5+2, (2+a) >= v]; FALLA
+}
+
+
+default char multiplicar(String operador){
+	map mapita = [(d,v)];
+}
+
+
+
