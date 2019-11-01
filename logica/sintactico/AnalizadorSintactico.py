@@ -455,7 +455,6 @@ class ASintactico:
                     self.reportarError("No hay expresion aritmetica segundaria", self.tokenActual.fila, self.tokenActual.columna)               
                     return None
             else:
-                self.reportarError("No hay un operador relacional", self.tokenActual.fila, self.tokenActual.columna)               
                 return None
         return None
         
@@ -516,9 +515,19 @@ class ASintactico:
     """
     def esExpresionLogica(self):
         
+        posicionInicial = self.posActual
+        
+        er = self.esExpresionRelacional()
+        if er != None: 
+            eal = self.esExpresionAuxiliarLogica()
+            return Logica(None,None,None,None,None,er,eal)
+        else:
+            self.hacerBT(posicionInicial)
+        
         if self.tokenActual.lexema == "!":
             operador1 = self.tokenActual
             self.obtenerSiguienteToken()
+            print("ME NIEGO")
             
             if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
@@ -529,12 +538,12 @@ class ASintactico:
                     if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
                         operador2 = self.esOperadorLogicoBinario()
+                        el2 = self.esExpresionLogica()
+                        eal = self.esExpresionAuxiliarLogica()
                         
-                        if operador2 != None:
-                            el2 = self.esExpresionLogica()
-                            eal = self.esExpresionAuxiliarLogica()
-                            
-                            return Logica(operador1,el1,operador2,el2,None,None,eal)
+                        print("Retorno una logica xd")
+                        return Logica(operador1,el1,operador2,el2,None,None,eal)
+                        
                     else:
                         self.reportarError("No hay cierre de parentesis", self.tokenActual.fila, self.tokenActual.columna)
                         return None
@@ -545,7 +554,8 @@ class ASintactico:
                 self.reportarError("No hay parentesis izquierdo", self.tokenActual.fila, self.tokenActual.columna)
                 return None
         
-        elif self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+        if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
+            
             self.obtenerSiguienteToken()
             el1 = self.esExpresionLogica()
             if el1 != None:
@@ -583,10 +593,9 @@ class ASintactico:
                 self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
                 return None
         
-        er = self.esExpresionRelacional()
-        if er != None: 
-            eal = self.esExpresionAuxiliarLogica()
-            return Logica(None,None,None,None,None,er,eal)
+        return None 
+        
+        
                                                                         
                 
                
@@ -885,7 +894,6 @@ class ASintactico:
         <IncrementoDecremento>::=  identificador ++ ";" |    identificador -- ";" 
     """
     def esIncrementoDecremento(self):
-        print("Entró ",self.tokenActual.categoria)
         if self.tokenActual.categoria == Categoria.Identificador:
             identificador = self.tokenActual
             posInicio = self.posActual

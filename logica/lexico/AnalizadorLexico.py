@@ -451,7 +451,6 @@ class ALexico:
             self.obtenerSiguienteCaracter()
             if(not self.caracterActual == "="):
                 self.tokens.append(Token("=", Categoria.OperadorAsignacion,self.filaActual,self.colActual)) 
-                self.obtenerSiguienteCaracter()
                 return True
             else:
                 self.hacerBT(posInicial, filaInicial, columnaInicial)

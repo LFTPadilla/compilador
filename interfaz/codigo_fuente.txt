@@ -1,8 +1,7 @@
+
 public String calcular(int talla){
 	
-	int a = !(a||b)&&(c&&d);
-    String b = a > b;
-	return (talla * 3) + 4;
+	int a = !(a>v);
 }
 
 public String calcular(int talla, double peso, String nombre, boolean disponible, char ambito){
