@@ -4,7 +4,9 @@ from logica.sintactico.Expresion import Expression
 from logica.lexico.Categorias import Categoria
 
 """
-    <ExpresionLogica>::= "!" <ExpresionLogica> [<ExpresionAuxiliarLogica>] |  <ExpresionRelacional> [<ExpresionAuxiliarLogica>]
+    <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
+    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
+    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
 """
 
 class Logica(Expression):
@@ -85,6 +87,28 @@ class Logica(Expression):
                 
                 
                    
+
+        if self.operadorLogico.lexema == "!":
+
+            ramaExpresionLogica = QtWidgets.QTreeWidgetItem(arbolExp)
+            self.expresionLogica1.construirArbol(ramaExpresionLogica)
+
+        if self.operadorLogico.lexema != "!":
+
+            if self.expresionLogica1 != None and self.expresionLogica1 != None:
+                ramaExpresionLogica1 = QtWidgets.QTreeWidgetItem(arbolExp)
+                self.expresionLogica1.construirArbol(ramaExpresionLogica1)
+
+                ramaExpresionLogica2 = QtWidgets.QTreeWidgetItem(arbolExp)
+                self.expresionLogica2.construirArbol(ramaExpresionLogica2)
+            
+            if self.expresionRelacional1 != None and self.expresionRelacional2 != None:
+                ramaExpresionRelacional1 = QtWidgets.QTreeWidgetItem(arbolExp)
+                self.expresionRelacional1.construirArbol(ramaExpresionRelacional1)
+
+                ramaExpresionRelacional2 = QtWidgets.QTreeWidgetItem(arbolExp)
+                self.expresionRelacional2.construirArbol(ramaExpresionRelacional2)
+            
 
                        
 

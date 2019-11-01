@@ -564,6 +564,29 @@ class ASintactico:
         
        
     
+
+    """
+    <ExpresionAuxiliarLogica> ::= operadorLogico <ExpresionLogica> [ <ExpresionLogica> ]
+    """
+    def esExpresionAuxiliarLogica(self):
+
+        if self.tokenActual.categoria == Categoria.OperadorLogico:
+            operador = self.tokenActual
+            self.obtenerSiguienteToken()
+            esLogico = self.esExpresionLogica()
+
+            if esLogico != None:
+                auxiliar  = self.esExpresionAuxiliarLogica()
+                return AuxiliarLogica(operador,esLogico, auxiliar)
+            else:
+
+
+
+            
+
+
+
+
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]
     """
