@@ -381,27 +381,21 @@ class ASintactico:
     """
     <ExpresionAritmetica>::= "("<ExpresionAritmetica>")"[<ExpresionAuxiliarAritmetica>] | <Termino>[<ExpresionAuxiliarAritmetica>]
     """
-    def esExpresionAritmetica(self,evaluandoRelacional):
+    def esExpresionAritmetica(self):
         
         termino = self.esTermino() #capturamos si es termino desde aca, ya que si se pone en eset if, luego el token actual se veria desplazado y mas abajo se necesita saber si es termino o no
         if self.tokenActual.categoria == Categoria.ParentesisIzquierdo or termino !=None : 
             if self.tokenActual.categoria ==Categoria.ParentesisIzquierdo:
                 
                 self.obtenerSiguienteToken()
-                e = self.esExpresionAritmetica(evaluandoRelacional)
+                e = self.esExpresionAritmetica()
 
                 if(e!=None):
 
                     if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
 
-                        ea = self.esExpresionAuxiliarAritmetica(evaluandoRelacional)
-                        
-                        if ea == False and evaluandoRelacional==False:
-                            print("No es Aritmetica")
-                            return None
-                        elif ea == False:
-                            ea = None
+                        ea = self.esExpresionAuxiliarAritmetica()
 
                         return Aritmetica(e,ea, None)
                     else:
@@ -412,12 +406,7 @@ class ASintactico:
                 
                 
                 if(termino != None): #si solo es un termino, ya estamos obteniendo el siguiente token en esTermino()
-                    ea = self.esExpresionAuxiliarAritmetica(evaluandoRelacional)
-
-                    if ea == False and evaluandoRelacional==False:
-                        return None
-                    elif ea == False:
-                        ea = None
+                    ea = self.esExpresionAuxiliarAritmetica()
 
                     return Aritmetica(None, ea , termino)
                 else:
@@ -427,33 +416,30 @@ class ASintactico:
     """
     <ExpresionAuxiliarAritmetica>::= operadorAritmetico <ExpresionAritmetica> [<ExpresionAuxiliar>]
     """
-    def esExpresionAuxiliarAritmetica(self,evaluandoRelacional):
+    def esExpresionAuxiliarAritmetica(self):
 
         if(self.tokenActual.categoria == Categoria.OperadorAritmetico):
             operador = self.tokenActual
 
             self.obtenerSiguienteToken()
             
-            ea = self.esExpresionAritmetica(evaluandoRelacional)
+            ea = self.esExpresionAritmetica()
 
             if(ea != None):
 
-                eAux = self.esExpresionAuxiliarAritmetica(evaluandoRelacional)
+                eAux = self.esExpresionAuxiliarAritmetica()
                 return AuxiliarAritmetica(operador,ea,eAux)      
 
             else: 
                 self.reportarError("despues del operador aritmetico no existe una expresion aritmetica valida", self.tokenActual.fila, self.tokenActual.columna)               
-        elif self.tokenActual.categoria == Categoria.OperadorRelacional or self.tokenActual.categoria == Categoria.OperadorLogico :
-            
-            return False           
+        return None       
         
     """
     <ExpresionRelacional>::= <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica> |
-                     "(" <ExpresionAritmetica> operadorRelacional <ExpresionAritmetica> ")"
     """
     def esExpresionRelacional(self):      
 
-        esArit =  self.esExpresionAritmetica(True)
+        esArit =  self.esExpresionAritmetica()
         
         if esArit !=None:
             
@@ -461,13 +447,9 @@ class ASintactico:
                 
                 opRelaciona = self.tokenActual
                 self.obtenerSiguienteToken()
-                esArit2 =  self.esExpresionAritmetica(True )
+                esArit2 =  self.esExpresionAritmetica()
                 if esArit2 !=None:
-                    
-                        return Relacional(esArit,opRelaciona,esArit2)
-                    
-                    self.reportarError("problema de agrupamiento", self.tokenActual.fila, self.tokenActual.columna)
-                    return None   
+                    return Relacional(esArit,opRelaciona,esArit2) 
                     
                 else:
                     self.reportarError("No hay expresion aritmetica segundaria", self.tokenActual.fila, self.tokenActual.columna)               
@@ -541,16 +523,16 @@ class ASintactico:
             if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
                 
-                el1 = esExpresionLogica()
-                if el != None:
-                    
-                    if self.tokenActual.lexema == Categoria.ParentesisDerecho:
+                el1 = self.esExpresionLogica()
+                if el1 != None:
+                    print ("Deberia ser )",self.tokenActual)
+                    if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
                         operador2 = self.esOperadorLogicoBinario()
                         
                         if operador2 != None:
-                            el2 = esExpresionLogica()
-                            eal =esExpresionAuxiliarLogica()
+                            el2 = self.esExpresionLogica()
+                            eal = self.esExpresionAuxiliarLogica()
                             
                             return Logica(operador1,el1,operador2,el2,None,None,eal)
                     else:
@@ -565,21 +547,21 @@ class ASintactico:
         
         elif self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
             self.obtenerSiguienteToken()
-            el1 = esExpresionLogica()
-            if el != None:
+            el1 = self.esExpresionLogica()
+            if el1 != None:
                 operador1 = self.esOperadorLogicoBinario()
                 if operador1 != None:
                     
-                    el2 = esExpresionLogica()
+                    el2 = self.esExpresionLogica()
                     if el2 != None:
                         if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                             self.obtenerSiguienteToken()
                             operador2 = self.esOperadorLogicoBinario()
                             
                             if operador2 != None:
-                                el3 = esExpresionLogica()
+                                el3 = self.esExpresionLogica()
                                 if el3 != None:
-                                    eal = esExpresionAuxiliarLogica()
+                                    eal = self.esExpresionAuxiliarLogica()
                                     
                                     return Logica(operador1,el1,operador2,el2,el3,None,eal)
                                 else:
@@ -601,7 +583,7 @@ class ASintactico:
                 self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
                 return None
         
-        er = esExpresionRelacional()
+        er = self.esExpresionRelacional()
         if er != None: 
             eal = self.esExpresionAuxiliarLogica()
             return Logica(None,None,None,None,None,er,eal)
@@ -635,8 +617,10 @@ class ASintactico:
     """
     def esExpresionAuxiliarLogica(self):
 
-        if self.tokenActual.categoria == Categoria.OperadorLogico:
-            operador = self.tokenActual
+        posicionInicial = self.posActual
+        operador = self.esOperadorLogicoBinario()
+        if operador != None:
+            
             self.obtenerSiguienteToken()
             esLogico = self.esExpresionLogica()
 
@@ -644,8 +628,13 @@ class ASintactico:
                 auxiliar  = self.esExpresionAuxiliarLogica()
                 return AuxiliarLogica(operador,esLogico, auxiliar)
             else:
-
-
+                
+                self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)                
+                self.hacerBT(posicionInicial)
+                return None
+        else:
+            self.hacerBT(posicionInicial)
+            return None
 
             
 
