@@ -23,3 +23,6 @@ class Parameter:
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolParametro)
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

@@ -17,8 +17,6 @@ class bloqueSent:
         for sentencia in self.listaSentencias:
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
-
-
     def construirArbol(self, arbol):
         arbolBloque = QtWidgets.QTreeWidgetItem(arbol)
         arbolBloque.setText(0,"Bloque Sentencias")
@@ -30,4 +28,3 @@ class bloqueSent:
             
             for sentencia in self.listaSentencias:
                 sentencia.construirArbol(ramaListaSent)
-

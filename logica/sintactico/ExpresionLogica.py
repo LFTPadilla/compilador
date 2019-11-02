@@ -79,7 +79,9 @@ class Logica(Expression):
                 ramaNegacion = QtWidgets.QTreeWidgetItem(arbol)
                 self.expresionLogica1.construirArbol(ramaNegacion)
                 
-                    
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass                    
                 
                 
                    

@@ -30,3 +30,6 @@ class IncrementoDecremento:
 
         ramaOp = QtWidgets.QTreeWidgetItem(arbol)
         ramaOp.setText(0,"Operador "+self.operadorIncDec.lexema)
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

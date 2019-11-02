@@ -35,6 +35,8 @@ class AuxiliarLogica(Expression):
                                                                     #Si ninguna de estas locuras se cumplen
             self.expresionLogica.construirArbol(arbolExp)       #Crece el arbol expLogica con raiz en 'K'
             
-        
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass        
        
         

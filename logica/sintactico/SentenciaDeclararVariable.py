@@ -44,11 +44,11 @@ class DeclaracionVariable(Sentence):
 
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
-        tablaSimbolos.guardarSimboloVariable(self.idetificador, self.tipoDato, ambito, self.expresion)
+        tablaSimbolos.guardarSimboloVariable(self.identificador, self.tipoDato, ambito, self.expresion)
 
     def analizarSemantica(self,tablaSimbolos, erroresSemanticos, simbolo):
 
-        simbolo1 =  tablaSimbolos.buscarSimboloVariable (identificador.lexema, ambito, identifidor )
+        simbolo1 =  tablaSimbolos.buscarSimboloVariable (self.identificador.lexema, "", self.identificador )
         if simbolo1 ==None:
-            erroresSemanticos.add("No existe la variable ", identificador.lexema)
+            erroresSemanticos.add("No existe la variable ", self.identificador.lexema)
         

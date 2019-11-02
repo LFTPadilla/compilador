@@ -27,3 +27,6 @@ class SentenceWhile(Sentence):
         self.expresionLogica.construirArbol(arbolExpresionLogica)
         
         self.bloqueSentencias.construirArbol(arbolWhile)
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass
