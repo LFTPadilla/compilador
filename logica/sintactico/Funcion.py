@@ -15,13 +15,13 @@ class Function:
 
     def getTiposParametros():
         l = []
-        for p in self.ListaParamentros:
+        for p in self.parametros:
             l.add(p.tipoDato.lexema) #p.getTipoDatos().getLexema()
     
 
-    def llenarTablaSimbolos(tablaSimbolos,erroresSemanticos):
-        
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
         tablaSimbolos.guardarSimboloFuncion(self.nombre.lexema,self.retorno.lexema,self.parametros)
+        bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
 
 
     def construirArbol(self, arbol, n):

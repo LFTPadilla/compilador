@@ -42,10 +42,13 @@ class DeclaracionVariable(Sentence):
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
             self.expresion.construirArbol(arbolExpresion)
 
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
+        tablaSimbolos.guardarSimboloVariable(self.idetificador, self.tipoDato, ambito, self.expresion)
+
     def analizarSemantica(self,tablaSimbolos, erroresSemanticos, simbolo):
 
         simbolo1 =  tablaSimbolos.buscarSimboloVariable (identificador.lexema, ambito, identifidor )
-
         if simbolo1 ==None:
             erroresSemanticos.add("No existe la variable ", identificador.lexema)
         
