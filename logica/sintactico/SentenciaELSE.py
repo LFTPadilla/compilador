@@ -19,3 +19,6 @@ class SentELSE:
         arbolElse.setText(0,titulo)
         
         self.bloqueSentencias.construirArbol(arbolElse)
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

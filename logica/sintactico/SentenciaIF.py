@@ -27,3 +27,7 @@ class SentIF:
         self.expresionLogica.construirArbol(arbolExpresionLogica)
         
         self.bloqueSentencias.construirArbol(arbolIf)
+
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

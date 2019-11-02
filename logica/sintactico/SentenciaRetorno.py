@@ -23,8 +23,7 @@ class Retorno(Sentence):
             
         arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
         self.expresion.construirArbol(arbolExpresion)
-        
     
 
-
-        #self.expresion.contruirArbol(arbolRetorno)
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

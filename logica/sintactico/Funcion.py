@@ -56,3 +56,4 @@ class Function:
 
     def __str__(self):
         return "Funcion [%s, %s, %s, %s, %s]"% (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)
+

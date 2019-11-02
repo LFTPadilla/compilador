@@ -39,7 +39,9 @@ class AuxiliarAritmetica(Expression):
     def __str__(self):
         return "(Expresion Auxiliar Aritmetica:  Operador%s eArit:: %s eAuxArit: %s)" % (self.operadorAritmetico, self.expresionAritmetica, self.expresionAuxiliar)
         
-        
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass
              
         
         

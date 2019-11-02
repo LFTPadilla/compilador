@@ -25,3 +25,6 @@ class Argument:
         if self.expresion == None:
             ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolArgumento)
             ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
+
+        def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+            pass

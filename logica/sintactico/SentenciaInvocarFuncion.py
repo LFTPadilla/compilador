@@ -32,3 +32,6 @@ class InvocarFuncion(Sentence):
             for argumento in self.listaArgumentos:
                 argumento.construirArbol(ramaListaArgumentos, cont)
                 cont += 1
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

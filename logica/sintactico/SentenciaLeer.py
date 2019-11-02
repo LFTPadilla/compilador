@@ -25,3 +25,6 @@ class Leer(Sentence):
             
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
             self.expresion.construirArbol(arbolExpresion)
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

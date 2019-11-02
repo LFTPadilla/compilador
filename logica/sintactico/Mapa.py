@@ -31,4 +31,6 @@ class mapita(Sentence):
             componentesMapa.construirArbol(ramaListaComponentes, cont)
             cont += 1
 
-        
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

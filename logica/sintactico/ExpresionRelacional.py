@@ -23,3 +23,7 @@ class Relacional(Expression):
             
         elif self.expresionAritmetica1 != None and self.operadorRelacional == None:            
             self.expresionAritmetica1.construirArbol(arbol)
+
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass
