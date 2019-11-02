@@ -12,14 +12,15 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
-    tokens = []
-    ASin = None
-    ASem = None
+    
 
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
-
+        self.tokens = []
+        self.ASin = None
+        self.ASem = None
+        self.uCompilacion = None 
         self.setupUi(self)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
@@ -29,13 +30,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def AnalisisCompleto(self):
         self.AnalisisLexico()
         self.AnalisisSintactico()
-        #self.AnalisisSemantico()
+        self.AnalisisSemantico()
 
 
     #Analisador Semantico
     def AnalisisSemantico(self):
 
-        self.ASem = ASemantico(self.ASin.unidadCompilacion)
+        self.ASem = ASemantico(self.uCompilacion)
         self.ASem.llenarTablaSimpolos()
         if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
@@ -44,7 +45,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
-        self.ASin.esUnidadDeCompilacion()
+        self.uCompilacion = self.ASin.esUnidadDeCompilacion()
 
         self.treeFunciones.show()
         if len(self.ASin.listaErrores)!=0:
