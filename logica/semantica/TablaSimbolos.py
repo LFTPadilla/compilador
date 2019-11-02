@@ -48,9 +48,10 @@ class SymbolTable:
 
     def buscarSimboloFuncion(self, nombre, tipoParametros):
         for simbolo in self.listaSimbolos:
+            #Al verificar que el tipo de retorno sea diferente de None se verifica que es una funcion
             if simbolo.tipoRetorno != None:
                 #preguntar por que compara un arraylist tipoParametros
-                if simbolo.nombre == nombre and simbolo.getTipoParametros() == tipoParametros:
+                if simbolo.nombre == nombre and simbolo.parametros == tipoParametros:
                     return simbolo
         return None
     

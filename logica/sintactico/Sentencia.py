@@ -7,7 +7,13 @@ class Sentence(ABC):
 
     def __init__(self):
         pass
+    
 
-  
-        
-        
+    def construirArbol(self, arbol, n):
+        pass
+
+    def analizarSemantica(self):
+        pass
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        pass

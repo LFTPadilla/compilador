@@ -13,6 +13,12 @@ class bloqueSent:
     def __str__(self):
         return "BloqueSentencias [%s]" % ( self.listaSentencias)
 
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
+        for sentencia in self.listaSentencias:
+            sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
+
+
+
     def construirArbol(self, arbol):
         arbolBloque = QtWidgets.QTreeWidgetItem(arbol)
         arbolBloque.setText(0,"Bloque Sentencias")

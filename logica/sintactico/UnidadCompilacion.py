@@ -6,4 +6,8 @@ class UnidadComp:
     def llenarTablaSimbolos(self, tablaSimbolos, erroresSemanticos):
         for fun in self.listaFunciones:
             fun.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
+
+    def analizarSemantica(self,tablaSimbolos, erroresSemanticos):
+		pass
+	
     

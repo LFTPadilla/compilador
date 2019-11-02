@@ -3,13 +3,17 @@ from logica.sintactico.Error import errorSintactico
 
 class ASemantico:
 
-    tablaSimbolos = None
-    listaErrores = []
+    
 
     def __init__ (self, unidadCompilacion):
         self.uc = unidadCompilacion
+        self.tablaSimbolos = None
+        self.listaErrores = []
+
         
-    def llenarTablaSimpolos (self):
+    def llenarTablaSimbolos (self):
         self.uc.llenarTablaSimbolos(self.tablaSimbolos,self.listaErrores)
     
-    
+    def analizarSemantica(self):
+		self.uc.analizarSemantica(self.tablaSimbolos, self.listaErrores);
+
