@@ -36,6 +36,6 @@ class Array:
                 arbolExpresion = QtWidgets.QTreeWidgetItem(ramaElementos)
                 exp.construirArbol(arbolExpresion)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     

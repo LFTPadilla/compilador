@@ -36,7 +36,8 @@ class AuxiliarLogica(Expression):
             self.expresionLogica.construirArbol(arbolExp)       #Crece el arbol expLogica con raiz en 'K'
             
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
-        pass        
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
+        pass
+    
        
         

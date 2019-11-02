@@ -40,8 +40,9 @@ class AuxiliarAritmetica(Expression):
         return "(Expresion Auxiliar Aritmetica:  Operador%s eArit:: %s eAuxArit: %s)" % (self.operadorAritmetico, self.expresionAritmetica, self.expresionAuxiliar)
         
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    
              
         
         

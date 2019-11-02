@@ -25,5 +25,6 @@ class componenteMap:
         ramaValor = QtWidgets.QTreeWidgetItem(arbolComponente)
         ramaValor.setText(0,"valor "+ self.valor.lexema)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

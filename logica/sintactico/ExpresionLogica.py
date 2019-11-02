@@ -80,8 +80,9 @@ class Logica(Expression):
                 self.expresionLogica1.construirArbol(ramaNegacion)
                 
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
-        pass                    
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
+        pass
+                
                 
                 
                    

@@ -33,5 +33,6 @@ class InvocarFuncion(Sentence):
                 argumento.construirArbol(ramaListaArgumentos, cont)
                 cont += 1
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    
