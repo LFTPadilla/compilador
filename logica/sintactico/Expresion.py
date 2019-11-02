@@ -11,3 +11,6 @@ class Expression(ABC):
 
     def construirArbol(self, arbol, n):
         pass
+
+    def analizarSemantica(self):
+        pass

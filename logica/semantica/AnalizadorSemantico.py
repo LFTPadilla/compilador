@@ -1,4 +1,4 @@
-from logica.semantica.TablaSimbolos import simbolito
+from logica.semantica.TablaSimbolos import SymbolTable
 from logica.sintactico.Error import errorSintactico
 
 class ASemantico:

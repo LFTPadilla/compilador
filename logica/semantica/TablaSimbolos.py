@@ -1,40 +1,56 @@
-from logica.semantica.Simbolo import simbolito
+from logica.semantica.Simbolo import Symbol
 
-class tabla:
+class SymbolTable:
     #crear simbolo
     #buscar simbolo
 
-    listaSimbolos = None
+    
     def _init_ (self):
-        listaSimbolos = []
+        self.listaSimbolos = []
+        self.listaErrores = []
 
-    def buscarSimboloVariable(self, nombre, ambito):
-        for simbolo in self.listaSimbolos:
-            if simbolo.ambito != None:
-                if simbolo.nombre == nombre and simbolo.ambito == ambito:
-                    return simbolo
 
+    """
+	    Permite guardar un símbolo de tipo variable en la tabla de símbolos 
+	"""
     def guardarSimboloVariable(self, nombre, tipoDato, ambito, expresion):
         sim = self.buscarSimboloVariable (nombre, ambito)
 
         if sim == None:
-            s = simbolito (nombre, tipoDato, ambito, expresion, None, None)
+            s = Symbol(nombre, tipoDato, fila,columna, ambito, expresion, None, None)
             listaSimbolos.append(s)
+            return s
         else:
-            #reportar error
-            pass
+            self.listaErrores.append("La variable "+nombre+" ya existe")
+        return None
 
-    def buscarSimboloFuncion(self, nombre, tipoRetorno):
+    """
+	 * Permite guardar un símbolo de tipo función en la tabla de símbolos 
+	"""
+    def guardarSimboloFuncion(self, nombre, tipoRetorno, tipoParametros):
+        sim = self.buscarSimboloFuncion (nombre, tipoParametros)
+        if sim == None:
+            s = Symbol (nombre, None, None, None, tipoRetorno, tipoParametros)
+            listaSimbolos.append(s)
+            return s
+        else:
+            self.listaErrores.append("La funcion "+nombre+" ya existe")
+        
+        return None
+
+    def buscarSimboloVariable(self, nombre, ambito,fila,columna):
+        for simbolo in self.listaSimbolos:
+            if simbolo.ambito != None:
+                if simbolo.nombre == nombre and simbolo.ambito == ambito:
+                    return simbolo
+        return None
+
+
+    def buscarSimboloFuncion(self, nombre, tipoParametros):
         for simbolo in self.listaSimbolos:
             if simbolo.tipoRetorno != None:
-                if simbolo.nombre == nombre and simbolo.tipoRetorno == tipoRetorno:
+                #preguntar por que compara un arraylist tipoParametros
+                if simbolo.nombre == nombre and simbolo.getTipoParametros() == tipoParametros:
                     return simbolo
-
-    def guardarSimboloFuncion(self, nombre, tipoRetorno, tipoParametros):
-        sim = self.buscarSimboloFuncion (nombre, tipoRetorno)
-        if sim == None:
-            s = simbolito (nombre, None, None, None, tipoRetorno, tipoParametros)
-            listaSimbolos.append(s)
-        else:
-            pass
-            #reportar error
+        return None
+    

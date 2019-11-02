@@ -48,8 +48,8 @@ private double restar(boolean flag){
 protected boolean dividir(char caracter){
 	array int variable1 = [];
 	array String variable2 = [5+2, 3];
-	array boolean variable3 = [5+2, 3>2]; FALLA
-	array char variable4 = [5+2, (2+a) >= v]; FALLA
+	array boolean variable3 = [5+2, 3>2]; 
+	array char variable4 = [5+2, (2+a) >= v]; 
 }
 
 
