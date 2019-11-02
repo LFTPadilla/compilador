@@ -270,7 +270,7 @@
      <string>Análisis Completo</string>
     </property>
    </widget>
-   <widget class="QTabWidget" name="tabWidget">
+   <widget class="QTabWidget" name="tabTokenSimbolo">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -280,7 +280,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -292,7 +292,7 @@
         <x>0</x>
         <y>0</y>
         <width>491</width>
-        <height>171</height>
+        <height>181</height>
        </rect>
       </property>
       <property name="font">
