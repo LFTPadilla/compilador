@@ -8,6 +8,6 @@ class UnidadComp:
             fun.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
 
     def analizarSemantica(self,tablaSimbolos, erroresSemanticos):
-		pass
+        pass
 	
     

@@ -13,12 +13,12 @@ class SymbolTable:
     """
 	    Permite guardar un símbolo de tipo variable en la tabla de símbolos 
 	"""
-    def guardarSimboloVariable(self, nombre, tipoDato, ambito, expresion):
-        sim = self.buscarSimboloVariable (nombre, ambito)
+    def guardarSimboloVariable(self, nombre, tipoDato,fila, columna, ambito, expresion):
+        sim = self.buscarSimboloVariable (nombre, ambito,fila, columna)
 
         if sim == None:
             s = Symbol(nombre, tipoDato, fila,columna, ambito, expresion, None, None)
-            listaSimbolos.append(s)
+            self.listaSimbolos.append(s)
             return s
         else:
             self.listaErrores.append("La variable "+nombre+" ya existe")
@@ -51,7 +51,7 @@ class SymbolTable:
             #Al verificar que el tipo de retorno sea diferente de None se verifica que es una funcion
             if simbolo.tipoRetorno != None:
                 #preguntar por que compara un arraylist tipoParametros
-                if simbolo.nombre == nombre and simbolo.parametros == tipoParametros:
+                if simbolo.nombre == nombre and simbolo.parametros() == tipoParametros:
                     return simbolo
         return None
     
