@@ -35,5 +35,6 @@ class AuxiliarRelacional(Expression):
     def __str__(self):
         return "(Expresion Auxiliar Relacional:  Operador%s eArit:: %s eAuxArit: %s)" % (self.operadorRelacional, self.expresionRelacional, self.expresionAuxiliar)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

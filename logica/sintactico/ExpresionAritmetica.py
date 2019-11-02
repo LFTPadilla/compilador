@@ -42,7 +42,8 @@ class Aritmetica(Expression):
         return "ExpresionAritmetica: Expresion aritmetica: %s eAuxArit:: %s termino: %s)" % (self.expresionAritmetica, self.expresionAuxiliar, self.termino)
     
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
-        pass 
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
+        pass
+    
            
             

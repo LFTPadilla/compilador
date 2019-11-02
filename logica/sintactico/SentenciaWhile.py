@@ -28,5 +28,6 @@ class SentenceWhile(Sentence):
         
         self.bloqueSentencias.construirArbol(arbolWhile)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

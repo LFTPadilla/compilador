@@ -16,8 +16,9 @@ class Decision(Sentence):
     def __str__(self):
         return "Sentencia Decision [%s, %s]"% (self.sentenciaIf, self.sentenciaElse)
     
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    
 
     def construirArbol(self, arbol):
         arbolDecision = QtWidgets.QTreeWidgetItem(arbol)

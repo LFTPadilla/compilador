@@ -32,5 +32,6 @@ class mapita(Sentence):
             cont += 1
 
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

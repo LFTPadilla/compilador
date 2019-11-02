@@ -42,5 +42,6 @@ class Asignacion(Sentence):
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
             self.expresion.construirArbol(arbolExpresion)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

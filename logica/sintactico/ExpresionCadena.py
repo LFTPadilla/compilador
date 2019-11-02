@@ -22,6 +22,7 @@ class Cadena(Expression):
                 arbolExpresion = QtWidgets.QTreeWidgetItem(arbolExpresionCadena)
                 exp.construirArbol(arbolExpresion)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    
             

@@ -15,5 +15,6 @@ class Expression(ABC):
     def analizarSemantica(self):
         pass
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    

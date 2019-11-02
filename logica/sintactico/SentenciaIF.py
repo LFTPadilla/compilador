@@ -28,6 +28,6 @@ class SentIF:
         
         self.bloqueSentencias.construirArbol(arbolIf)
 
-
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+    
