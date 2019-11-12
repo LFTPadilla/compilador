@@ -35,9 +35,14 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Analisador Semantico
     def AnalisisSemantico(self):
-
         self.ASem = ASemantico(self.uCompilacion)
-        self.ASem.llenarTablaSimpolos()
+        self.ASem.llenarTablaSimbolos()
+
+        if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
+            self.tabTokenSimbolo.setCurrentIndex(1)
+            for i in self.ASem.tablaSimbolos.listaSimbolos:
+                self.listViewSimbolos.addItem(str(i))
+        
         if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
             for i in self.ASem.listaErrores:
@@ -84,12 +89,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def limpiar(self):
         self.tokens = []
         self.ASin = None 
-        self.ASem = None       
+        self.ASem = None 
         self.listViewTokens.clear()
         self.treeFunciones.clear()
         self.listViewErroresSintacticos.clear()
         self.listViewErroresLexicos.clear()
         self.listViewErroresSemanticos.clear()
+        self.listViewSimbolos.clear()
         self.btnAnalisisSintactico.setEnabled(False)
         self.btnAnalisisSemantico.setEnabled(False)
 

@@ -11,5 +11,5 @@ class Symbol:
         self.columna = columna
         
     def __str__(self):
-        return "[nombre: %s|Tipo: %s|Ambito: %s|Expresion: %s|TipoParametros: %s| TipoRetorno: %s]"%(self.nombre,self.tipoDato,self.ambito,self.expresion,self.tipoParametros, self.tipoRetorno)
+        return "[nombre: %s|TipoVariable: %s|Ambito: %s|Expresion: %s|TipoParametros: %s| TipoRetorno: %s]"%(self.nombre,self.tipoDato,self.ambito,self.expresion,self.tipoParametros, self.tipoRetorno)
         

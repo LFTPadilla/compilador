@@ -5,9 +5,9 @@ class SymbolTable:
     #buscar simbolo
 
     
-    def _init_ (self):
+    def __init__ (self,listaErrores):
         self.listaSimbolos = []
-        self.listaErrores = []
+        self.listaErrores = listaErrores
 
 
     """
@@ -27,11 +27,11 @@ class SymbolTable:
     """
 	 * Permite guardar un símbolo de tipo función en la tabla de símbolos 
 	"""
-    def guardarSimboloFuncion(self, nombre, tipoRetorno, tipoParametros):
+    def guardarSimboloFuncion(self, nombre, tipoRetorno, tipoParametros, fila, columna):
         sim = self.buscarSimboloFuncion (nombre, tipoParametros)
         if sim == None:
-            s = Symbol (nombre, None, None, None, tipoRetorno, tipoParametros)
-            listaSimbolos.append(s)
+            s = Symbol(nombre, None, fila, columna, "UnidadCompilacion", None, tipoRetorno, tipoParametros)
+            self.listaSimbolos.append(s)
             return s
         else:
             self.listaErrores.append("La funcion "+nombre+" ya existe")
@@ -51,7 +51,7 @@ class SymbolTable:
             #Al verificar que el tipo de retorno sea diferente de None se verifica que es una funcion
             if simbolo.tipoRetorno != None:
                 #preguntar por que compara un arraylist tipoParametros
-                if simbolo.nombre == nombre and simbolo.parametros() == tipoParametros:
+                if simbolo.nombre == nombre and simbolo.tipoParametros == tipoParametros:
                     return simbolo
         return None
     
