@@ -28,6 +28,11 @@ class SentenceWhile(Sentence):
         
         self.bloqueSentencias.construirArbol(arbolWhile)
 
+    def obtenerPythonCode(self, tabulacion):
+        codigo = "while ( "+self.expresionLogica.obtenerPythonCode()+" ):"
+        codigo += self.bloqueSentencias.obtenerPythonCode(tabulacion + 1)
+        return codigo
+
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     

@@ -14,7 +14,10 @@ class Sentence(ABC):
 
     def analizarSemantica(self):
         pass
-
+    
+    def obtenerPythonCode(self):
+        pass
+    
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     
