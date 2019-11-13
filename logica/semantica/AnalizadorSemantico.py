@@ -10,8 +10,10 @@ class ASemantico:
         self.listaErrores = []
         self.tablaSimbolos = SymbolTable(self.listaErrores)
         
+    def obtenerPythonCode(self):
+        #no se
+        pass
 
-        
     def llenarTablaSimbolos (self):
         self.uc.llenarTablaSimbolos(self.tablaSimbolos,self.listaErrores)
     

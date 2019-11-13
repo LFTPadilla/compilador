@@ -4,7 +4,7 @@ class Token:
     
     lexema = ""
     fila = -1
-    columna = -1
+    _columna = -1
     categoria = Categoria.Desconocido
     
     
@@ -13,6 +13,21 @@ class Token:
         self.categoria = categoria
         self.fila = fila
         self.columna = columna
+    
+    def obtenerPythonCode(self):
+        if self.categoria == Categoria.PalabraReservada:
+            
+            if self.lexema == "bool":
+                return "boolean"
+
+            #identificar que cambia con que 
+
+        if self.categoria == Categoria.Identificador:
+
+            if self.lexema[0] == "$":
+                #identificador sin $
+                return self.lexema[1:]
+    
     def __repr__(self):
         return "(Lexema: %s, %s,Fila: %s,Columna: %s)" % (self.lexema, self.categoria,self.fila,self.columna)
 

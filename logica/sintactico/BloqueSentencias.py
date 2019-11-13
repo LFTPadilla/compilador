@@ -17,6 +17,12 @@ class bloqueSent:
         for sentencia in self.listaSentencias:
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
+    def obtenerPythonCode(self):
+        for sentencia in self.listaSentencias:
+            codigo += sentencia.obtenerPythonCode()
+        return codigo
+
+
     def construirArbol(self, arbol):
         arbolBloque = QtWidgets.QTreeWidgetItem(arbol)
         arbolBloque.setText(0,"Bloque Sentencias")

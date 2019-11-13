@@ -51,6 +51,17 @@ class Function:
 
         self.bloque.construirArbol(arbolFuncion)
 
+    def obtenerPythonCode(self):
+        codigo = "def "+self.identificador+" (self,  "
+        for parametro in self.parametros:
+            codigo += parametro.obtenerPythonCode()
+            codigo += ", "
+        
+        codigo =  codigo[:-2]
+        codigo += "):"
+        codigo += self.bloque.obtenerPythonCode()
+
+
     def __repr__(self):
         return "(Funcion: visibilidad: %s, identificador: %s, parametros: %s, retorno: %s, bloqueSentencias: %s)" % (self.visibilidad, self.identificador, self.parametros, self.retorno, self.bloque)
 

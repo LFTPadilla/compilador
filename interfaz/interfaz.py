@@ -47,6 +47,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.tabErrores.setCurrentIndex(2)
             for i in self.ASem.listaErrores:
                 self.listViewErroresSintacticos.addItem(str(i))
+
+        self.Asem.obtenerPythonCode()
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
@@ -100,7 +102,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisisSemantico.setEnabled(False)
 
 
-            
+    def escribirArchivo (self, codigo):
+        #ni ideita
+        pass
+
+    def traduccion():
+        #ni ideita
+        pass            
         
 
 if __name__ == "__main__":
