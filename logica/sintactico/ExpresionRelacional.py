@@ -1,5 +1,6 @@
 from logica.sintactico.Expresion import Expression
 from PyQt5 import QtWidgets
+from logica.lexico.Categorias import Categoria
 
 class Relacional(Expression):
 
@@ -7,6 +8,12 @@ class Relacional(Expression):
         self.expresionAritmetica1 = expresionAritmetica1
         self.operadorRelacional = operadorRelacional
         self.expresionAritmetica2 = expresionAritmetica2
+
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        print("Entro al analisis semantico relacional ",self.expresionAritmetica1)
+        self.expresionAritmetica1.analisisSemantico(tablaSimbolos,listaErrores)
+        self.expresionAritmetica2.analisisSemantico(tablaSimbolos,listaErrores)
+
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices

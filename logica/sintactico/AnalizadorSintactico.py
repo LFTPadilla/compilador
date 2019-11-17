@@ -31,7 +31,6 @@ from logica.sintactico.ExpresionLogica import Logica
 from logica.sintactico.ExpresionRelacional import Relacional
 
 from logica.sintactico.ExpresionAuxiliarAritmetica import AuxiliarAritmetica
-from logica.sintactico.ExpresionAuxiliarRelacional import AuxiliarRelacional
 from logica.sintactico.ExpresionAuxiliarLogica import AuxiliarLogica
 
 from logica.sintactico.Mapa import mapita
@@ -587,7 +586,7 @@ class ASintactico:
                     self.reportarError("No hay un operador logico valido ", self.tokenActual.fila, self.tokenActual.columna)
                     return None
             else:
-                self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
+                #self.reportarError("No hay una expresion logica valida ", self.tokenActual.fila, self.tokenActual.columna)
                 return None
         
         return None 

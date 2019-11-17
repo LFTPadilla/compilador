@@ -20,10 +20,11 @@ class Asignacion(Sentence):
     
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         for simbolo in tablaSimbolos.listaSimbolos:
-            if simbolo.nombre == self.identificador:
+            if simbolo.nombre == self.identificador.lexema:
+                print("Existe la variable en tabla ahora va a buscar la exp "+str(self.expresion))
+                self.expresion.analisisSemantico(tablaSimbolos,listaErrores)
                 return True
         err = "La variable \""+self.identificador.lexema+"\" no se encuentra declarada."
-        print("err "+err)
         listaErrores.append(err)
 
 

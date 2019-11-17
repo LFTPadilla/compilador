@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Expresion import Expression
+from logica.lexico.Categorias import Categoria
 
 class Aritmetica(Expression):
 
@@ -7,6 +8,32 @@ class Aritmetica(Expression):
         self.expresionAritmetica = expAritmetica
         self.expresionAuxiliar = expAuxiliarAritmetica
         self.termino = termino
+
+    
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        print("Entro al analisis semantico exp aritmetica ",self.termino)
+        if self.termino!=None and self.termino.categoria == Categoria.Identificador:
+            for simbolo in tablaSimbolos.listaSimbolos:
+                if simbolo.nombre == self.termino.lexema:
+                    if self.expresionAuxiliar!=None:
+                        print("Entro a analizar exp aux")
+                        self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+                    return True
+            if self.expresionAuxiliar!=None:
+                print("Entro a analizar exp aux")
+                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+            err = "La variable \""+self.termino.lexema+"\" no se encuentra declarada."
+            print("err "+err)
+            listaErrores.append(err)
+        else:
+            print("El termino no es un ident continuara con ",self.expresionAritmetica,"   yyy  con  ",self.expresionAuxiliar)
+            if self.expresionAritmetica!=None:
+                self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores)
+            if self.expresionAuxiliar!=None:
+                print("Entro a analizar exp aux")
+                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+            return True
+
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices
