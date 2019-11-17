@@ -15,6 +15,22 @@ public String calcular(int talla){
 		int a = 3;
 	}
 
+}	
+
+
+public String calcular1(int talla){
+	
+	return Null;
+}
+
+public String calcular2(int talla){
+	
+	return Null;
+}
+
+public String calcular3(int talla){
+	return Null;
+
 }		
 
 public String calcular(int talla, double peso, String nombre, boolean disponible, char ambito){

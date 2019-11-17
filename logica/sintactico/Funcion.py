@@ -26,7 +26,7 @@ class Function:
         self.bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
-        self.bloque.analisisSemantico(tablaSimbolos,listaErrores)
+        self.bloque.analisisSemantico(tablaSimbolos,listaErrores, self.identificador.lexema)
 
 
     def construirArbol(self, arbol, n):
