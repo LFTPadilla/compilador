@@ -17,7 +17,11 @@ class Decision(Sentence):
         return "Sentencia Decision [%s, %s]"% (self.sentenciaIf, self.sentenciaElse)
     
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
-        pass
+        print("Decision")
+        self.sentenciaIf.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
+        if self.sentenciaElse != None:
+            self.sentenciaElse.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
+            
     
 
     def construirArbol(self, arbol):

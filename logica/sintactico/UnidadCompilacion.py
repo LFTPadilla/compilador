@@ -4,9 +4,12 @@ class UnidadComp:
         self.listaFunciones = listaFunciones
     
     def llenarTablaSimbolos(self, tablaSimbolos, erroresSemanticos):
+        print("UCompilacion")
+        
         for fun in self.listaFunciones:
             fun.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
+        
         for fun in self.listaFunciones:
             fun.analisisSemantico(tablaSimbolos,listaErrores)

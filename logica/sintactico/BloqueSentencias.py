@@ -14,7 +14,11 @@ class bloqueSent:
         return "BloqueSentencias [%s]" % ( self.listaSentencias)
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
+        print("ahora las sentencias")
+        
         for sentencia in self.listaSentencias:
+            print("Voy a meter ",sentencia)
+            
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
