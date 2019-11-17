@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
+from logica.lexico.Categorias import Categoria
 """
     <AsignacionVariable>::= identificador operadorAsignacion <expresion> ";" | identificador operadorAsignacion <Lectura> ";" | identificador operadorAsignacion <invocacion> ";"
 """
@@ -30,9 +31,38 @@ class Asignacion(Sentence):
 
     def analisisTipoDato(self,simbolo,listaErrores):
         tipoDatoExpresion = self.expresion.obtenerTipoDato()
-        print("El tipo de dato es ",tipoDatoExpresion)
-        return tipoDatoExpresion
+        print("El tipo de dato es ",tipoDatoExpresion,"  ",simbolo.tipoDato )
+        if tipoDatoExpresion == Categoria.NumeroNatural:
+            if simbolo.tipoDato.lexema == 'int':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+simbolo.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.NumeroReal:
+            if simbolo.tipoDato.lexema == 'double':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+simbolo.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.OperadorLogico:
+            if simbolo.tipoDato.lexema == 'boolean':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+simbolo.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.CadenaCaracteres:
+            if simbolo.tipoDato.lexema == 'String':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+simbolo.tipoDato.lexema
+                listaErrores.append(err)
+                return False
 
+        
+        print("Es otro tipo de dato")
 
 
     def construirArbol(self, arbol):

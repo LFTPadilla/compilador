@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
+from logica.lexico.Categorias import Categoria
 """
     <DeclaracionVariable>::= <tipoDato> identificador [ "=" <lectura> | "=" <invocacion> |  "=" <Expresion> ]  ";"
 """
@@ -47,11 +48,47 @@ class DeclaracionVariable(Sentence):
 
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
-        tablaSimbolos.guardarSimboloVariable(self.identificador, self.tipoDato,self.tipoDato.fila,self.tipoDato.columna, ambito, self.expresion)
+        tablaSimbolos.guardarSimboloVariable(self.identificador , self.tipoDato,self.tipoDato.fila,self.tipoDato.columna, ambito, self.expresion)
 
     def analizarSemantica(self,tablaSimbolos, erroresSemanticos, simbolo):
 
         simbolo1 =  tablaSimbolos.buscarSimboloVariable (self.identificador.lexema, "", self.identificador )
         if simbolo1 ==None:
             erroresSemanticos.add("No existe la variable ", self.identificador.lexema)
+        self.analisisTipoDato(tablaSimbolos,erroresSemanticos)
+
+    def analisisTipoDato(self,simbolo,listaErrores):
+        tipoDatoExpresion = self.expresion.obtenerTipoDato()
+        print("El tipo de dato es ",tipoDatoExpresion,"  ",simbolo.tipoDato )
+        if tipoDatoExpresion == Categoria.NumeroNatural:
+            if self.tipoDato.lexema == 'int':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+self.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.NumeroReal:
+            if self.tipoDato.lexema == 'double':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+self.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.OperadorLogico:
+            if self.tipoDato.lexema == 'boolean':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+self.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+        elif tipoDatoExpresion == Categoria.CadenaCaracteres:
+            if self.tipoDato.lexema == 'String':
+                return True
+            else:
+                err = "La variable \""+self.identificador.lexema+"\" no se le asigno un tipo de dato valido, asigne un "+self.tipoDato.lexema
+                listaErrores.append(err)
+                return False
+
+        
+        print("Es otro tipo de dato")
         
