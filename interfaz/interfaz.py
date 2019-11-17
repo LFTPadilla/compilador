@@ -46,9 +46,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
             for i in self.ASem.listaErrores:
-                self.listViewErroresSintacticos.addItem(str(i))
+                self.listViewErroresSemanticos.addItem(str(i))
 
-        self.Asem.obtenerPythonCode()
+       # self.Asem.obtenerPythonCode()
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
@@ -106,7 +106,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #ni ideita
         pass
 
-    def traduccion():
+    def traduccion(self):
         #ni ideita
         pass            
         

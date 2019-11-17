@@ -44,7 +44,7 @@ class DeclaracionVariable(Sentence):
 
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
-        tablaSimbolos.guardarSimboloVariable(self.identificador, self.tipoDato,self.tipoDato.fila,self.tipoDato.columna  ,ambito, self.expresion)
+        tablaSimbolos.guardarSimboloVariable(self.identificador.lexema, self.tipoDato,self.tipoDato.fila,self.tipoDato.columna, ambito, self.expresion)
 
     def analizarSemantica(self,tablaSimbolos, erroresSemanticos, simbolo):
 

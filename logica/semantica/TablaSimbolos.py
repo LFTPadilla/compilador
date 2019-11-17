@@ -7,21 +7,20 @@ class SymbolTable:
     
     def __init__ (self,listaErrores):
         self.listaSimbolos = []
-        self.listaErrores = listaErrores
+        self.listaErrores = listaErrores 
 
-
-    """
+    """ 
 	    Permite guardar un símbolo de tipo variable en la tabla de símbolos 
 	"""
     def guardarSimboloVariable(self, nombre, tipoDato,fila, columna, ambito, expresion):
-        sim = self.buscarSimboloVariable (nombre, ambito,fila, columna)
+        sim = self.buscarSimboloVariable (nombre, ambito)
 
         if sim == None:
             s = Symbol(nombre, tipoDato, fila,columna, ambito, expresion, None, None)
             self.listaSimbolos.append(s)
             return s
         else:
-            self.listaErrores.append("La variable "+nombre+" ya existe")
+            self.listaErrores.append("La variable "+nombre+" ya existe (f:"+str(fila)+", c:"+str(columna))
         return None
 
     """
@@ -38,7 +37,7 @@ class SymbolTable:
         
         return None
 
-    def buscarSimboloVariable(self, nombre, ambito,fila,columna):
+    def buscarSimboloVariable(self, nombre, ambito):
         for simbolo in self.listaSimbolos:
             if simbolo.ambito != None:
                 if simbolo.nombre == nombre and simbolo.ambito == ambito:
