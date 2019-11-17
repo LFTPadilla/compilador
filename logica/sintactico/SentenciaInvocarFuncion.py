@@ -38,7 +38,7 @@ class InvocarFuncion(Sentence):
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         for simbolo in tablaSimbolos.listaSimbolos:
-            if simbolo.nombre == self.identificador and simbolo.tipoRetorno!=None:
+            if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno!=None:
                 return True
         err = "La funcion \""+self.identificador.lexema+"\" no se encuentra declarada."
         print("err "+err)

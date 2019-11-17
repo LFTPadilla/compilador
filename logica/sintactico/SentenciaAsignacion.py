@@ -20,7 +20,8 @@ class Asignacion(Sentence):
     
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         for simbolo in tablaSimbolos.listaSimbolos:
-            if simbolo.nombre == self.identificador:
+            print(simbolo.nombre," ",self.identificador.lexema)
+            if simbolo.nombre == self.identificador.lexema:
                 return True
         err = "La variable \""+self.identificador.lexema+"\" no se encuentra declarada."
         print("err "+err)
