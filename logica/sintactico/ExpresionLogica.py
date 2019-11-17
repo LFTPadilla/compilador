@@ -4,11 +4,11 @@ from logica.sintactico.Expresion import Expression
 from logica.lexico.Categorias import Categoria
 
 """
-    <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
-    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
-    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
+    <ExpresionLogica>::=    
+    "!" "(" <ExpresionLogica> ")" [operadorLogico <ExpresionLogica>] [<ExpresionAuxiliarLogica>]
+    | "(" <ExpresionLogica> operadorLogicoBinario <ExpresionLogica> ")" operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]                         
 """
-
 class Logica(Expression):
 
     def __init__(self, operador1, expresionLogica1, operador2, expresionLogica2, expresionLogica3, expresionRelacional, expresionAuxiliarLogica):
@@ -23,8 +23,16 @@ class Logica(Expression):
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         print("Entro a la expresion logica y verficca relaiona ",self.expresionRelacional)
         if self.expresionRelacional !=None:
-
             self.expresionRelacional.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica1 != None:
+            self.expresionLogica1.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica2 != None:
+            self.expresionLogica2.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica3 != None:
+            self.expresionLogica3.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionAuxiliarLogica != None:
+            self.expresionAuxiliarLogica.analisisSemantico(tablaSimbolos,listaErrores)
+        
 
     def construirArbol(self, arbol):
        

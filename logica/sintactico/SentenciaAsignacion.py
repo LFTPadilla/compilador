@@ -23,10 +23,15 @@ class Asignacion(Sentence):
             if simbolo.nombre == self.identificador.lexema:
                 print("Existe la variable en tabla ahora va a buscar la exp "+str(self.expresion))
                 self.expresion.analisisSemantico(tablaSimbolos,listaErrores)
+                self.analisisTipoDato(simbolo,listaErrores)
                 return True
         err = "La variable \""+self.identificador.lexema+"\" no se encuentra declarada."
         listaErrores.append(err)
 
+    def analisisTipoDato(self,simbolo,listaErrores):
+        tipoDatoExpresion = self.expresion.obtenerTipoDato()
+        print("El tipo de dato es ",tipoDatoExpresion)
+        return tipoDatoExpresion
 
 
 

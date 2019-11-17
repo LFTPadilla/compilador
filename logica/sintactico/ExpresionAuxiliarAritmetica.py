@@ -18,7 +18,8 @@ class AuxiliarAritmetica(Expression):
         if self.expresionAritmetica!=None:
             self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores)
         
-
+    def obtenerTipoDato(self):
+        return self.expresionAritmetica.obtenerTipoDato()
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices

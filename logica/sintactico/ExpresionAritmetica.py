@@ -9,7 +9,20 @@ class Aritmetica(Expression):
         self.expresionAuxiliar = expAuxiliarAritmetica
         self.termino = termino
 
-    
+    def obtenerTipoDato(self):
+
+        tipo = None
+        if self.termino!=None:
+            tipo = self.termino.categoria
+        if self.expresionAuxiliar != None:
+            tipo2 = self.expresionAuxiliar.obtenerTipoDato()
+            if tipo == Categoria.NumeroReal:
+                return tipo
+            else:
+                return tipo2
+        else:
+            return tipo
+
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         print("Entro al analisis semantico exp aritmetica ",self.termino)
         if self.termino!=None and self.termino.categoria == Categoria.Identificador:
