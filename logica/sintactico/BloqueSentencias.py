@@ -17,6 +17,10 @@ class bloqueSent:
         for sentencia in self.listaSentencias:
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        for sentencia in self.listaSentencias:
+            sentencia.analisisSemantico(tablaSimbolos,listaErrores)
+
     def obtenerPythonCode(self):
         for sentencia in self.listaSentencias:
             codigo += sentencia.obtenerPythonCode()

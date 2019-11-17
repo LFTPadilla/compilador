@@ -37,6 +37,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def AnalisisSemantico(self):
         self.ASem = ASemantico(self.uCompilacion)
         self.ASem.llenarTablaSimbolos()
+        self.ASem.analisisSemantico()
 
         if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
             self.tabTokenSimbolo.setCurrentIndex(1)

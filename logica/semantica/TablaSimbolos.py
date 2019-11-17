@@ -16,7 +16,7 @@ class SymbolTable:
         sim = self.buscarSimboloVariable (nombre, ambito)
 
         if sim == None:
-            s = Symbol(nombre, tipoDato, fila,columna, ambito, expresion, None, None)
+            s = Symbol(nombre.lexema, tipoDato, fila,columna, ambito, expresion, None, None)
             self.listaSimbolos.append(s)
             return s
         else:
