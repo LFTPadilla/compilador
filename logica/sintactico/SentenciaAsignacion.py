@@ -18,6 +18,17 @@ class Asignacion(Sentence):
     def __str__(self):
         return "[asignacion Variable [%s, %s, %s, %s, %s]"% (self.identificador,self.operadorAsignacion, self.lectura, self.invocacion, self.expresion)
     
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        for simbolo in tablaSimbolos.listaSimbolos:
+            if simbolo.nombre == self.identificador:
+                return True
+        err = "La variable \""+self.identificador.lexema+"\" no se encuentra declarada."
+        print("err "+err)
+        listaErrores.append(err)
+
+
+
+
     def construirArbol(self, arbol):
         arbolAsignacionVariable = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "AsignacionVariable "

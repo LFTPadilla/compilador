@@ -527,21 +527,18 @@ class ASintactico:
         if self.tokenActual.lexema == "!":
             operador1 = self.tokenActual
             self.obtenerSiguienteToken()
-            print("ME NIEGO")
             
             if self.tokenActual.categoria == Categoria.ParentesisIzquierdo:
                 self.obtenerSiguienteToken()
                 
                 el1 = self.esExpresionLogica()
                 if el1 != None:
-                    print ("Deberia ser )",self.tokenActual)
                     if self.tokenActual.categoria == Categoria.ParentesisDerecho:
                         self.obtenerSiguienteToken()
                         operador2 = self.esOperadorLogicoBinario()
                         el2 = self.esExpresionLogica()
                         eal = self.esExpresionAuxiliarLogica()
                         
-                        print("Retorno una logica xd")
                         return Logica(operador1,el1,operador2,el2,None,None,eal)
                         
                     else:
@@ -858,7 +855,6 @@ class ASintactico:
 
             # la palabra reservada debe de ser "leer""
             if self.tokenActual.lexema == "leer":
-                print ("entro leer")
                 self.obtenerSiguienteToken()
 
                 # verifica que siga un parentesis izquierdo
@@ -898,11 +894,9 @@ class ASintactico:
             identificador = self.tokenActual
             posInicio = self.posActual
             self.obtenerSiguienteToken()
-            print("Entró 2",self.tokenActual)
             if self.tokenActual.categoria == Categoria.OperadorIncrementoDecremento:
                 operador = self.tokenActual
                 self.obtenerSiguienteToken()
-                print("Entró 3",self.tokenActual.categoria)
                  #Verifica que la sentencia retorno termine con un fin de sentencia
                 if self.tokenActual.categoria == Categoria.FinSentencia:
                     self.obtenerSiguienteToken()

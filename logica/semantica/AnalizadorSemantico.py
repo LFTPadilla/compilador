@@ -16,4 +16,7 @@ class ASemantico:
 
     def llenarTablaSimbolos (self):
         self.uc.llenarTablaSimbolos(self.tablaSimbolos,self.listaErrores)
+
+    def analisisSemantico(self):
+        self.uc.analisisSemantico(self.tablaSimbolos,self.listaErrores)
     

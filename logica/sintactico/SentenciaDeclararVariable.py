@@ -12,6 +12,9 @@ class DeclaracionVariable(Sentence):
         self.invocacion = invocacion
         self.expresion = expresion
 
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        pass
+    
     def __repr__(self):
         return "(Sentencia Declaracion Variable: tipoDato: %s, identificador: %s, lectura: %s, invocacion: %s, expresion: %s)" % (self.tipoDato, self.identificador, self.lectura, self.invocacion, self.expresion)
 

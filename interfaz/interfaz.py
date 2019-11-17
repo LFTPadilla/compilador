@@ -37,6 +37,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def AnalisisSemantico(self):
         self.ASem = ASemantico(self.uCompilacion)
         self.ASem.llenarTablaSimbolos()
+        self.ASem.analisisSemantico()
 
         if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
             self.tabTokenSimbolo.setCurrentIndex(1)
@@ -46,9 +47,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
             for i in self.ASem.listaErrores:
-                self.listViewErroresSintacticos.addItem(str(i))
+                self.listViewErroresSemanticos.addItem(str(i))
 
-        self.Asem.obtenerPythonCode()
+        self.ASem.obtenerPythonCode()
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
