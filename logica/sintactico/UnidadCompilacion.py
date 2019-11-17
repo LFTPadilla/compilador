@@ -7,8 +7,6 @@ class UnidadComp:
         for fun in self.listaFunciones:
             fun.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
 
-        
-
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         for fun in self.listaFunciones:
             fun.analisisSemantico(tablaSimbolos,listaErrores)

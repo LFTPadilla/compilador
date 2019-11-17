@@ -20,6 +20,12 @@ class Logica(Expression):
         self.expresionRelacional = expresionRelacional
         self.expresionAuxiliarLogica = expresionAuxiliarLogica
 
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        print("Entro a la expresion logica y verficca relaiona ",self.expresionRelacional)
+        if self.expresionRelacional !=None:
+
+            self.expresionRelacional.analisisSemantico(tablaSimbolos,listaErrores)
+
     def construirArbol(self, arbol):
        
         if self.expresionRelacional != None:

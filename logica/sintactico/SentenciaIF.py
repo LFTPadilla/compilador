@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+
 """
     <SentenciaIf>::= if "(" <ExpresionLogica> ")" <BloqueSentencia>
 """
@@ -30,5 +31,7 @@ class SentIF:
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+
+
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         pass

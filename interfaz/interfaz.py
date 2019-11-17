@@ -24,6 +24,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
+        self.btnAnalisisSemantico.clicked.connect(self.AnalisisSemantico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
         #self.txtCodigo.setText("        public int nombre ( String a ){            a++;            b--;            return (2+1)>b;        }        ")    
 

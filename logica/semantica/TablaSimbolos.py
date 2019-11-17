@@ -14,7 +14,6 @@ class SymbolTable:
 	"""
     def guardarSimboloVariable(self, nombre, tipoDato,fila, columna, ambito, expresion):
         sim = self.buscarSimboloVariable (nombre.lexema, ambito,fila, columna)
-        print(type(nombre))
         if sim == None:
             s = Symbol(nombre.lexema, tipoDato, fila,columna, ambito, expresion, None, None)
             self.listaSimbolos.append(s)
@@ -28,7 +27,6 @@ class SymbolTable:
 	"""
     def guardarSimboloFuncion(self, nombre, tipoRetorno, tipoParametros, fila, columna):
         sim = self.buscarSimboloFuncion (nombre, tipoParametros)
-        print(type(nombre))
         if sim == None:
             s = Symbol(nombre, None, fila, columna, "UnidadCompilacion", None, tipoRetorno, tipoParametros)
             self.listaSimbolos.append(s)
@@ -39,7 +37,6 @@ class SymbolTable:
         return None
 
     def buscarSimboloVariable(self, nombre, ambito,fila,columna):
-        print("busca",type(nombre))
         for simbolo in self.listaSimbolos:
             if simbolo.ambito != None:
                 if simbolo.nombre == nombre and simbolo.ambito == ambito:

@@ -12,7 +12,7 @@ class Expression(ABC):
     def construirArbol(self, arbol, n):
         pass
 
-    def analizarSemantica(self):
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
         pass
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):

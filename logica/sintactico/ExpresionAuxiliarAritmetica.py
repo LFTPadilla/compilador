@@ -10,6 +10,16 @@ class AuxiliarAritmetica(Expression):
         self.expresionAritmetica = expresionAritmetica
         self.expresionAuxiliar = expresionAuxiliarAritmetica
     
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        print("Analizar exp aux ",self.expresionAuxiliar)
+        print("Analizar exp ",self.expresionAritmetica)
+        if self.expresionAuxiliar!=None:
+            self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionAritmetica!=None:
+            self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores)
+        
+
+
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices
         #llega el 'arbol' nodo 'F'
