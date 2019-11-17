@@ -13,14 +13,14 @@ class SymbolTable:
 	    Permite guardar un símbolo de tipo variable en la tabla de símbolos 
 	"""
     def guardarSimboloVariable(self, nombre, tipoDato,fila, columna, ambito, expresion):
-        sim = self.buscarSimboloVariable (nombre, ambito)
+        sim = self.buscarSimboloVariable (nombre.lexema, ambito)
 
         if sim == None:
             s = Symbol(nombre.lexema, tipoDato, fila,columna, ambito, expresion, None, None)
             self.listaSimbolos.append(s)
             return s
         else:
-            self.listaErrores.append("La variable "+nombre+" ya existe (f:"+str(fila)+", c:"+str(columna))
+            self.listaErrores.append("La variable "+nombre.lexema+" ya existe (f:"+str(fila)+", c:"+str(columna))
         return None
 
     """

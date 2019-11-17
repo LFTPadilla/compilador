@@ -4,9 +4,10 @@ from logica.sintactico.Expresion import Expression
 from logica.lexico.Categorias import Categoria
 
 """
-    <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
-    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
-    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
+    <ExpresionLogica>::=    
+    "!" "(" <ExpresionLogica> ")" [operadorLogico <ExpresionLogica>] [<ExpresionAuxiliarLogica>]
+    | "(" <ExpresionLogica> operadorLogicoBinario <ExpresionLogica> ")" operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]                         
 """
 
 class Logica(Expression):

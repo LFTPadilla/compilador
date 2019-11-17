@@ -28,7 +28,12 @@ class SentIF:
         
         self.bloqueSentencias.construirArbol(arbolIf)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
-        pass
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        print("Sentencia IF")
+        #Vamos a mandar como ambito "if" y la fila y columna en la que se encuentra
+        self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,"if"+str(self.expresionLogica.expresionRelacional.operadorRelacional.fila)+","+str(self.expresionLogica.expresionRelacional.operadorRelacional.columna))
+        
+        
+        
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         pass

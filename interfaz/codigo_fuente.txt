@@ -10,6 +10,13 @@ public String calcular(int talla){
 	int a = 4;
 }
 
+public String calcular(int talla){
+	if(a<c){
+		int a = 3;
+	}
+
+}		
+
 public String calcular(int talla, double peso, String nombre, boolean disponible, char ambito){
 	
 	return talla *(3+ 4);
