@@ -49,7 +49,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             for i in self.ASem.listaErrores:
                 self.listViewErroresSemanticos.addItem(str(i))
 
-        self.ASem.obtenerPythonCode()
+       # self.Asem.obtenerPythonCode()
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
@@ -107,7 +107,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #ni ideita
         pass
 
-    def traduccion():
+    def traduccion(self):
         #ni ideita
         pass            
         
