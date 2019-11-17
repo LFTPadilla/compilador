@@ -1,4 +1,11 @@
 
+int main (String arg){
+	double a;
+	a =!(2<g)&&4<b;
+	
+}
+
+
 public String calcular(int talla){
 	
 	int a = !(a>v);
