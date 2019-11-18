@@ -4,11 +4,11 @@ from logica.sintactico.Expresion import Expression
 from logica.lexico.Categorias import Categoria
 
 """
-    <ExpresionLogica>::= "!" "{" <ExpresionLogica> "}" |
-    "{" <ExpresionLogica "}" [operadorLogicoBinario <ExpresionLogica> ] |
-    <ExpresionRelacional> [operadorLogicoBinario <ExpresionRelacional>]
+    <ExpresionLogica>::=    
+    "!" "(" <ExpresionLogica> ")" [operadorLogico <ExpresionLogica>] [<ExpresionAuxiliarLogica>]
+    | "(" <ExpresionLogica> operadorLogicoBinario <ExpresionLogica> ")" operadorLogicoBinario <ExpresionLogica> [<ExpresionAuxiliarLogica>] 
+    | <ExpresionRelacional> [<ExpresionAuxiliarLogica>]                         
 """
-
 class Logica(Expression):
 
     def __init__(self, operador1, expresionLogica1, operador2, expresionLogica2, expresionLogica3, expresionRelacional, expresionAuxiliarLogica):
@@ -20,6 +20,21 @@ class Logica(Expression):
         self.expresionRelacional = expresionRelacional
         self.expresionAuxiliarLogica = expresionAuxiliarLogica
 
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        if self.expresionRelacional !=None:
+            self.expresionRelacional.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica1 != None:
+            self.expresionLogica1.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica2 != None:
+            self.expresionLogica2.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionLogica3 != None:
+            self.expresionLogica3.analisisSemantico(tablaSimbolos,listaErrores)
+        if self.expresionAuxiliarLogica != None:
+            self.expresionAuxiliarLogica.analisisSemantico(tablaSimbolos,listaErrores)
+    
+    def obtenerTipoDato(self):
+        return Categoria.OperadorLogico
+
     def construirArbol(self, arbol):
        
         if self.expresionRelacional != None:
@@ -30,9 +45,7 @@ class Logica(Expression):
                 self.expresionRelacional.construirArbol(nodoOperadorAux)
             else:
                 self.expresionRelacional.construirArbol(arbol)        
-     
-           
-       
+    
         if self.operador2 != None:
             arbol.setText(0, self.operador2.lexema)
         

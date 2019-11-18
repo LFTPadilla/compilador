@@ -33,4 +33,5 @@ class IncrementoDecremento:
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
-    
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        pass

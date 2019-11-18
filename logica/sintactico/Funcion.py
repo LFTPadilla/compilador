@@ -20,13 +20,17 @@ class Function:
     
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
+        print("Funcion: ",self.identificador.lexema)
+        
         tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.parametros,self.retorno.fila,self.retorno.columna)
         self.bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
+
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        self.bloque.analisisSemantico(tablaSimbolos,listaErrores, self.identificador.lexema)
 
 
     def construirArbol(self, arbol, n):
         arbolFuncion = QtWidgets.QTreeWidgetItem(arbol)
-
         titulo = "Funcion "+str(n)
         arbolFuncion.setText(0,titulo)
 

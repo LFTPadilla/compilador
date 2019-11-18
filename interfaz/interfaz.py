@@ -24,6 +24,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnAnalisisLexico.clicked.connect(self.AnalisisLexico)
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
+        self.btnAnalisisSemantico.clicked.connect(self.AnalisisSemantico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
         #self.txtCodigo.setText("        public int nombre ( String a ){            a++;            b--;            return (2+1)>b;        }        ")    
 
@@ -37,6 +38,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def AnalisisSemantico(self):
         self.ASem = ASemantico(self.uCompilacion)
         self.ASem.llenarTablaSimbolos()
+        self.ASem.analisisSemantico()
 
         if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
             self.tabTokenSimbolo.setCurrentIndex(1)
@@ -46,9 +48,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if len(self.ASem.listaErrores)!=0:
             self.tabErrores.setCurrentIndex(2)
             for i in self.ASem.listaErrores:
-                self.listViewErroresSintacticos.addItem(str(i))
+                self.listViewErroresSemanticos.addItem(str(i))
 
-        self.Asem.obtenerPythonCode()
+       # self.Asem.obtenerPythonCode()
     
     def AnalisisSintactico(self):
         self.ASin = ASintactico(self.tokens,self.treeFunciones)
@@ -106,7 +108,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #ni ideita
         pass
 
-    def traduccion():
+    def traduccion(self):
         #ni ideita
         pass            
         

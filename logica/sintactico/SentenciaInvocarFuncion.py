@@ -35,4 +35,12 @@ class InvocarFuncion(Sentence):
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
+
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        for simbolo in tablaSimbolos.listaSimbolos:
+            if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno!=None:
+                return True
+        err = "La funcion \""+self.identificador.lexema+"\" no se encuentra declarada."
+        print("err "+err)
+        listaErrores.append(err)
     

@@ -1,5 +1,7 @@
 from PyQt5 import QtWidgets
 from logica.sintactico.Sentencia import Sentence
+from logica.lexico.Categorias import Categoria
+
 """
     <Retorno>::= return <Expresion> ";"
 """
@@ -27,4 +29,33 @@ class Retorno(Sentence):
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
-    
+    def analisisSemantico(self,tablaSimbolos,listaErrores, ambito ):
+        
+        funcion = None
+        #capturamos el simbolo con ese ambito(ambito = nombre de la funcion contenedora del return)
+        for simbolo in tablaSimbolos.listaSimbolos:
+            if simbolo.tipoRetorno != None:
+                print("El simbolo es una funcion---------------------------------")
+                print("Simbolo.nombre: ",simbolo.nombre)
+                print("Ambito: ",ambito)
+                
+                if simbolo.nombre == ambito:
+                    print("Encontrada",ambito,"---------------------------------")
+                    
+                    funcion = simbolo
+                    break
+        print("Holalola")
+        print(funcion)
+       
+        if funcion.tipoRetorno == "int" and self.expresion.categoria == Categoria.NumeroNatural :
+            print("Funcion de tipo int expresion de retorno numero natural")
+            return True
+        elif funcion.tipoRetorno == "double" and self.expresion.categoria == Categoria.NumeroReal :
+            print("Funcion de tipo double expresion de retorno numero real")
+            
+            return True
+        else: 
+            listaErrores.append("Tipo de retorno no valido en la funcion",ambito)
+            
+                    
+             

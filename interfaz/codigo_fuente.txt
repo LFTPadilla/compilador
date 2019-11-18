@@ -1,8 +1,44 @@
 
+int main (String arg){
+	double a;
+	a =!(2<g)&&4<b;
+	
+}
+
+
 public String calcular(int talla){
 	
 	int a = !(a>v);
 }
+
+public String calcular(int talla){
+	
+	int a = 3;
+	int a = 4;
+}
+
+public String calcular(int talla){
+	if(a<c){
+		int a = 3;
+	}
+
+}	
+
+
+public String calcular1(int talla){
+	
+	return Null;
+}
+
+public String calcular2(int talla){
+	
+	return Null;
+}
+
+public String calcular3(int talla){
+	return Null;
+
+}		
 
 public String calcular(int talla, double peso, String nombre, boolean disponible, char ambito){
 	

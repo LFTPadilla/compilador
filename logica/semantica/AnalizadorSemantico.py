@@ -15,5 +15,9 @@ class ASemantico:
         pass
 
     def llenarTablaSimbolos (self):
+        print("Llego")
         self.uc.llenarTablaSimbolos(self.tablaSimbolos,self.listaErrores)
+
+    def analisisSemantico(self):
+        self.uc.analisisSemantico(self.tablaSimbolos,self.listaErrores)
     
