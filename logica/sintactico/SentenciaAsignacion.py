@@ -41,6 +41,15 @@ class Asignacion(Sentence):
 
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
             self.expresion.construirArbol(arbolExpresion)
+    def obtenerPythonCode(self):
+        codigo = ""
+        if self.lectura != None and self.invocacion == None and self.expresion == None:
+            codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.lectura.obtenerPythonCode() + ";"
+        elif self.invocacion != None and self.lectura == None and self.expresion == None:
+            codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.invocacion.obtenerPythonCode() + ";"
+        elif self.expresion != None and self.invocacion == None and self.lectura == None:
+            codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.expresion.obtenerPythonCode() + ";"
+        return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass

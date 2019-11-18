@@ -22,9 +22,17 @@ class Argument:
         if self.identificador == None:
             self.expresion.construirArbol(arbolArgumento)
 
-        if self.expresion == None:
+        elif self.expresion == None:
             ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolArgumento)
             ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
 
-        def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
-            pass
+    def obtenerPythonCode(self):
+        codigo = ""
+        if self.identificador == None:
+            codigo += self.expresion.obtenerPythonCode()
+        elif self.expresion == None:
+            codigo += self.identificador.obtenerPythonCode()
+        return codigo
+
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
+        pass

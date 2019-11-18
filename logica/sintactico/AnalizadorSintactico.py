@@ -798,12 +798,16 @@ class ASintactico:
                     self.reportarError("La asignacion variable es invalida", self.tokenActual.fila, self.tokenActual.columna)
                 
                 # la declaracion de variable finaliza con un fin de sentencia ";"
-                if self.tokenActual.categoria == Categoria.FinSentencia and expresion != None:
+                if self.tokenActual.categoria == Categoria.FinSentencia and expresion != None and lectura == None and invocar == None:
                     self.obtenerSiguienteToken()
                     return Asignacion(identificador, operadorAsignacion, None, None, expresion)
                 elif lectura != None or invocar != None:
-                    return Asignacion(identificador, operadorAsignacion, lectura, invocar, None)
-
+                    if lectura != None and invoacar == None:
+                        return Asignacion(identificador, operadorAsignacion, lectura, None, None)
+                    elif lectura == None and invoacar != None:
+                        return Asignacion(identificador, operadorAsignacion, None, invocacion, None)
+                    else:
+                        self.reportarError("solo puede ser una expreion, una lectura o una invacacion, no pueden ser varias al tiempo", self.tokenActual.fila, self.tokenActual.columna)
             else:
                 self.reportarError("falta el operador de asignacion", self.tokenActual.fila, self.tokenActual.columna)
 
