@@ -26,6 +26,9 @@ class componenteMap:
         ramaValor.setText(0,"valor "+ self.valor.lexema)
 #map <tipoclave, tipovalor> nombre;
 #nombre.insert(make_pair(llave,valor));
+    def obtenerPythonCode(self):
+        codigo = "\"" + self.llave.obtenerPythonCode() + "\"" + "," + "\"" + self.valor.obtenerPythonCode() + "\""
+        return codigo
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     

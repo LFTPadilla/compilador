@@ -25,7 +25,8 @@ class Parameter:
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
 
     def obtenerPythonCode(self):
-        return self.identificador.obtenerPythonCode()
+        codigo = self.tipoDato.obtenerPythonCode() + " " + self.identificador.obtenerPythonCode() 
+        return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass

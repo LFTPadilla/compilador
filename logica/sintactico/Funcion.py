@@ -56,14 +56,19 @@ class Function:
         self.bloque.construirArbol(arbolFuncion)
 
     def obtenerPythonCode(self):
-        codigo = "def "+self.identificador+" (self,  "
-        for parametro in self.parametros:
-            codigo += parametro.obtenerPythonCode()
-            codigo += ", "
+        codigo = self.retorno.obtenerPythonCode() + " " + self.identificador.obtenerPythonCode() + " ("
         
-        codigo =  codigo[:-2]
-        codigo += "):"
+        if len(self.parametros) == 0:
+            for parametro in self.parametros:
+                codigo += parametro.obtenerPythonCode()
+                codigo += ", "
+        
+            codigo =  codigo[:-2]
+        
+        codigo += ")"
         codigo += self.bloque.obtenerPythonCode()
+        
+        return codigo
 
 
     def __repr__(self):

@@ -33,7 +33,7 @@ class Array:
             for exp in self.listaExpresiones:
                 arbolExpresion = QtWidgets.QTreeWidgetItem(ramaElementos)
                 exp.construirArbol(arbolExpresion)
-    
+
     def obtenerPythonCode(self):
         codigo = ""
         codigo += self.tipoDato.obtenerPythonCode() + " "
