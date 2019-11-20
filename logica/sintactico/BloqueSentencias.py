@@ -47,10 +47,11 @@ class bloqueSent:
         
 
     def obtenerPythonCode(self):
-        codigo = ""
+        codigo = "{"
         for sentencia in self.listaSentencias:
             codigo += sentencia.obtenerPythonCode()
             codigo += "\n"
+        codigo += "}"
         return codigo
 
     def construirArbol(self, arbol):
