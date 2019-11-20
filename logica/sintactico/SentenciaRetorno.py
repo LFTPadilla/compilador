@@ -35,27 +35,36 @@ class Retorno(Sentence):
         #capturamos el simbolo con ese ambito(ambito = nombre de la funcion contenedora del return)
         for simbolo in tablaSimbolos.listaSimbolos:
             if simbolo.tipoRetorno != None:
-                print("El simbolo es una funcion---------------------------------")
-                print("Simbolo.nombre: ",simbolo.nombre)
-                print("Ambito: ",ambito)
                 
                 if simbolo.nombre == ambito:
-                    print("Encontrada",ambito,"---------------------------------")
                     
                     funcion = simbolo
                     break
-        print("Holalola")
+        print("Funcion retorna: ",funcion.tipoRetorno)
+        print("expresion es: ",self.expresion.obtenerTipoDato())
+        
         print(funcion)
        
-        if funcion.tipoRetorno == "int" and self.expresion.categoria == Categoria.NumeroNatural :
-            print("Funcion de tipo int expresion de retorno numero natural")
+        if funcion.tipoRetorno == "int" and self.expresion.obtenerTipoDato() == Categoria.NumeroNatural :
+            print("Funcion de tipo int y expresion de retorno numero natural")
             return True
-        elif funcion.tipoRetorno == "double" and self.expresion.categoria == Categoria.NumeroReal :
-            print("Funcion de tipo double expresion de retorno numero real")
+        elif funcion.tipoRetorno == "double" and self.expresion.obtenerTipoDato() == Categoria.NumeroReal :
+            print("Funcion de tipo double y expresion de retorno numero real")
             
             return True
+        elif funcion.tipoRetorno == "String" and self.expresion.obtenerTipoDato() == Categoria.CadenaCaracteres :
+            print("Funcion de tipo String y expresion de retorno cadena")
+            
+            return True
+        elif funcion.tipoRetorno == "boolean" and self.expresion.obtenerTipoDato() == Categoria.OperadorLogico :
+            print("Funcion de tipo boolean y expresion de retorno bool")
+            
+            return True
+        elif funcion.tipoRetorno == "void":
+            listaErrores.append("No puede haber un retorno dentro de una funcion void")
+       
         else: 
-            listaErrores.append("Tipo de retorno no valido en la funcion",ambito)
+            listaErrores.append("Tipo de retorno no valido en la funcion "+str(ambito))
             
                     
              
