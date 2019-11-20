@@ -25,8 +25,6 @@ class Array:
 
         ramaIdentificador = QtWidgets.QTreeWidgetItem(arbolArreglo)
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
-
-        
         
         if len(self.listaExpresiones) >0:
             ramaElementos = QtWidgets.QTreeWidgetItem(arbolArreglo)
@@ -35,6 +33,19 @@ class Array:
             for exp in self.listaExpresiones:
                 arbolExpresion = QtWidgets.QTreeWidgetItem(ramaElementos)
                 exp.construirArbol(arbolExpresion)
+    
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo += self.tipoDato.obtenerPythonCode() + " "
+        codigo += self.identificador.obtenerPythonCode() + "["+ len(self.listaExpresiones) +"]"
+        codigo += " = "
+        codigo += "{"
+        for expresion in self.listaExpresiones:
+            codigo += expresion.obtenerPythonCode()
+            codigo += ","
+        codigo = codigo[:-1]
+        codigo +="} ;"
+        return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
