@@ -798,10 +798,10 @@ class ASintactico:
                     self.obtenerSiguienteToken()
                     return Asignacion(identificador, operadorAsignacion, None, None, expresion)
                 elif lectura != None or invocar != None:
-                    if lectura != None and invoacar == None:
+                    if lectura != None and invocar == None:
                         return Asignacion(identificador, operadorAsignacion, lectura, None, None)
-                    elif lectura == None and invoacar != None:
-                        return Asignacion(identificador, operadorAsignacion, None, invocacion, None)
+                    elif lectura == None and invocar != None:
+                        return Asignacion(identificador, operadorAsignacion, None, invocar, None)
                     else:
                         self.reportarError("solo puede ser una expreion, una lectura o una invacacion, no pueden ser varias al tiempo", self.tokenActual.fila, self.tokenActual.columna)
             else:
