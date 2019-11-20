@@ -40,10 +40,7 @@ class Retorno(Sentence):
                     
                     funcion = simbolo
                     break
-        print("Funcion retorna: ",funcion.tipoRetorno)
-        print("expresion es: ",self.expresion.obtenerTipoDato())
         
-        print(funcion)
        
         if funcion.tipoRetorno == "int" and self.expresion.obtenerTipoDato() == Categoria.NumeroNatural :
             print("Funcion de tipo int y expresion de retorno numero natural")

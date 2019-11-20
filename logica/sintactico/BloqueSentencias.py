@@ -27,11 +27,8 @@ class bloqueSent:
         retorno = False
         for sentencia in self.listaSentencias:
             #A la ultima sentencia (return) se le manda el ambito(el nombre de la funcion que la contiene)
-            print("CLASE:--------------- ",type(sentencia))
-            print("La ultima sentencia es un retorno?",str(type(sentencia))=="logica.sintactico.SentenciaRetorno.Retorno")
             if isinstance(sentencia,Retorno):
                 retorno = True
-                print("Encontre un retorno")
                 sentencia.analisisSemantico(tablaSimbolos,listaErrores, ambito)
             else:    
                 sentencia.analisisSemantico(tablaSimbolos,listaErrores)

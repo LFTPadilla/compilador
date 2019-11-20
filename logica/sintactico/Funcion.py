@@ -16,13 +16,16 @@ class Function:
     def getTiposParametros(self):
         l = []
         for p in self.parametros:
-            l.append(p.tipoDato.lexema) #p.getTipoDatos().getLexema()
+            l.append(p.tipoDato.lexema) #p.getTipoDatos().getLexema()  
+        print("Parametros: ",l)
+
+        return l     
     
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
         print("Funcion: ",self.identificador.lexema)
         
-        tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.parametros,self.retorno.fila,self.retorno.columna)
+        tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.getTiposParametros(),self.retorno.fila,self.retorno.columna)
         self.bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
