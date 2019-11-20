@@ -10,7 +10,7 @@ class Aritmetica(Expression):
         self.termino = termino
 
     def obtenerTipoDato(self):
-
+        print("Termino: ",self.termino)
         tipo = None
         if self.termino!=None:
             tipo = self.termino.categoria

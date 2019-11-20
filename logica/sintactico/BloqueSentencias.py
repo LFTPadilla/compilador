@@ -1,4 +1,6 @@
 from PyQt5 import QtWidgets
+from logica.sintactico.SentenciaRetorno import Retorno
+
 """
         <BloqueSentencia> ::= "{" [<listaSentencias>] "}"
 """
@@ -22,13 +24,30 @@ class bloqueSent:
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores, ambito):
+        retorno = False
         for sentencia in self.listaSentencias:
             #A la ultima sentencia (return) se le manda el ambito(el nombre de la funcion que la contiene)
-            if sentencia == self.listaSentencias[-1]:
+            print("CLASE:--------------- ",type(sentencia))
+            print("La ultima sentencia es un retorno?",str(type(sentencia))=="logica.sintactico.SentenciaRetorno.Retorno")
+            if isinstance(sentencia,Retorno):
+                retorno = True
+                print("Encontre un retorno")
                 sentencia.analisisSemantico(tablaSimbolos,listaErrores, ambito)
             else:    
                 sentencia.analisisSemantico(tablaSimbolos,listaErrores)
-
+        
+        funcion = None        
+        for simbolo in tablaSimbolos.listaSimbolos:
+            if simbolo.tipoRetorno != None:                
+                if simbolo.nombre == ambito:                    
+                    funcion = simbolo
+                    break
+                    
+                
+        if retorno == False and funcion.tipoRetorno != "void":
+            listaErrores.append("La funcion requiere de un retorno")
+            
+        
 
     def obtenerPythonCode(self):
         for sentencia in self.listaSentencias:

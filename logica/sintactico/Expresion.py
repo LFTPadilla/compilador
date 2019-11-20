@@ -18,3 +18,5 @@ class Expression(ABC):
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     
+    def obtenerTipoDato(self):
+        pass
