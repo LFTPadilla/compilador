@@ -9,10 +9,10 @@ class Relacional(Expression):
         self.operadorRelacional = operadorRelacional
         self.expresionAritmetica2 = expresionAritmetica2
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         print("Entro al analisis semantico relacional ",self.expresionAritmetica1)
-        self.expresionAritmetica1.analisisSemantico(tablaSimbolos,listaErrores)
-        self.expresionAritmetica2.analisisSemantico(tablaSimbolos,listaErrores)
+        self.expresionAritmetica1.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
+        self.expresionAritmetica2.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
 
 
     def construirArbol(self, arbol):

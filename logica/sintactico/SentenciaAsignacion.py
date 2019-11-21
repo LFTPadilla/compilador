@@ -23,9 +23,17 @@ class Asignacion(Sentence):
         for simbolo in tablaSimbolos.listaSimbolos:
             if simbolo.nombre == self.identificador.lexema:
                 print("Existe la variable en tabla ahora va a buscar la exp "+str(self.expresion))
-                self.expresion.analisisSemantico(tablaSimbolos,listaErrores)
-                self.analisisTipoDato(simbolo,listaErrores)
-                return True
+                if self.expresion != None:
+                    self.expresion.analisisSemantico(tablaSimbolos,listaErrores,simbolo.tipoDato)
+                    self.analisisTipoDato(simbolo,listaErrores)
+                    return True
+                if self.invocacion !=None:
+                    self.invocacion.analisisSemantico(tablaSimbolos,listaErrores)
+                    
+                    return True
+                if self.lectura !=None:
+                    self.lectura.analisisSemantico(tablaSimbolos,listaErrores)
+                    return True
         err = "La variable \""+self.identificador.lexema+"\" no se encuentra declarada."
         listaErrores.append(err)
 

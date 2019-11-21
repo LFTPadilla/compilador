@@ -20,17 +20,17 @@ class Logica(Expression):
         self.expresionRelacional = expresionRelacional
         self.expresionAuxiliarLogica = expresionAuxiliarLogica
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         if self.expresionRelacional !=None:
-            self.expresionRelacional.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionRelacional.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         if self.expresionLogica1 != None:
-            self.expresionLogica1.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionLogica1.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         if self.expresionLogica2 != None:
-            self.expresionLogica2.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionLogica2.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         if self.expresionLogica3 != None:
-            self.expresionLogica3.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionLogica3.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         if self.expresionAuxiliarLogica != None:
-            self.expresionAuxiliarLogica.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionAuxiliarLogica.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
     
     def obtenerTipoDato(self):
         return Categoria.OperadorLogico

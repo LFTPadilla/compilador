@@ -15,6 +15,14 @@ class InvocarFuncion(Sentence):
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
     
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        for simbolo in tablaSimbolos.listaSimbolos:
+            if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno!=None:
+                return True
+        err = "La funcion \""+self.identificador.lexema+"\" no se encuentra declarada."
+        print("err "+err)
+        listaErrores.append(err)
+
     def construirArbol(self, arbol):
         arbolInvocarFuncion = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "InvocarFuncion "
@@ -36,11 +44,5 @@ class InvocarFuncion(Sentence):
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
-        for simbolo in tablaSimbolos.listaSimbolos:
-            if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno!=None:
-                return True
-        err = "La funcion \""+self.identificador.lexema+"\" no se encuentra declarada."
-        print("err "+err)
-        listaErrores.append(err)
+    
     

@@ -12,7 +12,7 @@ class Cadena(Expression):
         self.cadenaCaracteres = cadenaCaracteres
         self.listarExpresiones =  listarExpresiones
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         if len(self.listarExpresiones)>0:
             for exp in self.listarExpresiones:
                 exp.analisisSemantico(tablaSimbolos,listaErrores)

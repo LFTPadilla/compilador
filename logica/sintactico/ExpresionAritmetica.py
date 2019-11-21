@@ -23,30 +23,44 @@ class Aritmetica(Expression):
         else:
             return tipo
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         print("Entro al analisis semantico exp aritmetica ",self.termino)
         if self.termino!=None and self.termino.categoria == Categoria.Identificador:
             for simbolo in tablaSimbolos.listaSimbolos:
                 if simbolo.nombre == self.termino.lexema:
+                    print(tipoDato.lexema," PPPPPPPPPP  ",simbolo.tipoDato.lexema)
+                    if tipoDato.lexema != simbolo.tipoDato.lexema:
+                        err = "El tipoDato de \""+self.termino.lexema+"\" no es acorde a donde lo desea asignar."
+                        print("EERROOOOOR HPPP ",err)
+                        listaErrores.append(err)
                     if self.expresionAuxiliar!=None:
-                        print("Entro a analizar exp aux")
-                        self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+                        self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
                     return True
             if self.expresionAuxiliar!=None:
-                print("Entro a analizar exp aux")
-                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
             err = "La variable \""+self.termino.lexema+"\" no se encuentra declarada."
-            print("err "+err)
             listaErrores.append(err)
         else:
             print("El termino no es un ident continuara con ",self.expresionAritmetica,"   yyy  con  ",self.expresionAuxiliar)
             if self.expresionAritmetica!=None:
-                self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores)
+                self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
             if self.expresionAuxiliar!=None:
                 print("Entro a analizar exp aux")
-                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+                self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
             return True
 
+
+    
+    def devolverTipoDato(self,categoria):    
+        if categoria == Categoria.NumeroNatural:
+            return 'int'
+        elif categoria == Categoria.NumeroReal:
+            return 'double'
+        elif categoria == Categoria.OperadorLogico:
+            return 'boolean'  
+        elif categoria == Categoria.CadenaCaracteres:
+            return 'String'
+                
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices

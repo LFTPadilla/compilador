@@ -12,9 +12,6 @@ class DeclaracionVariable(Sentence):
         self.lectura = lectura
         self.invocacion = invocacion
         self.expresion = expresion
-
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
-        pass
     
     def __repr__(self):
         return "(Sentencia Declaracion Variable: tipoDato: %s, identificador: %s, lectura: %s, invocacion: %s, expresion: %s)" % (self.tipoDato, self.identificador, self.lectura, self.invocacion, self.expresion)
@@ -50,16 +47,25 @@ class DeclaracionVariable(Sentence):
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
         tablaSimbolos.guardarSimboloVariable(self.identificador , self.tipoDato,self.tipoDato.fila,self.tipoDato.columna, ambito, self.expresion)
 
-    def analizarSemantica(self,tablaSimbolos, erroresSemanticos, simbolo):
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+                  
+        if self.expresion != None:
+            self.expresion.analisisSemantico(tablaSimbolos,listaErrores,self.tipoDato)
+            self.analisisTipoDato(listaErrores)
+            return True
+        if self.invocacion !=None:
+            self.invocacion.analisisSemantico(tablaSimbolos,listaErrores)
+            
+            return True
+        if self.lectura !=None:
+            self.lectura.analisisSemantico(tablaSimbolos,listaErrores)
+            return True
+        
 
-        simbolo1 =  tablaSimbolos.buscarSimboloVariable (self.identificador.lexema, "", self.identificador )
-        if simbolo1 ==None:
-            erroresSemanticos.add("No existe la variable ", self.identificador.lexema)
-        self.analisisTipoDato(tablaSimbolos,erroresSemanticos)
 
-    def analisisTipoDato(self,simbolo,listaErrores):
+    def analisisTipoDato(self,listaErrores):
         tipoDatoExpresion = self.expresion.obtenerTipoDato()
-        print("El tipo de dato es ",tipoDatoExpresion,"  ",simbolo.tipoDato )
+        print("El tipo de dato es ",tipoDatoExpresion,"  ",self.tipoDato )
         if tipoDatoExpresion == Categoria.NumeroNatural:
             if self.tipoDato.lexema == 'int':
                 return True
@@ -90,5 +96,5 @@ class DeclaracionVariable(Sentence):
                 return False
 
         
-        print("Es otro tipo de dato")
+        print("NO esta configurado el tipo de dato que recibió")
         

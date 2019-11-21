@@ -10,13 +10,13 @@ class AuxiliarAritmetica(Expression):
         self.expresionAritmetica = expresionAritmetica
         self.expresionAuxiliar = expresionAuxiliarAritmetica
     
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         print("Analizar exp aux ",self.expresionAuxiliar)
         print("Analizar exp ",self.expresionAritmetica)
         if self.expresionAuxiliar!=None:
-            self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         if self.expresionAritmetica!=None:
-            self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores)
+            self.expresionAritmetica.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
         
     def obtenerTipoDato(self):
         return self.expresionAritmetica.obtenerTipoDato()

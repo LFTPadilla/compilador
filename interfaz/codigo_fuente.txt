@@ -1,9 +1,21 @@
 
-int main (String arg){
-	double a;
-	a =!(2<g)&&4<b;
-	
+
+
+
+void AsignacionDeclaracionInvalidas(String arg){
+	double a = "Error";
+	int b = 3+5.9;
+	double c= 2+5;
+	String d = 3<2;
+
+	a = 2;
+	b = 1>2;
+	c = "Malo";
+	d = (3+a)*3;
+
+	return 4.4;
 }
+
 
 
 public String calcular(int talla){
