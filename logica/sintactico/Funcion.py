@@ -16,13 +16,16 @@ class Function:
     def getTiposParametros(self):
         l = []
         for p in self.parametros:
-            l.append(p.tipoDato.lexema) #p.getTipoDatos().getLexema()
+            l.append(p.tipoDato.lexema) #p.getTipoDatos().getLexema()  
+        print("Parametros: ",l)
+
+        return l     
     
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
         print("Funcion: ",self.identificador.lexema)
         
-        tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.parametros,self.retorno.fila,self.retorno.columna)
+        tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.getTiposParametros(),self.retorno.fila,self.retorno.columna)
         self.bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):
@@ -56,14 +59,19 @@ class Function:
         self.bloque.construirArbol(arbolFuncion)
 
     def obtenerPythonCode(self):
-        codigo = "def "+self.identificador+" (self,  "
-        for parametro in self.parametros:
-            codigo += parametro.obtenerPythonCode()
-            codigo += ", "
+        codigo = self.retorno.obtenerPythonCode() + " " + self.identificador.obtenerPythonCode() + " ("
         
-        codigo =  codigo[:-2]
-        codigo += "):"
+        if len(self.parametros) == 0:
+            for parametro in self.parametros:
+                codigo += parametro.obtenerPythonCode()
+                codigo += ", "
+        
+            codigo =  codigo[:-2]
+        
+        codigo += ")"
         codigo += self.bloque.obtenerPythonCode()
+        
+        return codigo
 
 
     def __repr__(self):

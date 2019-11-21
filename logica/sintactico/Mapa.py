@@ -31,6 +31,12 @@ class mapita(Sentence):
             componentesMapa.construirArbol(ramaListaComponentes, cont)
             cont += 1
 
+    def obtenerPythonCode(){
+        codigo = "map <string, string> "+ self.identificador +";\n"
+        for componente in self.listaComponentes:
+            codigo + = ".insert(pair<string, string>("+ componente.obtenerPythonCode() +"));" 
+            codigo += "\n"
+    }
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
