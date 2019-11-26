@@ -35,6 +35,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.uCompilacion!=None:
             codigo_traducido = self.uCompilacion.obtenerPythonCode()
             print(codigo_traducido)
+            self.txtCodigo.clear()
+            self.txtCodigo.insertPlainText(codigo_traducido)
 
 
     def AnalisisCompleto(self):
@@ -117,7 +119,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def compilar(self):
     
+      
         self.escribirArchivo("codigo_c.cpp","w+")
+
         #Este primer comando traduce el codigo que llega en c a codigo intermedio
         comando_compilar1 = 'g++ codigo_c.cpp -o \"codigo_intermedio\"'
         os.system(comando_compilar1)
@@ -134,10 +138,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         a.write(self.codigo_traducido)
         a.close()
 
-    def traduccion(self):
-        #ni ideita
-        pass            
-        
 
 if __name__ == "__main__":
     app =  QtWidgets.QApplication(sys.argv)

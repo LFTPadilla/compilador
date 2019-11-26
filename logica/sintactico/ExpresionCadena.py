@@ -38,4 +38,15 @@ class Cadena(Expression):
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo += self.cadenaCaracteres.lexema
+        
+        for e in self.listarExpresiones:
+            codigo += "+"+e.obtenerPythonCode()
+        
+        return codigo    
+            
+        
+    
             

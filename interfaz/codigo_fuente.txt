@@ -24,6 +24,11 @@ public String calcular(int talla, String talla){
 	return "hola";
 }
 
+public int main(){
+imprimir("JELLO");
+return 0;
+}
+
 public int calcular(int talla){
 	return (2+3)/5;
 }
