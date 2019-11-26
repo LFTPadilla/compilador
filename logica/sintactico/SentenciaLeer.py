@@ -26,6 +26,12 @@ class Leer(Sentence):
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
             self.expresion.construirArbol(arbolExpresion)
 
+    # IMPORTANTE LEER SOLO PUEDE FUNCIONAR EN UNA ASIGNACION O EN UNA DECLARACION
+    def obtenerPythonCode(self, identificador):
+        codigo = "cout <<  "+ self.expresion.obtenerPythonCode()+";"
+        codigo += "cin >>"+ identificador.obtenerPythonCode() +";"
+        return codigo
+
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     def analisisSemantico(self,tablaSimbolos,listaErrores):

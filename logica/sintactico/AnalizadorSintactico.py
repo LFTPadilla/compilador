@@ -295,11 +295,6 @@ class ASintactico:
 
             if(s!=None):
                 return s
-
-            s = self.esLeer()
-            
-            if(s!=None):
-                return s
             
             s = self.esDeclaracionVariable()
 

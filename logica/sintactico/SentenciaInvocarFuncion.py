@@ -23,6 +23,17 @@ class InvocarFuncion(Sentence):
         print("err "+err)
         listaErrores.append(err)
 
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = self.identificador.obtenerPythonCode() + "("
+        if len(self.listaArgumentos) > 0:
+            for argumento in self.listaArgumentos:
+                codigo += argumento.obtenerPythonCode()
+                codigo += ", "
+            codigo =  codigo[:-2]
+        codigo += ");"
+        return codigo
+
     def construirArbol(self, arbol):
         arbolInvocarFuncion = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "InvocarFuncion "

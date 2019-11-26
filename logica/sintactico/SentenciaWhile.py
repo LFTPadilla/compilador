@@ -28,9 +28,9 @@ class SentenceWhile(Sentence):
         
         self.bloqueSentencias.construirArbol(arbolWhile)
 
-    def obtenerPythonCode(self, tabulacion):
-        codigo = "while ( "+self.expresionLogica.obtenerPythonCode()+" ):"
-        codigo += self.bloqueSentencias.obtenerPythonCode(tabulacion + 1)
+    def obtenerPythonCode(self):
+        codigo = "while ( "+self.expresionLogica.obtenerPythonCode()+" )"
+        codigo += self.bloqueSentencias.obtenerPythonCode()
         return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
