@@ -26,15 +26,15 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
         self.btnAnalisisSemantico.clicked.connect(self.AnalisisSemantico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
-        self.btnTraducir.clicked.connect(self.obtenerCpluplusCode)
+        self.btnTraducir.clicked.connect(self.obtenerPythonCode)
         self.btnCompilar.clicked.connect(self.compilar)
         self.btnCompilar.setEnabled(True)
         #self.txtCodigo.setText("        public int nombre ( String a ){            a++;            b--;            return (2+1)>b;        }        ")    
 
-    def obtenerCpluplusCode(self):
+    def obtenerPythonCode(self):
         if self.uCompilacion!=None:
-            codigo = self.uCompilacion.obtenerPythonCode()
-            print(codigo)
+            codigo_traducido = self.uCompilacion.obtenerPythonCode()
+            print(codigo_traducido)
 
 
     def AnalisisCompleto(self):
@@ -116,11 +116,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisisSemantico.setEnabled(False)
 
     def compilar(self):
-        self.codigo_traducido = ("#include<iostream>\n"
-                                "using namespace std;\n"
-                                "int main(){ \n"
-                                "cout<<\"Hola Mundo xd desde python xd\"<<endl;\n"
-                            "}")
+    
         self.escribirArchivo("codigo_c.cpp","w+")
         #Este primer comando traduce el codigo que llega en c a codigo intermedio
         comando_compilar1 = 'g++ codigo_c.cpp -o \"codigo_intermedio\"'
