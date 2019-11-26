@@ -15,12 +15,8 @@ class bloqueSent:
     def __str__(self):
         return "BloqueSentencias [%s]" % ( self.listaSentencias)
 
-    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
-        print("ahora las sentencias")
-        
-        for sentencia in self.listaSentencias:
-            print("Voy a meter ",sentencia)
-            
+    def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):        
+        for sentencia in self.listaSentencias:           
             sentencia.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores, ambito):
@@ -29,9 +25,8 @@ class bloqueSent:
             #A la ultima sentencia (return) se le manda el ambito(el nombre de la funcion que la contiene)
             if isinstance(sentencia,Retorno):
                 retorno = True
-                sentencia.analisisSemantico(tablaSimbolos,listaErrores, ambito)
-            else:    
-                sentencia.analisisSemantico(tablaSimbolos,listaErrores)
+                
+            sentencia.analisisSemantico(tablaSimbolos,listaErrores,ambito)
         
         funcion = None        
         for simbolo in tablaSimbolos.listaSimbolos:
@@ -47,7 +42,7 @@ class bloqueSent:
         
 
     def obtenerPythonCode(self):
-        codigo = "{"
+        codigo = "{\n\n"
         for sentencia in self.listaSentencias:
             codigo += sentencia.obtenerPythonCode()
             codigo += "\n"

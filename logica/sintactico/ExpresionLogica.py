@@ -19,6 +19,13 @@ class Logica(Expression):
         self.expresionLogica3 = expresionLogica3
         self.expresionRelacional = expresionRelacional
         self.expresionAuxiliarLogica = expresionAuxiliarLogica
+    
+
+    def obtenerPythonCode(self):
+        codigo = ""
+        
+            
+        return codigo
 
     def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         if self.expresionRelacional !=None:

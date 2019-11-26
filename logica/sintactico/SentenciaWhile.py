@@ -37,5 +37,5 @@ class SentenceWhile(Sentence):
         #Vamos a mandar como ambito "while" y la fila y columna en la que se encuentra
         self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,"while"+str(self.expresionLogica.expresionRelacional.operadorRelacional.fila)+","+str(self.expresionLogica.expresionRelacional.operadorRelacional.columna))
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         pass

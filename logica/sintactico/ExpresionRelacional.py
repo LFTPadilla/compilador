@@ -15,6 +15,10 @@ class Relacional(Expression):
         self.expresionAritmetica2.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)
 
 
+    def obtenerPythonCode(self):
+        codigo =  self.expresionAritmetica1.obtenerPythonCode() + self.operadorRelacional.lexema +    self.expresionAritmetica2.obtenerPythonCode()
+        return codigo
+
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices
         #llega el 'arbol' nodo 'R'

@@ -61,9 +61,17 @@ class Function:
         self.bloque.construirArbol(arbolFuncion)
 
     def obtenerPythonCode(self):
+        print("ENTRO A TRADUCCION")
+        
         retornoCode = self.retorno.obtenerPythonCode() 
+        if retornoCode !=None:
+            codigo = retornoCode+" "
+        else:
+            codigo = "void "
+            
         identificadorCode = self.identificador.obtenerPythonCode()
-        codigo = retornoCode + " " + identificadorCode + " ("
+        
+        codigo +=  identificadorCode + " ("
         
         if len(self.parametros) > 0:
             for parametro in self.parametros:
@@ -72,7 +80,7 @@ class Function:
         
             codigo =  codigo[:-2]
         
-        codigo += ")"
+        codigo += ")\n"
         codigo += self.bloque.obtenerPythonCode()
         
         return codigo

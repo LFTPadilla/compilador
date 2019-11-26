@@ -15,6 +15,7 @@ class Token:
         self.columna = columna
     
     def obtenerPythonCode(self):
+        print(self.categoria,"  ",self.lexema)
         if self.categoria == Categoria.PalabraReservada:
             
             if self.lexema == "boolean":
@@ -22,8 +23,8 @@ class Token:
             
             if self.lexema == "String":
                 return "char"
-        else:
-            return self.lexema
+
+        return self.lexema
             
     def __repr__(self):
         return "(Lexema: %s, %s,Fila: %s,Columna: %s)" % (self.lexema, self.categoria,self.fila,self.columna)

@@ -23,12 +23,12 @@ class Aritmetica(Expression):
         else:
             return tipo
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato,ambito):
         #print("Entro al analisis semantico exp aritmetica ",self.termino)
         if self.termino!=None and self.termino.categoria == Categoria.Identificador:
             for simbolo in tablaSimbolos.listaSimbolos:
-                if simbolo.nombre == self.termino.lexema and simbolo.tipoRetorno==None:
-                    print(tipoDato.lexema," PPPPPPPPPP  ",simbolo.tipoDato.lexema)
+                if simbolo.nombre == self.termino.lexema and simbolo.tipoRetorno==None and simbolo.ambito == ambito :
+                   
                     if tipoDato.lexema != simbolo.tipoDato.lexema:
                         err = "El tipoDato de \""+self.termino.lexema+"\" no es acorde a donde lo desea asignar."
                         listaErrores.append(err)
@@ -59,7 +59,32 @@ class Aritmetica(Expression):
             return 'boolean'  
         elif categoria == Categoria.CadenaCaracteres:
             return 'String'
+
+    def obtenerPythonCode(self):
+        codigo = ""
+        print(self.expresionAritmetica)               
+        if self.expresionAuxiliar != None:                          #Si hay una expr Auxiliar
+            print(self.expresionAuxiliar)
+            codigoExpAux = self.expresionAuxiliar.obtenerPythonCode()            #Llamamos el mtodo crear arbol de aux
+            
+            if self.termino != None:                                #Si hay un termino
+                codigo += self.termino.lexema +  codigoExpAux
                 
+            elif self.expresionAritmetica != None:                  #Sino, si hay expresion Aritmetica
+                print(self.expresionAritmetica)
+                codigo += "("+ self.expresionAritmetica.obtenerPythonCode() +")"+  codigoExpAux   #en 'B' hacemos la raiz del arbol de ExpresionAritmetica
+        
+        
+        else:                                                       #Sino hay una expresion auxiliar(mas facil)
+            
+            if self.termino != None:                                #Si hay un termino                                
+                codigo += self.termino.lexema               #nombremos 'R' como el termino
+            elif self.expresionAritmetica != None:                  #Sino, si hay una expresion Aritmetica
+                print(self.expresionAritmetica)
+                codigo += self.expresionAritmetica.obtenerPythonCode()      #hacemos 'R' la raiz del nuevo arbol de expresion aritmetica    
+                
+            
+        return codigo
 
     def construirArbol(self, arbol):
         #Los arboles en realidad son nodos de partida o raices

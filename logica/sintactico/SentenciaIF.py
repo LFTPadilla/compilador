@@ -41,5 +41,5 @@ class SentIF:
         codigo += self.bloqueSentencias.obtenerPythonCode()
         return codigo
         
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         pass

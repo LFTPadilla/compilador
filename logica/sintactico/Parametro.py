@@ -25,6 +25,7 @@ class Parameter:
         ramaIdentificador.setText(0,"Identificador "+self.identificador.lexema)
 
     def obtenerPythonCode(self):
+        
         codigo = self.tipoDato.obtenerPythonCode() + " " + self.identificador.obtenerPythonCode() 
         return codigo
 

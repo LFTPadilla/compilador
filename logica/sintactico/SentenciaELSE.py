@@ -29,5 +29,5 @@ class SentELSE:
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
        self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
        
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         pass

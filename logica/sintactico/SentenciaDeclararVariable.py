@@ -47,10 +47,10 @@ class DeclaracionVariable(Sentence):
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos,ambito):
         tablaSimbolos.guardarSimboloVariable(self.identificador , self.tipoDato,self.tipoDato.fila,self.tipoDato.columna, ambito, self.expresion)
 
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
                   
         if self.expresion != None:
-            self.expresion.analisisSemantico(tablaSimbolos,listaErrores,self.tipoDato)
+            self.expresion.analisisSemantico(tablaSimbolos,listaErrores,self.tipoDato,ambito)
             self.analisisTipoDato(listaErrores)
             return True
         if self.invocacion !=None:
@@ -81,7 +81,7 @@ class DeclaracionVariable(Sentence):
 
     def analisisTipoDato(self,listaErrores):
         tipoDatoExpresion = self.expresion.obtenerTipoDato()
-        print("El tipo de dato es ",tipoDatoExpresion,"  ",self.tipoDato )
+        #print("El tipo de dato es ",tipoDatoExpresion,"  ",self.tipoDato )
         if tipoDatoExpresion == Categoria.NumeroNatural:
             if self.tipoDato.lexema == 'int':
                 return True
@@ -112,5 +112,5 @@ class DeclaracionVariable(Sentence):
                 return False
 
         
-        print("NO esta configurado el tipo de dato que recibió")
+        #print("NO esta configurado el tipo de dato que recibió")
         
