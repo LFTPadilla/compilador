@@ -72,9 +72,6 @@ class Asignacion(Sentence):
         
         print("Es otro tipo de dato")
 
-    def obtenerPythonCode():
-        pass
-
     def construirArbol(self, arbol):
         arbolAsignacionVariable = QtWidgets.QTreeWidgetItem(arbol)
         titulo = "AsignacionVariable "
@@ -86,18 +83,19 @@ class Asignacion(Sentence):
         ramaOperadorAsignacion = QtWidgets.QTreeWidgetItem(arbolAsignacionVariable)
         ramaOperadorAsignacion.setText(0,"OperadorAsignacion "+self.operadorAsignacion.lexema)
 
-        if self.lectura != None:
+        if self.lectura != None and self.invocacion == None and self.expresion == None:
             self.lectura.construirArbol(arbolAsignacionVariable)        
 
-        if self.invocacion != None:
+        if self.invocacion != None and self.lectura == None and self.expresion == None:
             self.invocacion.construirArbol(arbolAsignacionVariable)
 
-        if self.expresion != None:
+        if self.expresion != None and self.invocacion == None and self.lectura == None:
             ramaExpresion = QtWidgets.QTreeWidgetItem(arbolAsignacionVariable)
             ramaExpresion.setText(0,"Expresion ")
 
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)
             self.expresion.construirArbol(arbolExpresion)
+    
     def obtenerPythonCode(self):
         codigo = ""
         if self.lectura != None and self.invocacion == None and self.expresion == None:

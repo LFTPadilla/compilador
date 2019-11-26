@@ -22,7 +22,12 @@ class Decision(Sentence):
         if self.sentenciaElse != None:
             self.sentenciaElse.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos)
             
-    
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = self.sentenciaIf.obtenerPythonCode()
+        if self.sentenciaElse != None:
+            codigo += self.sentenciaElse.obtenerPythonCode()
+        return codigo
 
     def construirArbol(self, arbol):
         arbolDecision = QtWidgets.QTreeWidgetItem(arbol)

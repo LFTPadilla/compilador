@@ -282,7 +282,7 @@ class ASintactico:
 
             s = None
 
-            s = self.esDecision() #Falla
+            s = self.esDecision()
             if(s!=None):
                 return s
 
@@ -640,11 +640,6 @@ class ASintactico:
         else:
             self.hacerBT(posicionInicial)
             return None
-
-            
-
-
-
 
     """
     <Decision>::= <sentenciaif>[<sentenciaElse>]

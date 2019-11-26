@@ -61,7 +61,7 @@ class DeclaracionVariable(Sentence):
             self.lectura.analisisSemantico(tablaSimbolos,listaErrores)
             return True
         
-
+    def obtenerPythonCode(self):
 
     def analisisTipoDato(self,listaErrores):
         tipoDatoExpresion = self.expresion.obtenerTipoDato()

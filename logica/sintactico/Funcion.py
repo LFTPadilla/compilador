@@ -61,7 +61,7 @@ class Function:
     def obtenerPythonCode(self):
         codigo = self.retorno.obtenerPythonCode() + " " + self.identificador.obtenerPythonCode() + " ("
         
-        if len(self.parametros) == 0:
+        if len(self.parametros) > 0:
             for parametro in self.parametros:
                 codigo += parametro.obtenerPythonCode()
                 codigo += ", "
