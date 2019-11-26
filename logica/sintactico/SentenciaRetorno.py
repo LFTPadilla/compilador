@@ -40,8 +40,8 @@ class Retorno(Sentence):
                     
                     funcion = simbolo
                     break
-        
-       
+        print("SERA CHAR?_______/////////////////////_________:",len(self.expresion.cadenaCaracteres.lexema))
+                    
         if funcion.tipoRetorno == "int" and self.expresion.obtenerTipoDato() == Categoria.NumeroNatural :
             print("Funcion de tipo int y expresion de retorno numero natural")
             return True
@@ -49,10 +49,16 @@ class Retorno(Sentence):
             print("Funcion de tipo double y expresion de retorno numero real")
             
             return True
+         #se compara el tamanio de la cadena con 3 porque hay 2 comillas y 1 caracter en el lexema
+        elif funcion.tipoRetorno == "char" and self.expresion.obtenerTipoDato() == Categoria.CadenaCaracteres and len(self.expresion.cadenaCaracteres.lexema) == 3:
+            print("Funcion de tipo char y expresion de retorno char")
+            
+            return True
         elif funcion.tipoRetorno == "String" and self.expresion.obtenerTipoDato() == Categoria.CadenaCaracteres :
             print("Funcion de tipo String y expresion de retorno cadena")
             
             return True
+       
         elif funcion.tipoRetorno == "boolean" and self.expresion.obtenerTipoDato() == Categoria.OperadorLogico :
             print("Funcion de tipo boolean y expresion de retorno bool")
             
