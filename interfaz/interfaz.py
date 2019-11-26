@@ -105,7 +105,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def escribirArchivo (self, codigo):
-        #ni ideita
+        
         pass
 
     def traduccion(self):
