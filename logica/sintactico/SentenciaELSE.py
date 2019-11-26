@@ -20,8 +20,14 @@ class SentELSE:
         
         self.bloqueSentencias.construirArbol(arbolElse)
 
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = "else"
+        codigo += self.bloqueSentencias.obtenerPythonCode()
+        return codigo
+
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
-       self.sentenciaIf.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
+       self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,ambito)
        
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         pass

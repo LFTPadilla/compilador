@@ -31,6 +31,11 @@ class IncrementoDecremento:
         ramaOp = QtWidgets.QTreeWidgetItem(arbol)
         ramaOp.setText(0,"Operador "+self.operadorIncDec.lexema)
 
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = self.identificador.obtenerPythonCode + self.operadorIncDec.obtenerPythonCode + ";"
+        return codigo
+
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     def analisisSemantico(self,tablaSimbolos,listaErrores):

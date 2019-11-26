@@ -32,9 +32,14 @@ class SentIF:
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos):
         print("Sentencia IF")
         #Vamos a mandar como ambito "if" y la fila y columna en la que se encuentra
-        self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,"if"+str(self.expresionLogica.expresionRelacional.operadorRelacional.fila)+","+str(self.expresionLogica.expresionRelacional.operadorRelacional.columna))
+        self.bloqueSentencias.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,"if "+str(self.expresionLogica.expresionRelacional.operadorRelacional.fila)+","+str(self.expresionLogica.expresionRelacional.operadorRelacional.columna))
         
-        
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = "if"
+        codigo += "("+ self.expresionLogica.obtenerPythonCode() +")"
+        codigo += self.bloqueSentencias.obtenerPythonCode()
+        return codigo
         
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         pass

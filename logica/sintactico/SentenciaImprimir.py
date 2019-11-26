@@ -26,6 +26,11 @@ class Imprimir(Sentence):
             arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
             self.expresion.construirArbol(arbolExpresion)
 
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo = "cout <<"+ self.expresion.obtenerPythonCode() +"<<endl;"
+        return codigo
+    
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
     def analisisSemantico(self,tablaSimbolos,listaErrores):

@@ -71,7 +71,7 @@ class DeclaracionVariable(Sentence):
         if self.expresion != None or self.invocacion != None or self.lectura !=None:
             codigo += " = "
             if self.lectura != None and self.invocacion == None and self.expresion == None:
-                codigo += self.lectura.obtenerPythonCode()
+                codigo += self.lectura.obtenerPythonCode(self.identificador)
             elif self.invocacion != None and self.lectura == None and self.expresion == None:
                 codigo += self.invocacion.obtenerPythonCode()
             elif self.expresion != None and self.invocacion == None and self.lectura == None:

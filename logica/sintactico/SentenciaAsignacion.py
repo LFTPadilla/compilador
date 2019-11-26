@@ -99,7 +99,7 @@ class Asignacion(Sentence):
     def obtenerPythonCode(self):
         codigo = ""
         if self.lectura != None and self.invocacion == None and self.expresion == None:
-            codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.lectura.obtenerPythonCode() + ";"
+            codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.lectura.obtenerPythonCode(self.identificador) + ";"
         elif self.invocacion != None and self.lectura == None and self.expresion == None:
             codigo = self.identificador.obtenerPythonCode() + " " + self.operadorAsignacion.obtenerPythonCode() + " " + self.invocacion.obtenerPythonCode() + ";"
         elif self.expresion != None and self.invocacion == None and self.lectura == None:
