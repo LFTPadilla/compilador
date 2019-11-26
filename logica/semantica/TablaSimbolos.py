@@ -43,7 +43,6 @@ class SymbolTable:
                     return simbolo
         return None
 
-
     def buscarSimboloFuncion(self, nombre, tipoParametros):
         for simbolo in self.listaSimbolos:
             #Al verificar que el tipo de retorno sea diferente de None se verifica que es una funcion

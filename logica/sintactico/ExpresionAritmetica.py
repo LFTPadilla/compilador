@@ -24,14 +24,13 @@ class Aritmetica(Expression):
             return tipo
 
     def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
-        print("Entro al analisis semantico exp aritmetica ",self.termino)
+        #print("Entro al analisis semantico exp aritmetica ",self.termino)
         if self.termino!=None and self.termino.categoria == Categoria.Identificador:
             for simbolo in tablaSimbolos.listaSimbolos:
-                if simbolo.nombre == self.termino.lexema:
+                if simbolo.nombre == self.termino.lexema and simbolo.tipoRetorno==None:
                     print(tipoDato.lexema," PPPPPPPPPP  ",simbolo.tipoDato.lexema)
                     if tipoDato.lexema != simbolo.tipoDato.lexema:
                         err = "El tipoDato de \""+self.termino.lexema+"\" no es acorde a donde lo desea asignar."
-                        print("EERROOOOOR HPPP ",err)
                         listaErrores.append(err)
                     if self.expresionAuxiliar!=None:
                         self.expresionAuxiliar.analisisSemantico(tablaSimbolos,listaErrores,tipoDato)

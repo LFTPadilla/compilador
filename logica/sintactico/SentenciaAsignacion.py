@@ -21,7 +21,7 @@ class Asignacion(Sentence):
     
     def analisisSemantico(self,tablaSimbolos,listaErrores):
         for simbolo in tablaSimbolos.listaSimbolos:
-            if simbolo.nombre == self.identificador.lexema:
+            if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno==None:
                 print("Existe la variable en tabla ahora va a buscar la exp "+str(self.expresion))
                 if self.expresion != None:
                     self.expresion.analisisSemantico(tablaSimbolos,listaErrores,simbolo.tipoDato)
@@ -72,6 +72,8 @@ class Asignacion(Sentence):
         
         print("Es otro tipo de dato")
 
+    def obtenerPythonCode():
+        pass
 
     def construirArbol(self, arbol):
         arbolAsignacionVariable = QtWidgets.QTreeWidgetItem(arbol)
