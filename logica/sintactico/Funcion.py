@@ -17,7 +17,6 @@ class Function:
         l = []
         for p in self.parametros:
             l.append(p.tipoDato.lexema) #p.getTipoDatos().getLexema()  
-        print("Parametros: ",l)
 
         return l     
     
@@ -26,6 +25,9 @@ class Function:
         print("Funcion: ",self.identificador.lexema)
         
         tablaSimbolos.guardarSimboloFuncion(self.identificador.lexema,self.retorno.lexema,self.getTiposParametros(),self.retorno.fila,self.retorno.columna)
+        
+        for p in self.parametros:            
+            tablaSimbolos.guardarSimboloVariable(p.identificador,p.tipoDato,p.tipoDato.fila,p.tipoDato.columna, self.identificador,None)
         self.bloque.llenarTablaSimbolos(tablaSimbolos,erroresSemanticos,self.identificador)
 
     def analisisSemantico(self,tablaSimbolos,listaErrores):

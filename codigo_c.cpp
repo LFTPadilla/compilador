@@ -1,7 +1,5 @@
 #include<iostream>
 using namespace std;
-
-int main(){
-
-	cout<<"Hola Mundo xd"<<endl;
+int main(){ 
+cout<<"Hola Mundo xd desde python xd"<<endl;
 }

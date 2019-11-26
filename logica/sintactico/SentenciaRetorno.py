@@ -41,7 +41,6 @@ class Retorno(Sentence):
                     
                     funcion = simbolo
                     break
-        print("SERA CHAR?_______/////////////////////_________:",len(self.expresion.cadenaCaracteres.lexema))
                     
         if funcion.tipoRetorno == "int" and self.expresion.obtenerTipoDato() == Categoria.NumeroNatural :
             print("Funcion de tipo int y expresion de retorno numero natural")
