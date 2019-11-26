@@ -15,7 +15,7 @@ class InvocarFuncion(Sentence):
     def __str__(self):
         return "Sentencia Invocar Funcion [%s, %s]"% (self.identificador, self.listaArgumentos)
     
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         for simbolo in tablaSimbolos.listaSimbolos:
             if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno!=None:
                 return True

@@ -10,6 +10,22 @@ class AuxiliarAritmetica(Expression):
         self.expresionAritmetica = expresionAritmetica
         self.expresionAuxiliar = expresionAuxiliarAritmetica
     
+
+    def obtenerPythonCode(self):
+        codigo = ""
+        codigo += self.operadorAritmetico.lexema
+    
+        if self.expresionAuxiliar != None :                         #Si hay una expresion auxiliar dentro,
+
+            codigo += self.expresionAuxiliar.obtenerPythonCode()         #Se llama el metodo constArbol de auxiliar
+            if self.expresionAritmetica!= None:
+                codigo += self.expresionAritmetica.obtenerPythonCode()    #Crece el arbol expAritm con raiz en 'T'
+        else:
+            if self.expresionAritmetica!= None:
+                codigo += self.expresionAritmetica.obtenerPythonCode()    #Crece el arbol expAritm con raiz en 'T'
+        return codigo
+        
+
     def analisisSemantico(self,tablaSimbolos,listaErrores,tipoDato):
         print("Analizar exp aux ",self.expresionAuxiliar)
         print("Analizar exp ",self.expresionAritmetica)

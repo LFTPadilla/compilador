@@ -39,5 +39,5 @@ class Decision(Sentence):
         if self.sentenciaElse != None:
             self.sentenciaElse.construirArbol(arbolDecision)
     
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         pass

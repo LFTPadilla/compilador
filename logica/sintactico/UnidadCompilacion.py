@@ -12,7 +12,7 @@ class UnidadComp:
             fun.analisisSemantico(tablaSimbolos,listaErrores)
 
     def obtenerPythonCode(self):
-        codigo = "#include <map> \n #include <iostream> "
+        codigo = "#include <map> \n#include <iostream>\nusing namespace std;\n"
         for fun in self.listaFunciones:
             codigo += fun.obtenerPythonCode()
             codigo += "\n"

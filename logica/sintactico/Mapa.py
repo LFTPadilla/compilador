@@ -32,9 +32,9 @@ class mapita(Sentence):
             cont += 1
 
     def obtenerPythonCode(self):
-        codigo = "map <char[1000], char[1000]> "+ self.identificador +";\n"
+        codigo = "map <char[1000], char[1000]> "+ self.identificador.obtenerPythonCode() +";\n"
         for componente in self.listaComponentes:
-            codigo += self.identificador + ".insert(pair<char[1000], char[1000]>("+ componente.obtenerPythonCode() +"));" 
+            codigo += self.identificador.obtenerPythonCode() + ".insert(pair<char[1000], char[1000]>("+ componente.obtenerPythonCode() +"));" 
             codigo += "\n"
         return codigo
 

@@ -19,12 +19,12 @@ class Asignacion(Sentence):
     def __str__(self):
         return "[asignacion Variable [%s, %s, %s, %s, %s]"% (self.identificador,self.operadorAsignacion, self.lectura, self.invocacion, self.expresion)
     
-    def analisisSemantico(self,tablaSimbolos,listaErrores):
+    def analisisSemantico(self,tablaSimbolos,listaErrores,ambito):
         for simbolo in tablaSimbolos.listaSimbolos:
             if simbolo.nombre == self.identificador.lexema and simbolo.tipoRetorno==None:
                 print("Existe la variable en tabla ahora va a buscar la exp "+str(self.expresion))
                 if self.expresion != None:
-                    self.expresion.analisisSemantico(tablaSimbolos,listaErrores,simbolo.tipoDato)
+                    self.expresion.analisisSemantico(tablaSimbolos,listaErrores,simbolo.tipoDato,simbolo.ambito)
                     self.analisisTipoDato(simbolo,listaErrores)
                     return True
                 if self.invocacion !=None:

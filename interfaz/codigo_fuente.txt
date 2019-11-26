@@ -24,10 +24,8 @@ public String calcular(int talla, String talla){
 	return "hola";
 }
 
-public String calcular(int talla){
-	
-	int a = 3;
-	int a = 4;
+public int calcular(int talla){
+	return (2+3)/5;
 }
 
 public String calcular(int talla){
@@ -102,9 +100,14 @@ protected boolean dividir(char caracter){
 }
 
 
-default char multiplicar(String operador){
+public String multiplicar(String operador){
 	map mapita = [(d,v)];
+	return "Cadena";
 }
 
+public void multiplicar(String operador){
+	map mapita = [(d,v)];
+
+}
 
 

@@ -26,6 +26,10 @@ class Retorno(Sentence):
         arbolExpresion = QtWidgets.QTreeWidgetItem(ramaExpresion)            
         self.expresion.construirArbol(arbolExpresion)
     
+    def obtenerPythonCode(self):
+        codigo = "return "+self.expresion.obtenerPythonCode()+";"
+        return codigo;
+
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
@@ -43,24 +47,24 @@ class Retorno(Sentence):
                     break
                     
         if funcion.tipoRetorno == "int" and self.expresion.obtenerTipoDato() == Categoria.NumeroNatural :
-            print("Funcion de tipo int y expresion de retorno numero natural")
+            #print("Funcion de tipo int y expresion de retorno numero natural")
             return True
         elif funcion.tipoRetorno == "double" and self.expresion.obtenerTipoDato() == Categoria.NumeroReal :
-            print("Funcion de tipo double y expresion de retorno numero real")
+            #print("Funcion de tipo double y expresion de retorno numero real")
             
             return True
          #se compara el tamanio de la cadena con 3 porque hay 2 comillas y 1 caracter en el lexema
         elif funcion.tipoRetorno == "char" and self.expresion.obtenerTipoDato() == Categoria.CadenaCaracteres and len(self.expresion.cadenaCaracteres.lexema) == 3:
-            print("Funcion de tipo char y expresion de retorno char")
+            #print("Funcion de tipo char y expresion de retorno char")
             
             return True
         elif funcion.tipoRetorno == "String" and self.expresion.obtenerTipoDato() == Categoria.CadenaCaracteres :
-            print("Funcion de tipo String y expresion de retorno cadena")
+            #print("Funcion de tipo String y expresion de retorno cadena")
             
             return True
        
         elif funcion.tipoRetorno == "boolean" and self.expresion.obtenerTipoDato() == Categoria.OperadorLogico :
-            print("Funcion de tipo boolean y expresion de retorno bool")
+            #print("Funcion de tipo boolean y expresion de retorno bool")
             
             return True
         elif funcion.tipoRetorno == "void":
