@@ -17,16 +17,13 @@ class Token:
     def obtenerPythonCode(self):
         if self.categoria == Categoria.PalabraReservada:
             
-            if self.lexema == "bool":
-                return "boolean"
+            if self.lexema == "boolean":
+                return "bool"
+            
+            if self.lexema == "String":
+                return "char[]"
 
-            #identificar que cambia con que 
-
-        if self.categoria == Categoria.Identificador:
-
-            if self.lexema[0] == "$":
-                #identificador sin $
-                return self.lexema[1:]
+            
     
     def __repr__(self):
         return "(Lexema: %s, %s,Fila: %s,Columna: %s)" % (self.lexema, self.categoria,self.fila,self.columna)

@@ -32,10 +32,11 @@ class mapita(Sentence):
             cont += 1
 
     def obtenerPythonCode(self):
-        codigo = "map <string, string> "+ self.identificador +";\n"
+        codigo = "map <char[1000], char[1000]> "+ self.identificador +";\n"
         for componente in self.listaComponentes:
-            codigo += self.identificador + ".insert(pair<string, string>("+ componente.obtenerPythonCode() +"));" 
+            codigo += self.identificador + ".insert(pair<char[1000], char[1000]>("+ componente.obtenerPythonCode() +"));" 
             codigo += "\n"
+        return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
         pass
