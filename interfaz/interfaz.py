@@ -26,29 +26,39 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnAnalisisSintactico.clicked.connect(self.AnalisisSintactico)
         self.btnAnalisisSemantico.clicked.connect(self.AnalisisSemantico)
         self.btnAnalisis.clicked.connect(self.AnalisisCompleto)
+        self.btnTraducir.clicked.connect(self.obtenerCpluplusCode)
         #self.txtCodigo.setText("        public int nombre ( String a ){            a++;            b--;            return (2+1)>b;        }        ")    
+
+    def obtenerCpluplusCode(self):
+        if self.uCompilacion!=None:
+            codigo = self.uCompilacion.obtenerPythonCode()
+            print(codigo)
+
 
     def AnalisisCompleto(self):
         self.AnalisisLexico()
         self.AnalisisSintactico()
         self.AnalisisSemantico()
 
-
     #Analisador Semantico
     def AnalisisSemantico(self):
-        self.ASem = ASemantico(self.uCompilacion)
-        self.ASem.llenarTablaSimbolos()
-        self.ASem.analisisSemantico()
-
-        if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
-            self.tabTokenSimbolo.setCurrentIndex(1)
-            for i in self.ASem.tablaSimbolos.listaSimbolos:
-                self.listViewSimbolos.addItem(str(i))
-        
-        if len(self.ASem.listaErrores)!=0:
-            self.tabErrores.setCurrentIndex(2)
-            for i in self.ASem.listaErrores:
-                self.listViewErroresSemanticos.addItem(str(i))
+        if self.uCompilacion!=None:
+            self.ASem = ASemantico(self.uCompilacion)
+            self.ASem.llenarTablaSimbolos()
+            self.ASem.analisisSemantico()
+            
+            if len(self.ASem.tablaSimbolos.listaSimbolos)!=0:
+                self.tabTokenSimbolo.setCurrentIndex(1)
+                for i in self.ASem.tablaSimbolos.listaSimbolos:
+                    self.listViewSimbolos.addItem(str(i))
+                
+            if len(self.ASem.listaErrores)!=0:
+                self.tabErrores.setCurrentIndex(2)
+                for i in self.ASem.listaErrores:
+                    self.listViewErroresSemanticos.addItem(str(i))
+            else:
+                self.btnTraducir.setEnabled(True)
+                
 
        # self.Asem.obtenerPythonCode()
     
