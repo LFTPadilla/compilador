@@ -62,6 +62,22 @@ class DeclaracionVariable(Sentence):
             return True
         
     def obtenerPythonCode(self):
+        codigo = ""
+        codigo = self.tipoDato.obtenerPythonCode + self.identificador.obtenerPythonCode
+        if self.tipoDato == "String" and self.expresion != None:
+            codigo += "["+ len(self.expresion) +"]"
+        elif self.tipoDato == "String" and self.expresion == None:
+            codigo += "[100]"
+        if self.expresion != None or self.invocacion != None or self.lectura !=None:
+            codigo += " = "
+            if self.lectura != None and self.invocacion == None and self.expresion == None:
+                codigo += self.lectura.obtenerPythonCode()
+            elif self.invocacion != None and self.lectura == None and self.expresion == None:
+                codigo += self.invocacion.obtenerPythonCode()
+            elif self.expresion != None and self.invocacion == None and self.lectura == None:
+                codigo += self.expresion.obtenerPythonCode()
+        codigo += ";"
+        return codigo
 
     def analisisTipoDato(self,listaErrores):
         tipoDatoExpresion = self.expresion.obtenerTipoDato()

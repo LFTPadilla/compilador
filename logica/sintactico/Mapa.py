@@ -39,5 +39,7 @@ class mapita(Sentence):
         return codigo
 
     def llenarTablaSimbolos(self,tablaSimbolos,erroresSemanticos, ambito):
-        pass
+        tablaSimbolos.guardarSimboloVariable(self.identificador , 'map',self.identificador.fila,self.identificador.columna, ambito, None)
     
+    def analisisSemantico(self,tablaSimbolos,listaErrores):
+        pass

@@ -21,10 +21,10 @@ class Token:
                 return "bool"
             
             if self.lexema == "String":
-                return "char[]"
-
+                return "char"
+        else:
+            return self.lexema
             
-    
     def __repr__(self):
         return "(Lexema: %s, %s,Fila: %s,Columna: %s)" % (self.lexema, self.categoria,self.fila,self.columna)
 
