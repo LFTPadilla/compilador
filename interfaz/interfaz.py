@@ -5,6 +5,7 @@ from logica.lexico.AnalizadorLexico import ALexico
 from logica.sintactico.AnalizadorSintactico import ASintactico
 from logica.semantica.AnalizadorSemantico import ASemantico
 import os
+import time
 
 #qtCreatorFile = "compilador/interfaz/interfazQT.ui" # Nombre del archivo aquí.
 qtCreatorFile = "interfaz/interfazQT.ui" # Nombre del archivo aquí.
@@ -33,10 +34,10 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def obtenerPythonCode(self):
         if self.uCompilacion!=None:
-            codigo_traducido = self.uCompilacion.obtenerPythonCode()
-            print(codigo_traducido)
+            self.codigo_traducido = self.uCompilacion.obtenerPythonCode()
+            print(self.codigo_traducido)
             self.txtCodigo.clear()
-            self.txtCodigo.insertPlainText(codigo_traducido)
+            self.txtCodigo.insertPlainText(self.codigo_traducido)
 
 
     def AnalisisCompleto(self):
@@ -121,7 +122,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
       
         self.escribirArchivo("codigo_c.cpp","w+")
-
+        time.sleep(0)
         #Este primer comando traduce el codigo que llega en c a codigo intermedio
         comando_compilar1 = 'g++ codigo_c.cpp -o \"codigo_intermedio\"'
         os.system(comando_compilar1)
