@@ -1,24 +1,14 @@
-# -.- encoding:UTF8 -*-
-from logica.lexico.AnalizadorLexico import Analizador
-from logica.sintactico.AnalizadorSintactico import ASintactico
-from logica.lexico.PalabrasReservadas import palabras_reservadas
-
-codigo = "  \" Hola \h jejje \"  "
+import sys
+from PyQt5 import QtWidgets
+from interfaz.interfaz import MyApp
 
 
-if():
-    print("Es palabra reservada")
-
-#analisisLexico = Analizador(codigo)
-#analisisLexico.analizar()
-
-#aSintactico = ASintactico(analisisLexico.getListaTokens)
-
-#print (analisisLexico.tokens)
-
-#print(aSintactico.esUnidadDeCompilacion())
-
-#print(aSintactico.getListaErrores())
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = MyApp()
+    window.show()
+    sys.exit(app.exec_())
 
 
-
+if __name__ == "__main__":
+    main()
